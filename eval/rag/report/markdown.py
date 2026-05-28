@@ -271,7 +271,7 @@ def render_per_sample_csv(
     header = ["query_id", "intent_l1", "intent_l2", "difficulty", "requires_rag", "final_status"]
     for name in metric_names:
         header.append(name)
-        if name in RAGAS_KEYS and manual_overrides.get(name):
+        if name in RAGAS_KEYS:
             header.append(_manual_col(name))
 
     rows: list[list[str]] = [header]
@@ -287,7 +287,7 @@ def render_per_sample_csv(
         for name in metric_names:
             v = idx[name].per_sample.get(r.query_id)
             row.append(_fmt_csv_value(v) if isinstance(v, float) or v is None else str(v))
-            if name in RAGAS_KEYS and manual_overrides.get(name):
+            if name in RAGAS_KEYS:
                 row.append(_fmt_csv_value(manual_overrides.get(name, {}).get(r.query_id)))
         rows.append(row)
     return rows
