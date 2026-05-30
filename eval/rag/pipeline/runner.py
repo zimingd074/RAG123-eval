@@ -39,7 +39,7 @@ LOGIN_TIMEOUT = 15
 SSE_CONNECT_TIMEOUT = 15
 SSE_READ_TIMEOUT = 300
 EVAL_CONNECT_TIMEOUT = 15
-EVAL_READ_TIMEOUT = 120
+EVAL_READ_TIMEOUT = 180
 
 
 def login(base_url: str, username: str, password: str) -> str:

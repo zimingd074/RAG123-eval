@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import html
 import shutil
+import statistics
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
@@ -55,21 +56,21 @@ def _view(records: list[EvalRecord], metrics: list[MetricResult]) -> dict[str, A
     n = len(records)
     status = dict(Counter(r.final_status or "unknown" for r in records))
 
-    # 按 intent_l2 重新算 count（n / retrieval_n / ttft_p95 不是 MetricResult 字段）
+    # 按 intent_l2 重新算 count（n / retrieval_n 不是 MetricResult 字段）
     intent_groups: dict[str, list[EvalRecord]] = {}
     for r in records:
         intent_groups.setdefault(r.intent_l2 or "?", []).append(r)
     by_intent_l2: dict[str, dict[str, Any]] = {}
     for intent, sub in intent_groups.items():
         sub_retrieval = [r for r in sub if r.requires_rag and r.reference_doc_ids]
-        ttfts = sorted((r.first_token_ms or r.latency_ms or 0) for r in sub if (r.first_token_ms or r.latency_ms))
+        ttfts = [r.first_token_ms or r.latency_ms or 0 for r in sub if (r.first_token_ms or r.latency_ms)]
         by_intent_l2[intent] = {
             "n": len(sub),
             "retrieval_n": len(sub_retrieval),
             "hit@5": idx["hit@5"].by_intent_l2.get(intent) if "hit@5" in idx else None,
             "recall@5": idx["recall@5"].by_intent_l2.get(intent) if "recall@5" in idx else None,
             "mrr@10": idx["mrr@10"].by_intent_l2.get(intent) if "mrr@10" in idx else None,
-            "ttft_p95": ttfts[min(len(ttfts) - 1, int(len(ttfts) * 0.95))] if ttfts else None,
+            "ttft_mean": f"{statistics.mean(ttfts):.0f} ms" if ttfts else None,
         }
 
     overall = {
@@ -82,8 +83,8 @@ def _view(records: list[EvalRecord], metrics: list[MetricResult]) -> dict[str, A
         "refusal_when_required": ov("refusal_when_required"),
         "fallback_when_required": ov("fallback_when_required"),
         "over_retrieval_rate": ov("over_retrieval_rate"),
-        "ttft_p95": ov_int("ttft_p95_ms"),
-        "total_p95": ov_int("total_p95_ms"),
+        "ttft_mean": ov_int("ttft_mean_ms"),
+        "total_mean": ov_int("total_mean_ms"),
     }
     ragas = {
         k: ov(k)
@@ -227,10 +228,10 @@ def slide_secondary_kpi(overall: dict[str, Any], ragas: dict[str, Any]) -> str:
         ("Context Recall", big_n(ragas.get("context_recall")), "上下文覆盖参考答案"),
         ("Context Precision", big_n(ragas.get("context_precision")), "上下文有用信息比例"),
         ("Answer Relevancy", big_n(ragas.get("answer_relevancy")), "回答与问题切题度"),
-        ("首字 P95", big_ms(overall.get("ttft_p95")), "TTFT · 对话体感卡点"),
+        ("首字均值", big_ms(overall.get("ttft_mean")), "TTFT · 对话体感卡点"),
         ("误拒率", big_pct(overall.get("refusal_when_required")), "requires_rag 却 0 召回"),
         ("误召回率", big_pct(overall.get("over_retrieval_rate")), "!requires_rag 却走 RAG"),
-        ("整流 P95", big_ms(overall.get("total_p95")), "完整流式耗时 · 参考"),
+        ("整流均值", big_ms(overall.get("total_mean")), "完整流式耗时 · 参考"),
     ]
     cards_html = "\n".join(_secondary_card(label, val, note) for label, val, note in cards)
 
@@ -358,7 +359,7 @@ def render_intent_row(intent: str, agg: dict[str, Any]) -> str:
       <div class="v" style="line-height:1.38">{metrics_text}<br>
         <span style="opacity:.55">n = {esc(agg['n'])} · retrieval_n = {esc(agg.get('retrieval_n', 0))}</span>
       </div>
-      <div class="m">{esc(agg.get('ttft_p95') or '—')} ms</div>
+      <div class="m">{esc(agg.get('ttft_mean') or '—')}</div>
     </div>
     """
 
@@ -382,7 +383,7 @@ def slides_by_intent(by_intent: dict[str, dict[str, Any]]) -> list[str]:
     <div style="margin-top:4vh">{rows_html}</div>
   </div>
   <div class="foot">
-    <div>意图名 · Hit/Recall/MRR · 首字 P95</div>
+    <div>意图名 · Hit/Recall/MRR · 首字均值</div>
     <div>— · —</div>
   </div>
 </section>
@@ -518,7 +519,7 @@ def slide_closing(overall: dict[str, Any], ragas: dict[str, Any]) -> str:
         return "—" if v is None else f"{v:.2f}"
 
     headline = "意图打住、检索打稳、生成打实。"
-    next_step = "下一步：用更大评估集追跑、扩 ground_truth 字段、把 P95 首字压进 6s。"
+    next_step = "下一步：用更大评估集追跑、扩 ground_truth 字段、把 首字均值压进 6s。"
     return f"""
 <section class="slide hero dark">
   <div class="chrome">

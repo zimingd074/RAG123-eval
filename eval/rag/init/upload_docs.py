@@ -36,7 +36,7 @@ import requests
 
 DEFAULT_BASE_URL = "http://localhost:9090/api/ragent"
 
-PROJECT_ROOT = Path(__file__).resolve().parents[3]  # bitselect-rag-assistant/
+PROJECT_ROOT = Path(__file__).resolve().parents[3]  # ragenteval/
 KB_ROOT = PROJECT_ROOT / "knowledge_base"
 KB_IDS_PATH = Path(__file__).resolve().parent / "kb_ids.json"
 DOC_MAP_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "doc_id_map.json"

@@ -1,8 +1,8 @@
-"""性能：首字延迟 (TTFT) 的 P50/P95/P99/均值 + 整流 P95 (参考)。
+"""性能：首字延迟 (TTFT) 的 P50/均值 + 整流均值。
 
 对话产品的体感卡点是 **正式回答首个 token 到达**（type=response 的首个 delta），
 而不是完整流的总耗时（总耗时随 token 数线性增长，不反映"卡顿"）。
-P95 优先看 TTFT，整流 P95 仅作参考。
+小样本下 P95/P99 退化为极值，改用均值。
 """
 from __future__ import annotations
 
@@ -19,18 +19,14 @@ def compute(records: list[EvalRecord]) -> list[MetricResult]:
         return float(xs[min(len(xs) - 1, int(len(xs) * q))]) if xs else None
 
     ttft_p50 = pct(ttfts, 0.50)
-    ttft_p95 = pct(ttfts, 0.95)
-    ttft_p99 = pct(ttfts, 0.99)
     ttft_mean = float(statistics.mean(ttfts)) if ttfts else None
-    total_p95 = pct(totals, 0.95)
+    total_mean = float(statistics.mean(totals)) if totals else None
 
     per_sample_ttft = {r.query_id: float(_first_token_or_total(r) or 0) or None for r in records}
     return [
         MetricResult("ttft_p50_ms", ttft_p50, is_pct=False),
-        MetricResult("ttft_p95_ms", ttft_p95, is_pct=False),
-        MetricResult("ttft_p99_ms", ttft_p99, is_pct=False),
         MetricResult("ttft_mean_ms", ttft_mean, is_pct=False, per_sample=per_sample_ttft),
-        MetricResult("total_p95_ms", total_p95, is_pct=False),
+        MetricResult("total_mean_ms", total_mean, is_pct=False),
     ]
 
 

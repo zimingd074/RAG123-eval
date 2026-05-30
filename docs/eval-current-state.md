@@ -1,7 +1,7 @@
 # RAGent 当前测评方式总览（供外部 Review）
 
 > 用途：把"现在到底是怎么测的"原原本本写清楚，便于其他大模型 / 同事审阅，给出优化或重构建议。
-> 范围：Ragent 服务端的评测旁路接口 + bitselect-rag-assistant 侧的 runner / 指标 / 报告。
+> 范围：Ragent 服务端的评测旁路接口 + ragenteval 侧的 runner / 指标 / 报告。
 > 版本：v1（2026-05-21）。
 
 ---
@@ -13,7 +13,7 @@
 | 仓库 | 角色 | 关键产物 |
 |---|---|---|
 | `ragent` | 被评测系统。暴露一个**纯检索**评测旁路接口 + 正常的 SSE 对话接口 | `/rag/eval`、`/rag/v3/chat` |
-| `bitselect-rag-assistant` | 评测项目。维护评估集、跑 runner、算指标、出报告 | `eval_set_v1.jsonl`、`runner.py`、`metrics/*`、`reports/*` |
+| `ragenteval` | 评测项目。维护评估集、跑 runner、算指标、出报告 | `eval_set_v1.jsonl`、`runner.py`、`metrics/*`、`reports/*` |
 
 **链路**：
 
@@ -256,7 +256,7 @@ RetrievedChunk.id
 - `docs/eval-controller-plan.md`（原计划：双轨制 + AOP，**未落地**）
 - `scripts/verify_eval_context_docids.sh`（验证 chunk 维度 docId 对齐）
 
-**评测项目侧**（`bitselect-rag-assistant`）：
+**评测项目侧**（`ragenteval`）：
 - `eval/common/schemas.py`（核心数据模型）
 - `eval/common/cli.py`（CLI 入口）
 - `eval/rag/pipeline/runner.py`（录制）

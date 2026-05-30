@@ -37,10 +37,8 @@ BASELINE_ORDER = [
     ("fallback_when_required", "答案兜底率"),
     ("over_retrieval_rate", "过召回率（!requires_rag 却走 RAG）"),
     ("ttft_p50_ms", "首字延迟 P50 (ms)"),
-    ("ttft_p95_ms", "首字延迟 P95 (ms)"),
-    ("ttft_p99_ms", "首字延迟 P99 (ms)"),
     ("ttft_mean_ms", "首字延迟均值 (ms)"),
-    ("total_p95_ms", "整流 P95 (ms)"),
+    ("total_mean_ms", "整流均值 (ms)"),
 ]
 RAGAS_ORDER = [
     ("faithfulness", "Faithfulness"),

@@ -46,13 +46,21 @@ def cmd_score(args: argparse.Namespace) -> int:
 
 
 def _resolve_runs_file(raw: str | Path | None) -> Path | None:
-    """解析用户传入的 runs 文件参数：支持完整路径 / 文件名 / stem。"""
-    from eval.rag.pipeline.score import RUNS_DIR, latest_runs_file
+    """解析用户传入的 runs 文件参数：支持完整路径 / 文件名 / stem / report 目录。"""
+    from eval.rag.pipeline.score import REPORTS_DIR, RUNS_DIR, latest_runs_file
 
     if raw is None:
         return None
     p = Path(raw)
     if p.exists():
+        if p.is_dir():
+            # report 目录 → 推导 runs 文件
+            scores = p / "_scores.json"
+            if scores.exists():
+                candidate = RUNS_DIR / f"{p.name}.jsonl"
+                if candidate.exists():
+                    return candidate
+            return None
         return p
     # 尝试 eval/runs/<name>
     candidate = RUNS_DIR / p.name if p.suffix else RUNS_DIR / f"{p.name}.jsonl"
@@ -63,6 +71,13 @@ def _resolve_runs_file(raw: str | Path | None) -> Path | None:
         candidate2 = RUNS_DIR / f"{p.name}.jsonl"
         if candidate2.exists():
             return candidate2
+    # 尝试 eval/reports/<name> → 推导 runs 文件
+    report_dir = REPORTS_DIR / p.name
+    scores = report_dir / "_scores.json"
+    if scores.exists():
+        candidate = RUNS_DIR / f"{p.name}.jsonl"
+        if candidate.exists():
+            return candidate
     return None
 
 
@@ -75,18 +90,22 @@ def cmd_report(args: argparse.Namespace) -> int:
     from eval.common.schemas import MetricResult
 
     def latest_reportable_runs_file() -> Path | None:
-        candidates: list[Path] = []
-        for scores_path in sorted(REPORTS_DIR.glob("v1_*/_scores.json")):
-            runs_candidate = RUNS_DIR / f"{scores_path.parent.name}.jsonl"
+        # 优先从 report 目录找最新的（已有评分结果的），退回到最新 runs 文件
+        for report_dir in sorted(REPORTS_DIR.glob("v1_*"), reverse=True):
+            scores = report_dir / "_scores.json"
+            if not scores.exists():
+                continue
+            runs_candidate = RUNS_DIR / f"{report_dir.name}.jsonl"
             if runs_candidate.exists():
-                candidates.append(runs_candidate)
-        return candidates[-1] if candidates else latest_runs_file()
+                return runs_candidate
+        return latest_runs_file()
 
     runs_file = _resolve_runs_file(args.runs_file)
     if runs_file is None:
         runs_file = latest_reportable_runs_file()
         if runs_file is not None:
-            print(f"未指定输入，取最新：{runs_file.relative_to(PROJECT_ROOT)}")
+            report_dir = REPORTS_DIR / runs_file.stem
+            print(f"未指定输入，取最新：{report_dir.relative_to(PROJECT_ROOT)}")
     if runs_file is None:
         print("找不到 runs 文件，请先跑 `python -m eval rag run`", file=sys.stderr)
         return 2
@@ -187,7 +206,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_score.set_defaults(func=cmd_score)
 
     p_report = rag_sub.add_parser("report", help="出 markdown / csv / slides")
-    p_report.add_argument("runs_file", type=Path, nargs="?", default=None)
+    p_report.add_argument(
+        "runs_file", type=Path, nargs="?", default=None,
+        help="runs 文件或 report 目录（如 eval/reports/v1_20260528_140944），不指定则取最新",
+    )
     p_report.add_argument("--theme", default="swiss", choices=["swiss", "magazine"])
     p_report.add_argument("--only-slides", action="store_true", help="只重出 slides.html")
     p_report.set_defaults(func=cmd_report)

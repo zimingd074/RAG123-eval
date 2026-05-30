@@ -65,7 +65,7 @@ python -m eval rag diff run_a run_b -o reports/diff.md   # 同时落 markdown
 ## 项目结构
 
 ```
-bitselect-rag-assistant/
+ragenteval/
 ├── README.md                    你正在读的文件
 ├── CLAUDE.md                    协作指南（进度、架构决策、规范）
 │
