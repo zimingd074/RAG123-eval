@@ -97,7 +97,8 @@ ragenteval/
 │   │       ├── create_kbs.py    建 4 个知识库
 │   │       ├── upload_docs.py    灌 115 篇文档（断点续传）
 │   │       ├── build_intent_tree.py  灌意图树
-│   │       └── reset_kbs.py      清空（默认 dry-run）
+│   │       ├── reset_kbs.py      清空 KB/文档（默认 dry-run）
+│   │       └── reset_intent_tree.py  清空意图树（默认 dry-run）
 │   ├── agent/                   Agent 评测（预留）
 │   │   ├── dataset/
 │   │   ├── pipeline/

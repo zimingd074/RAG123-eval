@@ -178,7 +178,7 @@ RetrievedChunk.id
 **Judge 配置**：
 - Provider: `aihubmix`（OpenAI 兼容端点）
 - Judge model: `gpt-5.4-mini`（环境变量 `JUDGE_MODEL` 可覆盖）
-- Embedding: `text-embedding-3-large`
+- Embedding: `qwen3-embedding-8b`
 - RunConfig: `max_retries=3, timeout=180`
 - API key 需通过环境变量 `AIHUBMIX_API_KEY` 传入
 

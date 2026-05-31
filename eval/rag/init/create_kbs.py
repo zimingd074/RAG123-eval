@@ -48,7 +48,7 @@ KB_SPECS: list[dict[str, str]] = [
     },
 ]
 
-EMBEDDING_MODEL = "text-embedding-3-large"
+EMBEDDING_MODEL = "qwen-emb-8b"
 
 OUTPUT_PATH = Path(__file__).resolve().parent / "kb_ids.json"
 

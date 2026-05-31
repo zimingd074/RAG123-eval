@@ -59,7 +59,7 @@ python eval/rag/init/upload_docs.py --sleep 0.2
 # 看会删什么
 python eval/rag/init/reset_kbs.py
 
-# 真删（删完会顺便清掉本地 kb_ids.json / doc_id_map.json）
+# 真删（删完会顺便清掉本地 kb_ids.json / doc_id_map.json / intent_ids.json）
 python eval/rag/init/reset_kbs.py --yes
 
 # 保留本地映射文件
@@ -70,7 +70,51 @@ python eval/rag/init/reset_kbs.py --yes --keep-local
 1. 拉全所有 KB
 2. 每个 KB 下文档逐个 DELETE（碰到 RUNNING 会重试，默认 3 次每次间隔 5s）
 3. 文档清完后 DELETE KB
-4. 默认删除本地 `kb_ids.json` 和 `doc_id_map.json`
+4. 默认删除本地 `kb_ids.json` / `doc_id_map.json` / `intent_ids.json`
+
+> **本脚本不清 ragent 后端的意图树节点**。如果意图树也要重灌（例如换 embedding 模型场景），先跑 `reset_intent_tree.py`，再跑 `reset_kbs.py`，否则 leaf 节点的 `kbId` 会指向已删除的 KB。
+
+## 清空所有意图树节点（重置）
+
+破坏性脚本，默认 dry-run。
+
+```bash
+# 看会删什么（不需要 RAGENT_USERNAME/PASSWORD）
+python eval/rag/init/reset_intent_tree.py
+
+# 真删（删完会顺便清掉本地 intent_ids.json）
+python eval/rag/init/reset_intent_tree.py --yes
+
+# 保留本地映射文件
+python eval/rag/init/reset_intent_tree.py --yes --keep-local
+```
+
+行为：
+1. 从本地 `intent_ids.json` 读出 intentCode → node_id 映射作为删除清单
+2. 按 **TOPIC → CATEGORY → DOMAIN** 顺序（child-first）逐个 DELETE
+3. HTTP 404 视为成功（节点不存在 = 已清空）
+4. 默认删除本地 `intent_ids.json`
+
+降级：本地 `intent_ids.json` 不存在或为空时报错退出。如果 ragent 仍有遗留节点，请手动调 `/intent-tree/{id}` 或 `truncate intent_tree`。
+
+## 切换 embedding 模型时的完整重置顺序
+
+换 embedding 模型（如 `text-embedding-3-large` → `qwen-emb-8b`）涉及向量维度变化，必须**全部清空后重建**。否则 leaf 节点会引用已删除的 KB ID。
+
+```bash
+# 1. 先清意图树（依赖 intent_ids.json，必须先于 reset_kbs 跑，否则映射文件就没了）
+python eval/rag/init/reset_intent_tree.py --yes
+
+# 2. 再清 KB / 文档 / 本地映射
+python eval/rag/init/reset_kbs.py --yes
+
+# 3. 改 create_kbs.py 顶部的 EMBEDDING_MODEL 常量
+
+# 4. 重建
+python eval/rag/init/create_kbs.py
+python eval/rag/init/upload_docs.py
+python eval/rag/init/build_intent_tree.py
+```
 
 ## Step 3：构建并灌入意图树
 
@@ -90,4 +134,4 @@ python eval/rag/init/build_intent_tree.py
 
 **KB 归属**：数据驱动——每个 leaf 的 KB 取评估集 `expected_doc_ids` 投票多数派。F2/F3/C1/C2 强制为 SYSTEM-kind，不走 RAG。
 
-**幂等**：基于 `intent_ids.json` 跳过已创建 intentCode。重灌请先调 ragent 的 `/intent-tree/{id}` DELETE 接口清空，或手动 truncate 表。
+**幂等**：基于 `intent_ids.json` 跳过已创建 intentCode。重灌请用 `reset_intent_tree.py --yes` 清空后再跑。

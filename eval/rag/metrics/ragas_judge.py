@@ -14,7 +14,7 @@
 环境变量（可选）：
     AIHUBMIX_BASE_URL    默认 https://aihubmix.com/v1
     JUDGE_MODEL          默认 gpt-5.4-mini
-    EMBEDDING_MODEL      默认 text-embedding-3-large
+    EMBEDDING_MODEL      默认 qwen3-embedding-8b
 
 样本过滤：只评 response / retrieved_contexts / reference 三项齐全且 final_status=success
 的样本，其余记 skip_reason 到 meta，不参与均值。
@@ -241,7 +241,7 @@ def compute(
         raise RuntimeError("缺少环境变量 AIHUBMIX_API_KEY（RAGAS LLM-judge 调用所需）")
     base_url = os.environ.get("AIHUBMIX_BASE_URL", "https://aihubmix.com/v1")
     judge_model = os.environ.get("JUDGE_MODEL", "gpt-5.4-mini")
-    emb_model = os.environ.get("EMBEDDING_MODEL", "text-embedding-3-large")
+    emb_model = os.environ.get("EMBEDDING_MODEL", "qwen3-embedding-8b")
 
     evaluable, skipped = filter_evaluable(records)
     if limit is not None:

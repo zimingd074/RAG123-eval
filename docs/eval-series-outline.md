@@ -249,7 +249,7 @@
   export AIHUBMIX_API_KEY=<your_key>
   export AIHUBMIX_BASE_URL=https://aihubmix.com/v1
   export JUDGE_MODEL=gpt-5.4-mini
-  export EMBEDDING_MODEL=text-embedding-3-large
+  export EMBEDDING_MODEL=qwen3-embedding-8b
   ```
 - judge 模型为什么不直接用项目 chat 模型：同源偏置（第 10 篇会展开）
 - embedding 模型为什么单独配：`answer_relevancy` 需要算余弦相似度，必须有 embedding

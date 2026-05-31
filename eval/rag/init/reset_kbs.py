@@ -5,7 +5,7 @@
     2. 分页拉取所有 KB
     3. 对每个 KB：分页拉取所有 doc，逐个 DELETE
     4. DELETE KB 本身
-    5. 清理本地 kb_ids.json / doc_id_map.json
+    5. 清理本地 kb_ids.json / doc_id_map.json / intent_ids.json
 
 安全保护：
     - 默认 --dry-run 模式（只打印将要删的东西，不实际请求 DELETE）
@@ -13,6 +13,9 @@
     - 删除前再次提示，等待 3 秒可 Ctrl-C 取消
 
 正在分块的文档（status=RUNNING）会被自动跳过并提示。
+
+注意：本脚本只清 KB 和文档。ragent 后端的意图树节点（intent_tree 表）请用
+reset_intent_tree.py 单独清理，否则 leaf 节点会指向已删除的 KB ID。
 
 环境变量：与 create_kbs.py 一致。
 """
@@ -35,6 +38,7 @@ INIT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = INIT_DIR.parent.parent.parent
 KB_IDS_PATH = INIT_DIR / "kb_ids.json"
 DOC_MAP_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "doc_id_map.json"
+INTENT_IDS_PATH = INIT_DIR / "intent_ids.json"
 
 PAGE_SIZE = 100
 REQUEST_TIMEOUT = 30
@@ -218,7 +222,7 @@ def main() -> int:
     print(f"\n完成：失败文档 {len(failed_docs)}，失败 KB {len(failed_kbs)}")
 
     if not args.keep_local:
-        for path in (KB_IDS_PATH, DOC_MAP_PATH):
+        for path in (KB_IDS_PATH, DOC_MAP_PATH, INTENT_IDS_PATH):
             if path.exists():
                 path.unlink()
                 print(f"已删除本地：{path.relative_to(INIT_DIR.parent.parent.parent)}")
