@@ -15,8 +15,12 @@
 export RAGENT_BASE_URL=http://localhost:9090/api/ragent
 export RAGENT_USERNAME=admin                          # 可省，Ragent 默认用户名/密码
 export RAGENT_PASSWORD=admin                          # 可省
-export AIHUBMIX_API_KEY=<your_aihubmix_key>           # RAGAS judge 用
-export JUDGE_MODEL=gpt-5.4-mini                       # 可省，RAGAS judge 默认值
+export JUDGE_API_KEY=<your_judge_key>                 # RAGAS Judge 用
+export JUDGE_BASE_URL=https://api.86gamestore.com/responses
+export JUDGE_MODEL=gpt-5.4-mini                       # 可省，RAGAS Judge 默认值
+export AIHUBMIX_API_KEY=<your_aihubmix_key>           # RAGAS Embedding 用
+export AIHUBMIX_BASE_URL=https://aihubmix.com/v1
+export EMBEDDING_MODEL=text-embedding-3-large         # 可省，Embedding 默认值
 ```
 
 ragent 服务端需开启评测旁路：`app.eval.enabled: true`。Python 3.11（RAGAS 依赖要求）。

@@ -10,8 +10,10 @@
 依赖：``pip install ragas langchain-openai datasets``
 
 环境变量（必填）：
-    AIHUBMIX_API_KEY     aihubmix 的 API Key
+    JUDGE_API_KEY        Judge 服务的 API Key
+    AIHUBMIX_API_KEY     aihubmix 的 Embedding API Key
 环境变量（可选）：
+    JUDGE_BASE_URL       默认 https://api.86gamestore.com/responses
     AIHUBMIX_BASE_URL    默认 https://aihubmix.com/v1
     JUDGE_MODEL          默认 gpt-5.4-mini
     EMBEDDING_MODEL      默认 text-embedding-3-large
@@ -27,6 +29,7 @@ import warnings
 from collections import Counter, defaultdict
 from typing import Any
 
+from eval.common.env import load_project_env
 from eval.common.schemas import EvalRecord, MetricResult
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -88,8 +91,10 @@ def _is_reasoning_model(model: str) -> bool:
 
 
 def _build_judges(
-    api_key: str,
-    base_url: str,
+    judge_api_key: str,
+    judge_base_url: str,
+    embedding_api_key: str,
+    embedding_base_url: str,
     judge_model: str,
     emb_model: str,
     timeout: int = 900,
@@ -97,10 +102,25 @@ def _build_judges(
 ) -> tuple[Any, Any]:
     from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 
+    class ResponsesChatOpenAI(ChatOpenAI):
+        """移除 Responses API 不支持、但 RAGAS 会动态传入的 n 参数。"""
+
+        def _get_request_payload(
+            self,
+            input_: Any,
+            *,
+            stop: list[str] | None = None,
+            **kwargs: Any,
+        ) -> dict[str, Any]:
+            payload = super()._get_request_payload(input_, stop=stop, **kwargs)
+            payload.pop("n", None)
+            return payload
+
     judge_kwargs: dict[str, Any] = {
         "model": judge_model,
-        "api_key": api_key,
-        "base_url": base_url,
+        "api_key": judge_api_key,
+        "base_url": _responses_api_base_url(judge_base_url),
+        "use_responses_api": True,
         "max_retries": 3,
         "timeout": timeout,
     }
@@ -110,36 +130,42 @@ def _build_judges(
             # JSON mode 强制 LLM 输出合法 JSON，避免中文引号等导致 OutputParserException
             judge_kwargs["model_kwargs"] = {"response_format": {"type": "json_object"}}
 
-    judge = ChatOpenAI(
+    judge = ResponsesChatOpenAI(
         **judge_kwargs,
     )
     emb = OpenAIEmbeddings(
         model=emb_model,
-        api_key=api_key,
-        base_url=base_url,
+        api_key=embedding_api_key,
+        base_url=embedding_base_url,
         timeout=timeout,
     )
     return judge, emb
 
 
-def _build_metrics(judge_model: str) -> list[Any]:
-    """RAGAS metric 对象会在 evaluate() 中被临时写入 llm/embeddings，不能跨线程共享。"""
-    import copy
+def _responses_api_base_url(url: str) -> str:
+    """返回供 OpenAI 客户端使用的 base URL，避免重复拼接 /responses。"""
+    normalized = url.rstrip("/")
+    if normalized.endswith("/responses"):
+        return normalized[: -len("/responses")]
+    return normalized
 
+
+def _build_metrics(judge_model: str) -> list[Any]:
+    """构建 RAGAS 0.4.x 指标实例，避免跨线程共享可变状态。"""
     from ragas.metrics import (
-        answer_correctness,
-        answer_relevancy,
-        context_precision,
-        context_recall,
-        faithfulness,
+        AnswerCorrectness,
+        AnswerRelevancy,
+        Faithfulness,
+        LLMContextPrecisionWithReference,
+        LLMContextRecall,
     )
 
     metrics = [
-        copy.copy(faithfulness),
-        copy.copy(answer_relevancy),
-        copy.copy(answer_correctness),
-        copy.copy(context_precision),
-        copy.copy(context_recall),
+        Faithfulness(),
+        AnswerRelevancy(),
+        AnswerCorrectness(),
+        LLMContextPrecisionWithReference(name="context_precision"),
+        LLMContextRecall(),
     ]
     if _is_reasoning_model(judge_model):
         for metric in metrics:
@@ -150,8 +176,10 @@ def _build_metrics(judge_model: str) -> list[Any]:
 
 def _run(
     records: list[EvalRecord],
-    api_key: str,
-    base_url: str,
+    judge_api_key: str,
+    judge_base_url: str,
+    embedding_api_key: str,
+    embedding_base_url: str,
     judge_model: str,
     emb_model: str,
     timeout: int = 900,
@@ -168,7 +196,13 @@ def _run(
 
     def _do_eval(recs: list[EvalRecord], use_json_mode: bool) -> Any:
         judge, emb = _build_judges(
-            api_key, base_url, judge_model, emb_model, timeout,
+            judge_api_key,
+            judge_base_url,
+            embedding_api_key,
+            embedding_base_url,
+            judge_model,
+            emb_model,
+            timeout,
             use_json_mode=use_json_mode,
         )
         kwargs: dict[str, Any] = {
@@ -232,14 +266,23 @@ def compute(
     """主入口。返回 5 个 MetricResult。
 
     n_runs > 1 时并发跑 N 次取均值，压制 LLM judge 的单次方差。
-    AIHUBMIX_API_KEY 缺失时直接报错，不再走兜底硬编码 key。
+    Judge 与 Embedding 分别使用独立的 API key 和 base URL。
     """
     import concurrent.futures
 
-    api_key = os.environ.get("AIHUBMIX_API_KEY")
-    if not api_key:
-        raise RuntimeError("缺少环境变量 AIHUBMIX_API_KEY（RAGAS LLM-judge 调用所需）")
-    base_url = os.environ.get("AIHUBMIX_BASE_URL", "https://aihubmix.com/v1")
+    load_project_env()
+    judge_api_key = os.environ.get("JUDGE_API_KEY")
+    if not judge_api_key:
+        raise RuntimeError("缺少环境变量 JUDGE_API_KEY（RAGAS LLM-judge 调用所需）")
+    embedding_api_key = os.environ.get("AIHUBMIX_API_KEY")
+    if not embedding_api_key:
+        raise RuntimeError("缺少环境变量 AIHUBMIX_API_KEY（RAGAS Embedding 调用所需）")
+    judge_base_url = os.environ.get(
+        "JUDGE_BASE_URL", "https://api.86gamestore.com/responses"
+    )
+    embedding_base_url = os.environ.get(
+        "AIHUBMIX_BASE_URL", "https://aihubmix.com/v1"
+    )
     judge_model = os.environ.get("JUDGE_MODEL", "gpt-5.4-mini")
     emb_model = os.environ.get("EMBEDDING_MODEL", "text-embedding-3-large")
 
@@ -254,16 +297,36 @@ def compute(
     if skipped:
         for reason, count in Counter(r for _, r in skipped).most_common():
             print(f"  - {reason}: {count}")
-    print(f"  judge={judge_model}  embedding={emb_model}  via {base_url}")
+    print(f"  judge={judge_model} via {judge_base_url}")
+    print(f"  embedding={emb_model} via {embedding_base_url}")
 
     # 并发跑 N 次
     if n_runs <= 1:
-        dfs = [_run(evaluable, api_key, base_url, judge_model, emb_model).to_pandas()]
+        dfs = [
+            _run(
+                evaluable,
+                judge_api_key,
+                judge_base_url,
+                embedding_api_key,
+                embedding_base_url,
+                judge_model,
+                emb_model,
+            ).to_pandas()
+        ]
     else:
         print(f"  RAGAS: running {n_runs} passes concurrently for score averaging ...")
         with concurrent.futures.ThreadPoolExecutor(max_workers=n_runs) as ex:
             futures = [
-                ex.submit(_run, evaluable, api_key, base_url, judge_model, emb_model)
+                ex.submit(
+                    _run,
+                    evaluable,
+                    judge_api_key,
+                    judge_base_url,
+                    embedding_api_key,
+                    embedding_base_url,
+                    judge_model,
+                    emb_model,
+                )
                 for _ in range(n_runs)
             ]
             dfs = [f.result().to_pandas() for f in futures]
@@ -316,8 +379,10 @@ def compute(
             try:
                 retry_df = _run(
                     [record],
-                    api_key,
-                    base_url,
+                    judge_api_key,
+                    judge_base_url,
+                    embedding_api_key,
+                    embedding_base_url,
                     judge_model,
                     emb_model,
                     timeout=1200,
@@ -354,7 +419,8 @@ def compute(
                     "n_runs": n_runs,
                     "judge_model": judge_model,
                     "embedding_model": emb_model,
-                    "base_url": base_url,
+                    "judge_base_url": judge_base_url,
+                    "embedding_base_url": embedding_base_url,
                 },
             )
         )

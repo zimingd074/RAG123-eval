@@ -136,7 +136,7 @@ def score(
         except RuntimeError as exc:
             print(f"⚠ 跳过 RAGAS：{exc}", file=sys.stderr)
             print(
-                "  → 想算 RAGAS 时：export AIHUBMIX_API_KEY=<your_key> 后再跑 "
+                "  → 想算 RAGAS 时：配置 JUDGE_API_KEY 和 AIHUBMIX_API_KEY 后再跑 "
                 "`python -m eval rag score`（复用已有 runs，不必重跑 runner）",
                 file=sys.stderr,
             )

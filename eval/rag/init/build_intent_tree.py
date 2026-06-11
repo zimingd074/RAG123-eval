@@ -35,7 +35,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 INIT_DIR = Path(__file__).resolve().parent
 KB_IDS_PATH = INIT_DIR / "kb_ids.json"
 DOC_MAP_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "doc_id_map.json"
-EVAL_SET_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1.jsonl"
+EVAL_SET_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1_all.jsonl"
 INTENT_IDS_PATH = INIT_DIR / "intent_ids.json"
 
 REQUEST_TIMEOUT = 30

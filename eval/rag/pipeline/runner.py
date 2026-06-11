@@ -309,6 +309,7 @@ def run(
     workers: int = 1,
     filter_intent: str | None = None,
     debug: bool = False,
+    dataset_path: Path = EVAL_SET_PATH,
     out_path: Path | None = None,
 ) -> Path:
     """主入口。返回 runs/*.jsonl 的路径。环境变量：
@@ -322,9 +323,11 @@ def run(
 
     if not DOC_MAP_PATH.exists():
         raise RuntimeError(f"找不到 {DOC_MAP_PATH}，请先跑 eval/rag/init/upload_docs.py")
+    if not dataset_path.exists():
+        raise RuntimeError(f"找不到评估集：{dataset_path}")
 
     ragent_to_biz = load_ragent_to_biz_map()
-    samples = load_samples(EVAL_SET_PATH)
+    samples = load_samples(dataset_path)
     if filter_intent:
         samples = [s for s in samples if s.intent_l2 == filter_intent]
     samples = samples[start : start + limit]

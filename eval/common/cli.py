@@ -30,6 +30,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             workers=args.workers,
             filter_intent=args.filter_intent,
             debug=args.debug,
+            dataset_path=args.dataset,
         )
         return 0 if out_path.name else 1
     except RuntimeError as e:
@@ -163,7 +164,12 @@ def cmd_all(args: argparse.Namespace) -> int:
     from eval.rag.pipeline.score import score
 
     try:
-        runs_file = run_runner(limit=args.limit, sleep=args.sleep, workers=args.workers)
+        runs_file = run_runner(
+            limit=args.limit,
+            sleep=args.sleep,
+            workers=args.workers,
+            dataset_path=args.dataset,
+        )
     except RuntimeError as e:
         print(f"错误：{e}", file=sys.stderr)
         return 2
@@ -186,6 +192,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_run = rag_sub.add_parser("run", help="调 ragent 跑评测")
     p_run.add_argument("--limit", type=int, default=20, help="只跑前 N 条")
+    p_run.add_argument(
+        "--dataset",
+        type=Path,
+        default=PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1.jsonl",
+        help="评估集 JSONL 路径",
+    )
     p_run.add_argument("--start", type=int, default=0, help="跳过前 N 条")
     p_run.add_argument("--sleep", type=float, default=0.3, help="每条之间等待秒数")
     p_run.add_argument("-w", "--workers", type=int, default=1, help="并行线程数（默认 1 顺序）")
@@ -222,6 +234,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_all = rag_sub.add_parser("all", help="run → score → report 一条龙")
     p_all.add_argument("--limit", type=int, default=20)
+    p_all.add_argument(
+        "--dataset",
+        type=Path,
+        default=PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1.jsonl",
+        help="评估集 JSONL 路径",
+    )
     p_all.add_argument("--sleep", type=float, default=0.3)
     p_all.add_argument("-w", "--workers", type=int, default=1, help="并行线程数（默认 1 顺序）")
     p_all.add_argument("--skip-ragas", action="store_true")
