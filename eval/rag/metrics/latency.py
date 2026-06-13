@@ -9,24 +9,37 @@ from __future__ import annotations
 import statistics
 
 from eval.common.schemas import EvalRecord, MetricResult
+from eval.rag.metrics._common import is_core_eligible
 
 
 def compute(records: list[EvalRecord]) -> list[MetricResult]:
-    ttfts = sorted(_first_token_or_total(r) for r in records if _first_token_or_total(r))
-    totals = sorted(r.latency_ms for r in records if r.latency_ms)
+    eligible = [r for r in records if is_core_eligible(r)]
+    ttfts = sorted(_first_token_or_total(r) for r in eligible if _first_token_or_total(r))
+    totals = sorted(r.latency_ms for r in eligible if r.latency_ms)
 
     def pct(xs: list[int], q: float) -> float | None:
         return float(xs[min(len(xs) - 1, int(len(xs) * q))]) if xs else None
 
     ttft_p50 = pct(ttfts, 0.50)
+    ttft_p95 = pct(ttfts, 0.95)
+    ttft_p99 = pct(ttfts, 0.99)
     ttft_mean = float(statistics.mean(ttfts)) if ttfts else None
     total_mean = float(statistics.mean(totals)) if totals else None
+    total_p95 = pct(totals, 0.95)
 
-    per_sample_ttft = {r.query_id: float(_first_token_or_total(r) or 0) or None for r in records}
+    per_sample_ttft: dict[str, float | None] = {}
+    for record in records:
+        value = _first_token_or_total(record)
+        per_sample_ttft[record.query_id] = (
+            float(value) if is_core_eligible(record) and value is not None else None
+        )
     return [
         MetricResult("ttft_p50_ms", ttft_p50, is_pct=False),
+        MetricResult("ttft_p95_ms", ttft_p95, is_pct=False),
+        MetricResult("ttft_p99_ms", ttft_p99, is_pct=False),
         MetricResult("ttft_mean_ms", ttft_mean, is_pct=False, per_sample=per_sample_ttft),
         MetricResult("total_mean_ms", total_mean, is_pct=False),
+        MetricResult("total_p95_ms", total_p95, is_pct=False),
     ]
 
 

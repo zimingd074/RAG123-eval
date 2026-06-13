@@ -27,11 +27,18 @@ from typing import Any, Iterator
 import requests
 
 from eval.common.schemas import EvalRecord, EvalSample, load_samples
+from eval.rag.dataset.profiles import (
+    DEFAULT_PROFILE,
+    EvaluationProfile,
+    dataset_sha256,
+    select_samples,
+    write_run_metadata,
+)
 
 DEFAULT_BASE_URL = "http://localhost:9090/api/ragent"
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
-EVAL_SET_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1.jsonl"
+EVAL_SET_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1_all.jsonl"
 DOC_MAP_PATH = PROJECT_ROOT / "eval" / "rag" / "dataset" / "doc_id_map.json"
 RUNS_DIR = PROJECT_ROOT / "eval" / "runs"
 
@@ -275,6 +282,11 @@ def build_record(
         has_kb=eval_state["has_kb"],
         has_mcp=eval_state["has_mcp"],
         trace_id=eval_state["trace_id"],
+        expected_route=sample.expected_route,
+        evaluation_scope=sample.evaluation_scope,
+        scope_reason=sample.scope_reason,
+        annotation_rationale=sample.annotation_rationale,
+        requires_tool=sample.requires_tool,
     )
 
 
@@ -303,13 +315,14 @@ def _process_one(
 
 def run(
     *,
-    limit: int = 20,
+    limit: int | None = None,
     start: int = 0,
     sleep: float = 0.3,
     workers: int = 1,
     filter_intent: str | None = None,
     debug: bool = False,
     dataset_path: Path = EVAL_SET_PATH,
+    profile: EvaluationProfile = DEFAULT_PROFILE,
     out_path: Path | None = None,
 ) -> Path:
     """主入口。返回 runs/*.jsonl 的路径。环境变量：
@@ -327,21 +340,45 @@ def run(
         raise RuntimeError(f"找不到评估集：{dataset_path}")
 
     ragent_to_biz = load_ragent_to_biz_map()
-    samples = load_samples(dataset_path)
+    all_samples = load_samples(dataset_path)
+    samples, profile_excluded = select_samples(all_samples, profile)
     if filter_intent:
         samples = [s for s in samples if s.intent_l2 == filter_intent]
-    samples = samples[start : start + limit]
+    samples = samples[start:] if limit is None else samples[start : start + limit]
     if not samples:
         print("没有可执行的样本", file=sys.stderr)
         return Path()
 
     RUNS_DIR.mkdir(exist_ok=True)
     out_path = out_path or (RUNS_DIR / f"v1_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl")
+    metadata = {
+        "dataset_path": str(dataset_path.resolve()),
+        "dataset_sha256": dataset_sha256(dataset_path),
+        "profile": profile,
+        "original_sample_count": len(all_samples),
+        "profile_sample_count": len(all_samples) - len(profile_excluded),
+        "selected_sample_count": len(samples),
+        "excluded_sample_count": len(profile_excluded),
+        "excluded_sample_ids": [s.query_id for s in profile_excluded],
+        "excluded_samples": [
+            {"query_id": sample.query_id, "intent_l2": sample.intent_l2}
+            for sample in profile_excluded
+        ],
+        "filter_intent": filter_intent,
+        "start": start,
+        "limit": limit,
+    }
+    write_run_metadata(out_path, metadata)
 
     print(f"登录 {base_url} ...")
     token = login(base_url, username, password)
     print("OK\n")
-    print(f"将跑 {len(samples)} 条，落 {out_path.relative_to(PROJECT_ROOT)}\n")
+    print(
+        f"数据集 {dataset_path.name}（SHA-256 {metadata['dataset_sha256'][:12]}…）\n"
+        f"Profile {profile}: 纳入 {metadata['profile_sample_count']} 条，"
+        f"排除 {metadata['excluded_sample_count']} 条\n"
+        f"本次将跑 {len(samples)} 条，落 {out_path.relative_to(PROJECT_ROOT)}\n"
+    )
 
     stats = {"success": 0, "refused": 0, "error": 0, "cancelled": 0, "unknown": 0}
     with out_path.open("w", encoding="utf-8") as out_fp:

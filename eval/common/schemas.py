@@ -25,6 +25,8 @@ from dataclasses import dataclass, field
 from typing import Any, Literal, Optional
 
 FinalStatus = Literal["success", "refused", "error", "cancelled", "unknown"]
+ExpectedRoute = Literal["KB", "SYSTEM", "TOOL", "HYBRID"]
+EvaluationScope = Literal["static-v1", "tool-deferred"]
 
 
 @dataclass
@@ -42,6 +44,11 @@ class EvalSample:
     ground_truth: str = ""
     expected_answer_type: Optional[str] = None
     trap_type: Optional[str] = None
+    expected_route: ExpectedRoute = "KB"
+    evaluation_scope: EvaluationScope = "static-v1"
+    scope_reason: str = ""
+    annotation_rationale: str = ""
+    requires_tool: bool = False
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "EvalSample":
@@ -57,6 +64,12 @@ class EvalSample:
             ground_truth=d.get("ground_truth") or "",
             expected_answer_type=d.get("expected_answer_type"),
             trap_type=d.get("trap_type"),
+            expected_route=d.get("expected_route")
+            or ("KB" if d.get("requires_rag", False) else "SYSTEM"),
+            evaluation_scope=d.get("evaluation_scope") or "static-v1",
+            scope_reason=d.get("scope_reason") or "",
+            annotation_rationale=d.get("annotation_rationale") or "",
+            requires_tool=bool(d.get("requires_tool", False)),
         )
 
 
@@ -96,11 +109,24 @@ class EvalRecord:
     has_kb: Optional[bool]
     has_mcp: Optional[bool]
     trace_id: Optional[str]
+    expected_route: ExpectedRoute = "KB"
+    evaluation_scope: EvaluationScope = "static-v1"
+    scope_reason: str = ""
+    annotation_rationale: str = ""
+    requires_tool: bool = False
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "EvalRecord":
         known = {f for f in cls.__dataclass_fields__}
         kwargs = {k: v for k, v in d.items() if k in known}
+        kwargs.setdefault(
+            "expected_route",
+            "KB" if bool(d.get("requires_rag", False)) else "SYSTEM",
+        )
+        kwargs.setdefault("evaluation_scope", "static-v1")
+        kwargs.setdefault("scope_reason", "")
+        kwargs.setdefault("annotation_rationale", "")
+        kwargs.setdefault("requires_tool", False)
         try:
             return cls(**kwargs)
         except TypeError as exc:

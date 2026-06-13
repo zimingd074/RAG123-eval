@@ -2,7 +2,7 @@
 
 > 用途：把"现在到底是怎么测的"原原本本写清楚，便于其他大模型 / 同事审阅，给出优化或重构建议。
 > 范围：Ragent 服务端的评测旁路接口 + ragenteval 侧的 runner / 指标 / 报告。
-> 版本：v1（2026-05-21）。
+> 版本：static-v1（2026-06-11）。
 
 ---
 
@@ -87,7 +87,9 @@ RetrievedChunk.id
 
 ## 3. 评测项目侧：评估集
 
-`eval/rag/dataset/eval_set_v1.jsonl`，150 条，每条字段：
+长期总集为 `eval/rag/dataset/eval_set_v1_all.jsonl`（150 条），
+`eval_set_v1.jsonl` 是 20 条 smoke 集。默认 Profile 为 `static-v1`（127 条），
+其余 23 条为 `tool-deferred`。
 
 | 字段 | 含义 |
 |---|---|
@@ -96,6 +98,9 @@ RetrievedChunk.id
 | `intent_l1` / `intent_l2` | 一/二级意图（如 `SUPPORT` / `S1_选购推荐`） |
 | `difficulty` | `easy` / `medium` / `hard` |
 | `requires_rag` | 是否应该走 RAG 检索（false = 应该走 SYSTEM 兜底话术） |
+| `expected_route` | `KB / SYSTEM / TOOL / HYBRID` |
+| `evaluation_scope` | `static-v1 / tool-deferred` |
+| `scope_reason` / `annotation_rationale` | 分流与标注依据 |
 | `expected_doc_ids` | **must**：必须召回的最小核心证据集 |
 | `expected_doc_ids_nice` | **nice**：扩展证据，可缺省。GUIDE 已含其关键参数的 PROD 通常进这里 |
 | `ground_truth` | 标准答案（RAGAS 的 `reference`） |
@@ -105,7 +110,7 @@ RetrievedChunk.id
 - 150 条里只有 S1-01..S1-05 按 v1.1 规范重标了 must/nice，其余 145 条把全部期望都塞进 `expected_doc_ids`，nice 视为空集（向后兼容）。
 - 大部分 `ground_truth` 仍是"应推荐..."/"应命中..."这种**元指令**格式，不是真实自然语言答案，会让 RAGAS `answer_correctness` 偏低。
 
-**没有的字段**：`tool_calls_gold`（所以本版不评 Tool Calling）、`should_refuse`（用 `requires_rag=false` 近似）。
+**没有的字段**：`tool_calls_gold`。因此当前只报告 Tool 暂缓清单，不评价工具参数与结果。
 
 ---
 
@@ -139,14 +144,16 @@ RetrievedChunk.id
 
 | 指标 | 定义 | 仅统计 |
 |---|---|---|
-| **意图 Top-1 准确率** | `intent_pred == intent_l2` 的占比 | 全量 |
+| **意图 Top-1 准确率** | `intent_pred == intent_l2` 的占比 | static-v1 |
 | **Hit@K**（K=1/3/5/10） | `retrieved_doc_ids[:K] ∩ reference_doc_ids` 非空 | `requires_rag=true` 且 `reference_doc_ids` 非空 |
 | **Recall@K (must)** | 主指标 | 同上 |
-| **Recall@K (inclusive)** | 把 `expected_doc_ids_nice` 也算进期望集；nice 缺省时退化为 must | 同上 |
+| **Recall all expected@K** | must 与 nice 合并后的覆盖率 | 同上 |
+| **Nice Hit@K** | Top-K 是否命中任一 nice 证据 | nice 非空的 KB 样本 |
 | **MRR@10** | 第一条命中文档排名的倒数 | 同上 |
 | **误拒率** | `requires_rag=true` 但 `retrieved_doc_ids` 为空的占比 | `requires_rag=true` |
 | **答案兜底率** | `requires_rag=true` 但 response 含"未检索到与问题相关的文档内容" | 同上 |
-| **错答率（过召回）** | `requires_rag=false` 却走了 RAG 召回 | `requires_rag=false` |
+| **SYSTEM 过召回率** | `expected_route=SYSTEM` 却走了 RAG 召回 | SYSTEM 样本 |
+| **SYSTEM Boundary Compliance** | 成功回答且无 KB/MCP 召回 | SYSTEM 样本 |
 | **首字 P50/P95/P99/均值** | `first_token_ms` 的分位数 | 全量（取不到则回退 `latency_ms`） |
 | **整流 P95** | `latency_ms` 的 P95，仅参考 | 全量 |
 
@@ -165,7 +172,7 @@ RetrievedChunk.id
 
 ### 5.2 RAGAS 指标（`ragas_judge.py`，LLM-as-judge）
 
-5 个指标，固定使用 LLM-with-reference 变体：
+KB 样本使用 5 个 RAGAS 指标；SYSTEM 样本单独计算 answer correctness/relevancy：
 
 | 指标 | 衡量 |
 |---|---|
@@ -182,7 +189,8 @@ RetrievedChunk.id
 - RunConfig: `max_retries=3, timeout=180`
 - API key 需通过环境变量 `AIHUBMIX_API_KEY` 传入
 
-**样本过滤**：只评 `response / retrieved_contexts / reference` 都非空且 `final_status=success` 的样本。其余跳过并在报告里列原因。
+**样本过滤**：Tool 样本使用 `tool_deferred`，SYSTEM 使用 `expected_system`，
+KB 缺证据使用 `missing_evidence`，均不混入错误的指标分母。
 
 **产物**：RAGAS 分数集成到统一的 `per_sample.csv` 和 `report.md` 中，不单独出文件。
 

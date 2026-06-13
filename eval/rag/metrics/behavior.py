@@ -7,21 +7,28 @@
 """
 from __future__ import annotations
 
-from eval.rag.metrics._common import slice_mean
+from eval.rag.metrics._common import is_kb_eligible, is_system_eligible, slice_mean
 from eval.common.schemas import EvalRecord, MetricResult
 
 FALLBACK_MARKER = "未检索到与问题相关的文档内容"
 
 
 def compute(records: list[EvalRecord]) -> list[MetricResult]:
-    return [_refusal_when_required(records), _fallback_when_required(records), _over_retrieval(records)]
+    return [
+        _refusal_when_required(records),
+        _fallback_when_required(records),
+        _over_retrieval(records),
+        _system_boundary_compliance(records),
+    ]
 
 
 def _refusal_when_required(records: list[EvalRecord]) -> MetricResult:
     def value(r: EvalRecord) -> float:
         return 1.0 if len(r.retrieved_doc_ids) == 0 else 0.0
 
-    overall, by_l1, by_l2, per_sample = slice_mean(records, value, lambda r: r.requires_rag)
+    overall, by_l1, by_l2, per_sample = slice_mean(
+        records, value, is_kb_eligible
+    )
     return MetricResult("refusal_when_required", overall, by_l1, by_l2, per_sample)
 
 
@@ -29,7 +36,9 @@ def _fallback_when_required(records: list[EvalRecord]) -> MetricResult:
     def value(r: EvalRecord) -> float:
         return 1.0 if FALLBACK_MARKER in (r.response or "") else 0.0
 
-    overall, by_l1, by_l2, per_sample = slice_mean(records, value, lambda r: r.requires_rag)
+    overall, by_l1, by_l2, per_sample = slice_mean(
+        records, value, is_kb_eligible
+    )
     return MetricResult("fallback_when_required", overall, by_l1, by_l2, per_sample)
 
 
@@ -37,5 +46,31 @@ def _over_retrieval(records: list[EvalRecord]) -> MetricResult:
     def value(r: EvalRecord) -> float:
         return 1.0 if len(r.retrieved_doc_ids) > 0 else 0.0
 
-    overall, by_l1, by_l2, per_sample = slice_mean(records, value, lambda r: not r.requires_rag)
+    overall, by_l1, by_l2, per_sample = slice_mean(
+        records, value, is_system_eligible
+    )
     return MetricResult("over_retrieval_rate", overall, by_l1, by_l2, per_sample)
+
+
+def _system_boundary_compliance(records: list[EvalRecord]) -> MetricResult:
+    """SYSTEM route succeeds only with a direct, non-retrieval response."""
+
+    def value(r: EvalRecord) -> float:
+        compliant = (
+            r.final_status == "success"
+            and bool((r.response or "").strip())
+            and not r.retrieved_doc_ids
+            and not r.has_mcp
+        )
+        return 1.0 if compliant else 0.0
+
+    overall, by_l1, by_l2, per_sample = slice_mean(
+        records, value, is_system_eligible
+    )
+    return MetricResult(
+        "system_boundary_compliance",
+        overall,
+        by_l1,
+        by_l2,
+        per_sample,
+    )

@@ -7,6 +7,21 @@ from typing import Callable, Iterable
 from eval.common.schemas import EvalRecord
 
 
+def is_core_eligible(r: EvalRecord) -> bool:
+    """Return whether a record belongs to the active non-tool score set."""
+    return r.evaluation_scope != "tool-deferred"
+
+
+def is_kb_eligible(r: EvalRecord) -> bool:
+    """Return whether a record should be evaluated as static KB behavior."""
+    return is_core_eligible(r) and r.expected_route == "KB"
+
+
+def is_system_eligible(r: EvalRecord) -> bool:
+    """Return whether a record should be evaluated as SYSTEM behavior."""
+    return is_core_eligible(r) and r.expected_route == "SYSTEM"
+
+
 def slice_mean(
     records: Iterable[EvalRecord],
     value_fn: Callable[[EvalRecord], float | None],
@@ -49,9 +64,9 @@ def is_retrieval_eligible(r: EvalRecord, *, inclusive: bool = False) -> bool:
     """检索指标只统计 requires_rag=true 且评估集标了 reference 的样本。
 
     inclusive=True 时，nice-only 样本（must 空但 nice 非空）也视为 eligible，
-    供 recall_inclusive@K 使用。
+    供 recall_all_expected@K 使用。
     """
-    if not r.requires_rag:
+    if not is_kb_eligible(r) or not r.requires_rag:
         return False
     if inclusive:
         return bool(r.reference_doc_ids) or bool(r.reference_doc_ids_nice)

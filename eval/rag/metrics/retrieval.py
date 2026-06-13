@@ -17,6 +17,7 @@ def compute(records: list[EvalRecord]) -> list[MetricResult]:
         results.append(_hit_at_k(records, k))
         results.append(_recall_at_k(records, k, inclusive=False))
         results.append(_recall_at_k(records, k, inclusive=True))
+        results.append(_nice_hit_at_k(records, k))
     results.append(_mrr_at_10(records))
     return results
 
@@ -39,10 +40,21 @@ def _recall_at_k(records: list[EvalRecord], k: int, *, inclusive: bool) -> Metri
             ref = ref | set(r.reference_doc_ids_nice)
         return len(topk & ref) / len(ref) if ref else 0.0
 
-    name = f"recall_inclusive@{k}" if inclusive else f"recall@{k}"
+    name = f"recall_all_expected@{k}" if inclusive else f"recall@{k}"
     eligible = (lambda r: is_retrieval_eligible(r, inclusive=True)) if inclusive else is_retrieval_eligible
     overall, by_l1, by_l2, per_sample = slice_mean(records, value, eligible)
     return MetricResult(name, overall, by_l1, by_l2, per_sample)
+
+
+def _nice_hit_at_k(records: list[EvalRecord], k: int) -> MetricResult:
+    def value(r: EvalRecord) -> float:
+        topk = set(r.retrieved_doc_ids[:k])
+        nice = set(r.reference_doc_ids_nice)
+        return 1.0 if topk & nice else 0.0
+
+    eligible = lambda r: is_retrieval_eligible(r) and bool(r.reference_doc_ids_nice)
+    overall, by_l1, by_l2, per_sample = slice_mean(records, value, eligible)
+    return MetricResult(f"nice_hit@{k}", overall, by_l1, by_l2, per_sample)
 
 
 def _mrr_at_10(records: list[EvalRecord]) -> MetricResult:

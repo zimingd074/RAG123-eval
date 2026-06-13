@@ -14,6 +14,7 @@ LOWER_IS_BETTER = {
     "ttft_p95_ms",
     "ttft_p99_ms",
     "ttft_mean_ms",
+    "total_mean_ms",
     "total_p95_ms",
 }
 
@@ -36,6 +37,7 @@ REGRESSION_THRESHOLD = {
     "ttft_p95_ms": 500,
     "ttft_p99_ms": 500,
     "ttft_mean_ms": 500,
+    "total_mean_ms": 1000,
     "total_p95_ms": 1000,
 }
 
@@ -94,18 +96,21 @@ def render_terminal(
         delta = (vb - va) if (va is not None and vb is not None) else None
         row = f"{name:<28s} {_fmt(name, va):>8s} {_fmt(name, vb):>8s} {_delta_str(delta, name):>10s}"
         if delta is not None and _is_regression(name, delta):
-            row += "  ⚠"
-            direction = "↑" if name in LOWER_IS_BETTER else "↓"
-            regressions.append(f"  {name}: {_fmt(name, va)} → {_fmt(name, vb)} ({_delta_str(delta, name)} {direction})")
+            row += "  [REGRESSION]"
+            direction = "higher" if name in LOWER_IS_BETTER else "lower"
+            regressions.append(
+                f"  {name}: {_fmt(name, va)} -> {_fmt(name, vb)} "
+                f"({_delta_str(delta, name)} {direction})"
+            )
         lines.append(row)
 
     if regressions:
         lines.append("")
-        lines.append("⚠ 退化项：")
+        lines.append("[REGRESSION] 退化项：")
         lines.extend(regressions)
     else:
         lines.append("")
-        lines.append("✅ 无显著退化")
+        lines.append("无显著退化")
 
     return "\n".join(lines)
 
@@ -135,7 +140,7 @@ def render_markdown(
             continue
         delta = (vb - va) if (va is not None and vb is not None) else None
         ds = _delta_str(delta, name)
-        flag = " ⚠" if (delta is not None and _is_regression(name, delta)) else ""
+        flag = " [REGRESSION]" if (delta is not None and _is_regression(name, delta)) else ""
         lines.append(f"| {name} | {_fmt(name, va)} | {_fmt(name, vb)} | {ds}{flag} |")
 
     # intent_l2 breakdown for core metrics
@@ -184,6 +189,22 @@ def compare(run_a: str, run_b: str, *, out_md: Path | None = None) -> str:
 
     payload_a = json.loads(path_a.read_text(encoding="utf-8"))
     payload_b = json.loads(path_b.read_text(encoding="utf-8"))
+    meta_a = payload_a.get("run_metadata") or {}
+    meta_b = payload_b.get("run_metadata") or {}
+    hash_a = meta_a.get("dataset_sha256")
+    hash_b = meta_b.get("dataset_sha256")
+    profile_a = meta_a.get("profile")
+    profile_b = meta_b.get("profile")
+    if not hash_a or not hash_b or not profile_a or not profile_b:
+        raise ValueError(
+            "正式 A/B 对比要求两侧 _scores.json 都包含 dataset_sha256 和 profile"
+        )
+    if hash_a != hash_b:
+        raise ValueError("数据集哈希不同，禁止正式 A/B 对比")
+    if profile_a != profile_b:
+        raise ValueError(
+            f"Profile 不同（{profile_a} vs {profile_b}），禁止正式 A/B 对比"
+        )
 
     metrics_a = [MetricResult(**m) for m in payload_a["metrics"]]
     metrics_b = [MetricResult(**m) for m in payload_b["metrics"]]

@@ -18,6 +18,7 @@ from pathlib import Path
 
 from eval.rag.metrics import behavior, intent, latency, retrieval
 from eval.common.schemas import EvalRecord, MetricResult
+from eval.rag.dataset.profiles import load_run_metadata
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 RUNS_DIR = PROJECT_ROOT / "eval" / "runs"
@@ -84,6 +85,7 @@ def score(
     skip_ragas: bool = False,
     ragas_limit: int | None = None,
     ragas_n: int = 1,
+    strip_frontmatter: bool = False,
 ) -> tuple[Path, list[MetricResult]]:
     """入口。返回 (runs_file, list[MetricResult])，并把结果落到
     ``reports/<runs_basename>/_scores.json``。
@@ -130,7 +132,12 @@ def score(
         try:
             from eval.rag.metrics import ragas_judge
 
-            results += ragas_judge.compute(records, limit=ragas_limit, n_runs=ragas_n)
+            results += ragas_judge.compute(
+                records,
+                limit=ragas_limit,
+                n_runs=ragas_n,
+                strip_frontmatter=strip_frontmatter,
+            )
         except ImportError as exc:
             print(f"⚠ 跳过 RAGAS（依赖未安装：{exc}）", file=sys.stderr)
         except RuntimeError as exc:
@@ -155,6 +162,7 @@ def score(
         "runs_file": str(runs_file),
         "n_records": len(records),
         "status": status_distribution(records),
+        "run_metadata": load_run_metadata(runs_file),
         "sanity_warnings": warnings,
         "metrics": [dataclasses.asdict(m) for m in results],
     }

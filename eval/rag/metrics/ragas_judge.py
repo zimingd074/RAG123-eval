@@ -24,6 +24,7 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 import warnings
 from collections import Counter, defaultdict
@@ -41,20 +42,25 @@ RAGAS_METRIC_KEYS = (
     "context_precision",
     "context_recall",
 )
+_FRONTMATTER = re.compile(r"^---\s*\n.*?\n---\s*", re.DOTALL)
 
 _REASONING_MODEL_PREFIXES = ("gpt-5", "o1", "o3", "o4")
 
 
 def filter_evaluable(records: list[EvalRecord]) -> tuple[list[EvalRecord], list[tuple[str, str]]]:
-    """返回 (可评的记录, [(query_id, skip_reason), ...])。"""
+    """Return KB-evaluable records and semantic skip reasons."""
     evaluable: list[EvalRecord] = []
     skipped: list[tuple[str, str]] = []
     for r in records:
         reason = None
-        if not (r.response or "").strip():
+        if r.evaluation_scope == "tool-deferred":
+            reason = "tool_deferred"
+        elif r.expected_route == "SYSTEM":
+            reason = "expected_system"
+        elif not (r.response or "").strip():
             reason = "empty response"
         elif not r.retrieved_contexts:
-            reason = "empty retrieved_contexts"
+            reason = "missing_evidence"
         elif not (r.reference or "").strip():
             reason = "empty reference"
         elif r.final_status != "success":
@@ -66,14 +72,30 @@ def filter_evaluable(records: list[EvalRecord]) -> tuple[list[EvalRecord], list[
     return evaluable, skipped
 
 
-def _build_dataset(records: list[EvalRecord]) -> Any:
+def _strip_frontmatter(text: str) -> str:
+    """Remove one YAML frontmatter block while preserving document content."""
+    return _FRONTMATTER.sub("", text or "", count=1).strip()
+
+
+def _build_dataset(
+    records: list[EvalRecord],
+    *,
+    strip_frontmatter: bool = False,
+) -> Any:
     from datasets import Dataset
 
+    contexts = [
+        [
+            _strip_frontmatter(context) if strip_frontmatter else context
+            for context in r.retrieved_contexts
+        ]
+        for r in records
+    ]
     return Dataset.from_dict(
         {
             "user_input": [r.user_input for r in records],
             "response": [r.response for r in records],
-            "retrieved_contexts": [r.retrieved_contexts for r in records],
+            "retrieved_contexts": contexts,
             "reference": [r.reference for r in records],
         }
     )
@@ -183,6 +205,7 @@ def _run(
     judge_model: str,
     emb_model: str,
     timeout: int = 900,
+    strip_frontmatter: bool = False,
 ) -> Any:
     import pandas as pd
     from ragas import evaluate
@@ -190,7 +213,11 @@ def _run(
     try:
         from ragas.run_config import RunConfig
 
-        run_config = RunConfig(max_retries=2, timeout=timeout)
+        run_config = RunConfig(
+            max_retries=2,
+            timeout=timeout,
+            max_workers=16,
+        )
     except Exception:
         run_config = None
 
@@ -206,7 +233,10 @@ def _run(
             use_json_mode=use_json_mode,
         )
         kwargs: dict[str, Any] = {
-            "dataset": _build_dataset(recs),
+            "dataset": _build_dataset(
+                recs,
+                strip_frontmatter=strip_frontmatter,
+            ),
             "metrics": _build_metrics(judge_model),
             "llm": judge,
             "embeddings": emb,
@@ -261,7 +291,11 @@ def _run(
 
 
 def compute(
-    records: list[EvalRecord], *, limit: int | None = None, n_runs: int = 1
+    records: list[EvalRecord],
+    *,
+    limit: int | None = None,
+    n_runs: int = 1,
+    strip_frontmatter: bool = False,
 ) -> list[MetricResult]:
     """主入口。返回 5 个 MetricResult。
 
@@ -289,36 +323,22 @@ def compute(
     evaluable, skipped = filter_evaluable(records)
     if limit is not None:
         evaluable = evaluable[:limit]
+    results: list[MetricResult] = []
     if not evaluable:
-        print("RAGAS：没有可评的样本（all skipped）", file=sys.stderr)
-        return [_empty_result(key, skipped) for key in RAGAS_METRIC_KEYS]
-
-    print(f"RAGAS：可评 {len(evaluable)} 条，跳过 {len(skipped)} 条")
-    if skipped:
-        for reason, count in Counter(r for _, r in skipped).most_common():
-            print(f"  - {reason}: {count}")
-    print(f"  judge={judge_model} via {judge_base_url}")
-    print(f"  embedding={emb_model} via {embedding_base_url}")
-
-    # 并发跑 N 次
-    if n_runs <= 1:
-        dfs = [
-            _run(
-                evaluable,
-                judge_api_key,
-                judge_base_url,
-                embedding_api_key,
-                embedding_base_url,
-                judge_model,
-                emb_model,
-            ).to_pandas()
-        ]
+        print("RAGAS KB：没有可评的样本（all skipped）", file=sys.stderr)
+        results.extend(_empty_result(key, skipped) for key in RAGAS_METRIC_KEYS)
     else:
-        print(f"  RAGAS: running {n_runs} passes concurrently for score averaging ...")
-        with concurrent.futures.ThreadPoolExecutor(max_workers=n_runs) as ex:
-            futures = [
-                ex.submit(
-                    _run,
+        print(f"RAGAS KB：可评 {len(evaluable)} 条，跳过 {len(skipped)} 条")
+        if skipped:
+            for reason, count in Counter(r for _, r in skipped).most_common():
+                print(f"  - {reason}: {count}")
+        print(f"  judge={judge_model} via {judge_base_url}")
+        print(f"  embedding={emb_model} via {embedding_base_url}")
+
+        # 并发跑 N 次
+        if n_runs <= 1:
+            dfs = [
+                _run(
                     evaluable,
                     judge_api_key,
                     judge_base_url,
@@ -326,104 +346,128 @@ def compute(
                     embedding_base_url,
                     judge_model,
                     emb_model,
-                )
-                for _ in range(n_runs)
-            ]
-            dfs = [f.result().to_pandas() for f in futures]
-
-    # 收集各次跑分的 per-sample 分数
-    raw_scores: dict[str, dict[str, list[float | None]]] = {
-        k: defaultdict(list) for k in RAGAS_METRIC_KEYS
-    }
-    record_map = {r.query_id: r for r in evaluable}
-
-    for df in dfs:
-        for r, (_, row) in zip(evaluable, df.iterrows()):
-            for k in RAGAS_METRIC_KEYS:
-                v = row.get(k)
-                try:
-                    fv = float(v)
-                    if fv != fv:  # NaN
-                        fv = None
-                except (TypeError, ValueError):
-                    fv = None
-                raw_scores[k][r.query_id].append(fv)
-
-    # 取均值
-    per_metric: dict[str, dict[str, float | None]] = {k: {} for k in RAGAS_METRIC_KEYS}
-    by_l1: dict[str, dict[str, list[float]]] = {k: defaultdict(list) for k in RAGAS_METRIC_KEYS}
-    by_l2: dict[str, dict[str, list[float]]] = {k: defaultdict(list) for k in RAGAS_METRIC_KEYS}
-    failed: set[tuple[str, str]] = set()  # (query_id, metric_key) 需要重试
-
-    for k in RAGAS_METRIC_KEYS:
-        for qid, scores in raw_scores[k].items():
-            valid = [s for s in scores if s is not None]
-            if valid:
-                avg = sum(valid) / len(valid)
-                per_metric[k][qid] = avg
-                rec = record_map[qid]
-                by_l1[k][rec.intent_l1 or "?"].append(avg)
-                by_l2[k][rec.intent_l2 or "?"].append(avg)
-            else:
-                per_metric[k][qid] = None
-                failed.add((qid, k))
-
-    # 对失败的 (query_id, metric) 逐条重试，长文本超时放宽
-    if failed:
-        print(
-            f"  RAGAS: {len(failed)} metric(s) returned NaN/None across all runs, "
-            "retrying individually ..."
-        )
-        for qid, k in sorted(failed):
-            record = record_map[qid]
-            try:
-                retry_df = _run(
-                    [record],
-                    judge_api_key,
-                    judge_base_url,
-                    embedding_api_key,
-                    embedding_base_url,
-                    judge_model,
-                    emb_model,
-                    timeout=1200,
+                    strip_frontmatter=strip_frontmatter,
                 ).to_pandas()
-                fv = float(retry_df.iloc[0].get(k))
-                if fv == fv:  # not NaN
-                    per_metric[k][qid] = fv
-                    by_l1[k][record.intent_l1 or "?"].append(fv)
-                    by_l2[k][record.intent_l2 or "?"].append(fv)
-                    print(f"    {qid}/{k}: retry OK -> {fv:.4f}")
-                    continue
-            except Exception:
-                pass
-            print(f"    {qid}/{k}: retry still failed, kept None", file=sys.stderr)
+            ]
+        else:
+            print(f"  RAGAS: running {n_runs} passes concurrently for score averaging ...")
+            with concurrent.futures.ThreadPoolExecutor(max_workers=n_runs) as ex:
+                futures = [
+                    ex.submit(
+                        _run,
+                        evaluable,
+                        judge_api_key,
+                        judge_base_url,
+                        embedding_api_key,
+                        embedding_base_url,
+                        judge_model,
+                        emb_model,
+                        strip_frontmatter=strip_frontmatter,
+                    )
+                    for _ in range(n_runs)
+                ]
+                dfs = [f.result().to_pandas() for f in futures]
 
-    def _mean(xs: list[float]) -> float | None:
-        return sum(xs) / len(xs) if xs else None
+        # 收集各次跑分的 per-sample 分数
+        raw_scores: dict[str, dict[str, list[float | None]]] = {
+            k: defaultdict(list) for k in RAGAS_METRIC_KEYS
+        }
+        record_map = {r.query_id: r for r in evaluable}
 
-    results: list[MetricResult] = []
-    for k in RAGAS_METRIC_KEYS:
-        per = per_metric[k]
-        vals = [v for v in per.values() if v is not None]
-        results.append(
-            MetricResult(
-                name=k,
-                overall=_mean(vals),
-                by_intent_l1={l1: _mean(v) for l1, v in by_l1[k].items()},
-                by_intent_l2={l2: _mean(v) for l2, v in by_l2[k].items()},
-                per_sample=per,
-                meta={
-                    "n_evaluable": len(evaluable),
-                    "n_skipped": len(skipped),
-                    "skipped": skipped,
-                    "n_runs": n_runs,
-                    "judge_model": judge_model,
-                    "embedding_model": emb_model,
-                    "judge_base_url": judge_base_url,
-                    "embedding_base_url": embedding_base_url,
-                },
+        for df in dfs:
+            for r, (_, row) in zip(evaluable, df.iterrows()):
+                for k in RAGAS_METRIC_KEYS:
+                    v = row.get(k)
+                    try:
+                        fv = float(v)
+                        if fv != fv:  # NaN
+                            fv = None
+                    except (TypeError, ValueError):
+                        fv = None
+                    raw_scores[k][r.query_id].append(fv)
+
+        # 取均值
+        per_metric: dict[str, dict[str, float | None]] = {
+            k: {} for k in RAGAS_METRIC_KEYS
+        }
+        by_l1: dict[str, dict[str, list[float]]] = {
+            k: defaultdict(list) for k in RAGAS_METRIC_KEYS
+        }
+        by_l2: dict[str, dict[str, list[float]]] = {
+            k: defaultdict(list) for k in RAGAS_METRIC_KEYS
+        }
+        failed: set[tuple[str, str]] = set()
+
+        for k in RAGAS_METRIC_KEYS:
+            for qid, scores in raw_scores[k].items():
+                valid = [s for s in scores if s is not None]
+                if valid:
+                    avg = sum(valid) / len(valid)
+                    per_metric[k][qid] = avg
+                    rec = record_map[qid]
+                    by_l1[k][rec.intent_l1 or "?"].append(avg)
+                    by_l2[k][rec.intent_l2 or "?"].append(avg)
+                else:
+                    per_metric[k][qid] = None
+                    failed.add((qid, k))
+
+        # 对失败的 (query_id, metric) 逐条重试，长文本超时放宽
+        if failed:
+            print(
+                f"  RAGAS: {len(failed)} metric(s) returned NaN/None across all runs, "
+                "retrying individually ..."
             )
-        )
+            for qid, k in sorted(failed):
+                record = record_map[qid]
+                try:
+                    retry_df = _run(
+                        [record],
+                        judge_api_key,
+                        judge_base_url,
+                        embedding_api_key,
+                        embedding_base_url,
+                        judge_model,
+                        emb_model,
+                        timeout=1200,
+                        strip_frontmatter=strip_frontmatter,
+                    ).to_pandas()
+                    fv = float(retry_df.iloc[0].get(k))
+                    if fv == fv:  # not NaN
+                        per_metric[k][qid] = fv
+                        by_l1[k][record.intent_l1 or "?"].append(fv)
+                        by_l2[k][record.intent_l2 or "?"].append(fv)
+                        print(f"    {qid}/{k}: retry OK -> {fv:.4f}")
+                        continue
+                except Exception:
+                    pass
+                print(f"    {qid}/{k}: retry still failed, kept None", file=sys.stderr)
+
+        def _mean(xs: list[float]) -> float | None:
+            return sum(xs) / len(xs) if xs else None
+
+        for k in RAGAS_METRIC_KEYS:
+            per = per_metric[k]
+            vals = [v for v in per.values() if v is not None]
+            results.append(
+                MetricResult(
+                    name=k,
+                    overall=_mean(vals),
+                    by_intent_l1={l1: _mean(v) for l1, v in by_l1[k].items()},
+                    by_intent_l2={l2: _mean(v) for l2, v in by_l2[k].items()},
+                    per_sample=per,
+                    meta={
+                        "n_evaluable": len(evaluable),
+                        "n_skipped": len(skipped),
+                        "skipped": skipped,
+                        "n_runs": n_runs,
+                        "judge_model": judge_model,
+                        "embedding_model": emb_model,
+                        "judge_base_url": judge_base_url,
+                        "embedding_base_url": embedding_base_url,
+                        "strip_frontmatter": strip_frontmatter,
+                    },
+                )
+            )
     return results
 
 

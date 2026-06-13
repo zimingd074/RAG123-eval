@@ -1,15 +1,15 @@
 """Step 3: 构建并灌入意图识别树。
 
 行为：
-    1. 从评估集 + doc_id_map.json 数据驱动算出每个 intent_l2 的多数派 KB
+    1. 从评估集 + doc_id_map.json 数据驱动算出每个 intent_l2 的候选 KB
     2. 拉取每个 intent_l2 的真实 query 作为 examples（最多 5 条）
     3. 拼出 DOMAIN(3) -> CATEGORY(5) -> TOPIC(22) 共 30 个节点的入参
     4. 按 DOMAIN -> CATEGORY -> TOPIC 顺序逐个 POST /intent-tree
     5. 写 intent_ids.json：intentCode -> ragent 内部 node id
 
 业务规则：
-    - F2/F3/C1/C2 是 SYSTEM kind（系统话术，不走 RAG），kbId 留空
-    - 其他 18 个 leaf 是 KB kind，kbId 按数据投票
+    - F2/F3/C1/C2 是 SYSTEM kind，必要知识由并列 KB 意图提供
+    - 其他 18 个 leaf 是 KB kind，支持 kbIds 多知识库并保留 kbId 首库兼容
     - L0/L1 节点 kbId 一律为空（服务端只在 TOPIC+KB 时强校验）
 
 幂等：基于 intent_ids.json 跳过已创建 intentCode。
@@ -55,6 +55,36 @@ DEFAULT_TOP_K = 5
 
 # 不走 RAG 的 leaf 白名单（kind=SYSTEM）
 SYSTEM_LEAF_CODES = {"F2_功能建议", "F3_投诉吐槽", "C1_寒暄问候", "C2_越界提问"}
+
+SYSTEM_PROMPTS: dict[str, str] = {
+    "F2_功能建议": (
+        "你是比特严选客服助手。用户在提出功能建议时，只需确认已理解并记录建议，"
+        "用一两句话复述核心诉求；不要输出操作教程，不要声称功能已经存在或承诺上线时间。"
+    ),
+    "F3_投诉吐槽": (
+        "你是比特严选客服助手。先简短共情并确认用户诉求。纯情绪投诉应记录问题并说明"
+        "可转人工处理；不要争辩、不要作法律定性。若问题同时涉及物流、故障或售后事实，"
+        "应结合并列知识意图提供的证据处理，不得编造政策。"
+    ),
+    "C1_寒暄问候": (
+        "你是比特严选智能客服助手，不是真人客服。用一到三句话简洁回应，说明可协助"
+        "商品参数、订单物流、退换售后、设备使用和故障排查。"
+    ),
+    "C2_越界提问": (
+        "你是比特严选客服助手。对天气、创作、品牌站队和资料不足的竞品问题保持边界："
+        "不主观站队，不编造竞品信息；简洁说明无法可靠确认，并引导到比特严选可支持的"
+        "商品、订单、售后和设备问题。"
+    ),
+}
+
+PREFERRED_KB_KEYS: dict[str, list[str]] = {
+    "F1_故障报告": ["faq", "manual", "policy"],
+    "S6_配件兼容": ["product", "manual"],
+    "S9_配网连接": ["manual", "faq"],
+    "S12_生态联动": ["manual", "product"],
+    "S13_保养维护": ["manual", "faq"],
+    "S17_发票会员": ["policy"],
+}
 
 # 树骨架定义：(intentCode, name, parentCode)
 DOMAINS = [
@@ -128,6 +158,28 @@ def vote_kb_per_leaf(
     return {k: c.most_common(1)[0][0] for k, c in votes.items() if c}
 
 
+def kb_keys_per_leaf(
+    eval_path: Path,
+    doc_map: dict[str, dict[str, Any]],
+) -> dict[str, list[str]]:
+    """Return ordered KB keys per intent with curated multi-KB overrides."""
+    votes: dict[str, Counter] = defaultdict(Counter)
+    with eval_path.open(encoding="utf-8") as handle:
+        for line in handle:
+            row = json.loads(line)
+            for doc_id in row.get("expected_doc_ids") or []:
+                entry = doc_map.get(doc_id)
+                if entry:
+                    votes[row["intent_l2"]][entry["kb_key"]] += 1
+
+    result: dict[str, list[str]] = {}
+    for intent, counter in votes.items():
+        observed = [key for key, _ in counter.most_common()]
+        preferred = PREFERRED_KB_KEYS.get(intent, [])
+        result[intent] = list(dict.fromkeys(preferred + observed))
+    return result
+
+
 def sample_queries_per_leaf(
     eval_path: Path, limit: int = 5
 ) -> dict[str, list[str]]:
@@ -155,16 +207,26 @@ def make_description(name: str, examples: list[str]) -> str:
 
 # 相邻易混淆意图的硬编码区分说明（补充到 leaf description 中供 LLM 区分）
 BOUNDARY_DISAMBIGUATION: dict[str, str] = {
-    "S4_价格活动": "注意：涉及“价保补差”“7天内降价退差价”的问题属于本分类，不属于 S14_售后政策。售后政策只涉及保修、维修、换屏报价等硬件服务问题，不涉及购买前的价格变动补偿",
-    "S5_库存到货": "注意：涉及“下单后多久能送到”“大概几天到货”的送达时效预估问题属于本分类，不属于 S16_物流配送。S16_物流配送只涉及发货后的承运商状态跟踪（物流轨迹、改地址、破损签收），不涉及下单后的预计送达时间",
-    "S14_售后政策": "注意：本分类只涉及保修期、保修范围、碎屏维修报价、过保维修等硬件售后服务。“价保补差”“降价退差”等价格补偿不属于本分类，应归入 S4_价格活动",
-    "S16_物流配送": "注意：本分类只涉及发货后的承运商物流问题（改地址、破损、指定送货时间）。“下单后多久能送到”“现货几天到”等送达时效预估不属于本分类，应归入 S5_库存到货",
+    "S2_参数咨询": "只回答明确型号的客观规格参数；询问某类人群、房间或用途是否合适时归入 S7_适用场景",
+    "S7_适用场景": "判断商品是否适合某个人群、面积、用途或环境；单纯询问尺寸、功率、容量等规格归入 S2_参数咨询",
+    "S4_价格活动": "商品参考价、活动规则和价保补差属于本分类；退货退款条件归入 S15_退换货",
+    "S5_库存到货": "只处理有无现货、补货、到货提醒和未发布新品时间；发货、运输、签收和配送时效归入 S16_物流配送",
+    "S9_配网连接": "设备联网、Wi-Fi、蓝牙发现、配网失败属于本分类；联网后在 APP 内查找功能或设置入口归入 S10_APP功能",
+    "S10_APP功能": "米家或商城 APP 内的页面、功能、地址簿、订单设置属于本分类；设备连不上网络或发现不到设备归入 S9_配网连接",
+    "S12_生态联动": "已有设备之间的自动化、条件触发和联动能力属于本分类；用户提出尚不存在的新功能诉求归入 F2_功能建议",
+    "S15_退换货": "处理退货、换货、退款条件和流程；降价补差、价保周期归入 S4_价格活动",
+    "S16_物流配送": "下单后的发货、承运、预计送达、改地址、破损签收和物流异常属于本分类；有无现货和补货时间归入 S5_库存到货。投诉物流慢时可与 F3_投诉吐槽同时命中",
+    "F1_故障报告": "设备卡顿、死机、报错、无法工作等故障属于本分类；带有抱怨语气时可与 F3_投诉吐槽同时命中",
+    "F2_功能建议": "用户希望新增、改进某项功能时归入本分类，只记录建议；询问现有设备能否联动归入 S12_生态联动",
+    "F3_投诉吐槽": "识别用户不满和投诉。若同时出现发货、物流、故障、保修或退换事实，应保留 F3 为主要意图，并同时给对应 KB 意图较高分",
+    "C1_寒暄问候": "你好、在吗、你是谁、是否真人、叫什么名字等身份与寒暄问题均稳定归入本分类",
+    "C2_越界提问": "天气、创作、通用问答、竞品评价和品牌站队等非比特严选客服范围问题归入本分类",
 }
 
 
 def build_payloads(
     kb_ids: dict[str, dict[str, str]],
-    kb_per_leaf: dict[str, str],
+    kb_keys_by_leaf: dict[str, list[str]],
     examples_per_leaf: dict[str, list[str]],
 ) -> list[dict[str, Any]]:
     """生成 30 个节点的 IntentNodeCreateRequest payload（按依赖顺序）。"""
@@ -208,28 +270,37 @@ def build_payloads(
         is_system = code in SYSTEM_LEAF_CODES
         kind = KIND_SYSTEM if is_system else KIND_KB
         examples = examples_per_leaf.get(code, [])
-        kb_id: str | None = None
+        leaf_kb_ids: list[str] = []
         if not is_system:
-            kb_key = kb_per_leaf.get(code)
-            if not kb_key:
+            kb_keys = kb_keys_by_leaf.get(code, [])
+            if not kb_keys:
                 print(
                     f"[WARN] leaf {code} ({name}) 在 eval set 中无样本，跳过该 leaf"
                 )
                 continue
-            kb_id = kb_ids[kb_key]["kb_id"]
+            leaf_kb_ids = [
+                kb_ids[key]["kb_id"]
+                for key in kb_keys
+                if key in kb_ids
+            ]
+            if not leaf_kb_ids:
+                print(f"[WARN] leaf {code} 未找到可用知识库，跳过该 leaf")
+                continue
         payloads.append(
             {
                 "intentCode": code,
                 "name": name,
                 "level": LEVEL_TOPIC,
                 "parentCode": parent,
-                "kbId": kb_id,
+                "kbId": leaf_kb_ids[0] if leaf_kb_ids else None,
+                "kbIds": leaf_kb_ids,
                 "kind": kind,
                 "description": make_description(name, examples),
                 "examples": examples,
                 "topK": DEFAULT_TOP_K if not is_system else None,
                 "sortOrder": sort_order,
                 "enabled": 1,
+                "promptTemplate": SYSTEM_PROMPTS.get(code),
             }
         )
 
@@ -252,6 +323,50 @@ def create_node(base_url: str, token: str, payload: dict[str, Any]) -> str:
     if not node_id:
         raise RuntimeError(f"响应没拿到 node id：{body}")
     return node_id
+
+
+def update_node(
+    base_url: str,
+    token: str,
+    node_id: str,
+    payload: dict[str, Any],
+) -> None:
+    """Update an existing node with the same bootstrap configuration."""
+    update_payload = {
+        key: payload[key]
+        for key in (
+            "name",
+            "level",
+            "parentCode",
+            "description",
+            "examples",
+            "kbIds",
+            "topK",
+            "kind",
+            "sortOrder",
+            "enabled",
+            "promptSnippet",
+            "promptTemplate",
+            "paramPromptTemplate",
+        )
+        if key in payload
+    }
+    resp = requests.put(
+        f"{base_url}/intent-tree/{node_id}",
+        json=update_payload,
+        headers={"Authorization": token, "Content-Type": "application/json"},
+        timeout=REQUEST_TIMEOUT,
+    )
+    if resp.status_code != 200:
+        raise RuntimeError(
+            f"PUT /intent-tree/{node_id} failed HTTP "
+            f"{resp.status_code}: {resp.text}"
+        )
+    if not resp.content:
+        return
+    body = resp.json()
+    if not body.get("success", True):
+        raise RuntimeError(f"更新意图节点失败：{body}")
 
 
 def load_intent_ids() -> dict[str, str]:
@@ -279,6 +394,11 @@ def main() -> int:
         action="store_true",
         help="删除 intent_ids.json 全量重建（默认跳过已创建的节点以支持断点续传）",
     )
+    parser.add_argument(
+        "--sync",
+        action="store_true",
+        help="更新 intent_ids.json 中已存在的节点，应用 kbIds、描述和 Prompt",
+    )
     args = parser.parse_args()
 
     if not KB_IDS_PATH.exists():
@@ -291,10 +411,10 @@ def main() -> int:
     kb_ids = json.loads(KB_IDS_PATH.read_text(encoding="utf-8"))
     doc_map = json.loads(DOC_MAP_PATH.read_text(encoding="utf-8"))
 
-    kb_per_leaf = vote_kb_per_leaf(EVAL_SET_PATH, doc_map)
+    kb_keys_by_leaf = kb_keys_per_leaf(EVAL_SET_PATH, doc_map)
     examples_per_leaf = sample_queries_per_leaf(EVAL_SET_PATH)
 
-    payloads = build_payloads(kb_ids, kb_per_leaf, examples_per_leaf)
+    payloads = build_payloads(kb_ids, kb_keys_by_leaf, examples_per_leaf)
 
     # 反向映射：kb_id -> kb_key，方便 dry-run 输出
     kb_id_to_key = {v["kb_id"]: k for k, v in kb_ids.items()}
@@ -348,7 +468,22 @@ def main() -> int:
     for idx, payload in enumerate(payloads, start=1):
         code = payload["intentCode"]
         if code in intent_ids:
-            skipped += 1
+            if not args.sync:
+                skipped += 1
+                continue
+            try:
+                update_node(base_url, token, intent_ids[code], payload)
+                success += 1
+                print(
+                    f"  [{idx:>2d}/{len(payloads)}] UPDATED "
+                    f"{code} -> {intent_ids[code]}"
+                )
+            except Exception as exc:  # noqa: BLE001
+                failed.append((code, str(exc)))
+                print(
+                    f"  [{idx:>2d}/{len(payloads)}] FAILED {code}  {exc}",
+                    file=sys.stderr,
+                )
             continue
         try:
             node_id = create_node(base_url, token, payload)

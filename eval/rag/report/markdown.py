@@ -30,13 +30,16 @@ BASELINE_ORDER = [
     ("hit@5", "Hit@5"),
     ("hit@10", "Hit@10"),
     ("recall@5", "Recall@5"),
-    ("recall_inclusive@5", "Recall@5 (含 nice)"),
+    ("recall_all_expected@5", "Recall@5 (must + nice)"),
+    ("nice_hit@5", "Nice Hit@5"),
     ("recall@10", "Recall@10"),
     ("mrr@10", "MRR@10"),
     ("refusal_when_required", "误拒率（requires_rag 却 0 召回）"),
     ("fallback_when_required", "答案兜底率"),
     ("over_retrieval_rate", "过召回率（!requires_rag 却走 RAG）"),
+    ("system_boundary_compliance", "SYSTEM Boundary Compliance"),
     ("ttft_p50_ms", "首字延迟 P50 (ms)"),
+    ("ttft_p95_ms", "首字延迟 P95 (ms)"),
     ("ttft_mean_ms", "首字延迟均值 (ms)"),
     ("total_mean_ms", "整流均值 (ms)"),
 ]
@@ -51,6 +54,7 @@ RAGAS_KEYS = tuple(key for key, _ in RAGAS_ORDER)
 MANUAL_SUFFIX = "_manual"
 
 INTENT_BREAKDOWN_KEYS = [
+    ("intent_top1", "Intent Top-1"),
     ("hit@5", "Hit@5"),
     ("recall@5", "Recall@5"),
     ("mrr@10", "MRR@10"),
@@ -187,6 +191,8 @@ def render_report_md(
     metrics: list[MetricResult],
     n_records: int,
     status: dict[str, int],
+    run_metadata: dict | None = None,
+    records: list[EvalRecord] | None = None,
 ) -> str:
     idx = {m.name: m for m in metrics}
     has_ragas = any(k in idx for k, _ in RAGAS_ORDER)
@@ -196,6 +202,16 @@ def render_report_md(
     lines.append(f"> 数据源：`{runs_file.name}`")
     lines.append(f"> 样本数：{n_records}")
     lines.append(f"> 状态分布：{status}\n")
+    run_metadata = run_metadata or {}
+    if run_metadata:
+        lines.append(f"> Profile：`{run_metadata.get('profile', '?')}`")
+        lines.append(
+            f"> 纳入/排除：{run_metadata.get('selected_sample_count', n_records)}"
+            f" / {run_metadata.get('excluded_sample_count', 0)}"
+        )
+        lines.append(
+            f"> 数据集 SHA-256：`{run_metadata.get('dataset_sha256', '?')}`\n"
+        )
 
     lines.append("## 自建指标\n")
     lines.append("| 指标 | 数值 |")
@@ -252,7 +268,76 @@ def render_report_md(
     else:
         lines.append("_无样本_")
 
+    if records:
+        lines.append("\n## 按难度分层（核心指标）\n")
+        difficulty_rows = _difficulty_breakdown(records, idx)
+        if difficulty_rows:
+            labels = [
+                label
+                for key, label in INTENT_BREAKDOWN_KEYS
+                if key in idx
+            ]
+            lines.append("| difficulty | " + " | ".join(labels) + " |")
+            lines.append("|---|" + "|".join("---" for _ in labels) + "|")
+            for difficulty in ("easy", "medium", "hard"):
+                if difficulty not in difficulty_rows:
+                    continue
+                values = difficulty_rows[difficulty]
+                lines.append(
+                    "| "
+                    + difficulty
+                    + " | "
+                    + " | ".join(values)
+                    + " |"
+                )
+
+    deferred_ids = run_metadata.get("excluded_sample_ids", [])
+    if deferred_ids:
+        lines.append("\n## Tool-deferred 样本\n")
+        lines.append(f"> 共 {len(deferred_ids)} 条，不进入 static-v1 核心指标。\n")
+        excluded_samples = run_metadata.get("excluded_samples") or []
+        if excluded_samples:
+            by_intent: dict[str, list[str]] = defaultdict(list)
+            for sample in excluded_samples:
+                by_intent[sample.get("intent_l2", "?")].append(
+                    sample.get("query_id", "?")
+                )
+            lines.append("| intent_l2 | 样本 ID |")
+            lines.append("|---|---|")
+            for intent_l2, query_ids in sorted(by_intent.items()):
+                lines.append(
+                    f"| {intent_l2} | "
+                    + ", ".join(f"`{query_id}`" for query_id in query_ids)
+                    + " |"
+                )
+        else:
+            lines.append(", ".join(f"`{query_id}`" for query_id in deferred_ids))
+
     return "\n".join(lines) + "\n"
+
+
+def _difficulty_breakdown(
+    records: list[EvalRecord],
+    metrics: dict[str, MetricResult],
+) -> dict[str, list[str]]:
+    """Aggregate displayed core metrics by sample difficulty."""
+    output: dict[str, list[str]] = {}
+    for difficulty in {record.difficulty for record in records}:
+        values: list[str] = []
+        for key, _ in INTENT_BREAKDOWN_KEYS:
+            metric = metrics.get(key)
+            if metric is None:
+                continue
+            bucket = [
+                metric.per_sample.get(record.query_id)
+                for record in records
+                if record.difficulty == difficulty
+                and metric.per_sample.get(record.query_id) is not None
+            ]
+            mean = sum(bucket) / len(bucket) if bucket else None
+            values.append(_fmt(metric, mean))
+        output[difficulty] = values
+    return output
 
 
 def render_per_sample_csv(
@@ -266,7 +351,18 @@ def render_per_sample_csv(
     metric_names = [m.name for m in metrics if m.per_sample]
     manual_overrides = manual_overrides or {}
 
-    header = ["query_id", "intent_l1", "intent_l2", "difficulty", "requires_rag", "final_status"]
+    header = [
+        "query_id",
+        "intent_l1",
+        "intent_l2",
+        "difficulty",
+        "requires_rag",
+        "expected_route",
+        "evaluation_scope",
+        "requires_tool",
+        "scope_reason",
+        "final_status",
+    ]
     for name in metric_names:
         header.append(name)
         if name in RAGAS_KEYS:
@@ -280,6 +376,10 @@ def render_per_sample_csv(
             r.intent_l2,
             r.difficulty,
             str(r.requires_rag),
+            r.expected_route,
+            r.evaluation_scope,
+            str(r.requires_tool),
+            r.scope_reason,
             r.final_status,
         ]
         for name in metric_names:
@@ -305,10 +405,18 @@ def get_failure_qids(
     faithfulness = idx.get("faithfulness")
     refusal = idx.get("refusal_when_required")
     over = idx.get("over_retrieval_rate")
+    boundary = idx.get("system_boundary_compliance")
+    intent = idx.get("intent_top1")
+    ttft = idx.get("ttft_mean_ms")
 
     reasons_by_qid: dict[str, list[str]] = defaultdict(list)
 
     for r in records:
+        if r.evaluation_scope == "tool-deferred":
+            reasons_by_qid[r.query_id].append("tool_deferred")
+            continue
+        if intent is not None and intent.per_sample.get(r.query_id) == 0:
+            reasons_by_qid[r.query_id].append("intent")
         if hit5 is not None:
             v = hit5.per_sample.get(r.query_id)
             if v == 0:
@@ -329,6 +437,12 @@ def get_failure_qids(
             v = over.per_sample.get(r.query_id)
             if v == 1:
                 reasons_by_qid[r.query_id].append("over_retrieved")
+        if boundary is not None and boundary.per_sample.get(r.query_id) == 0:
+            reasons_by_qid[r.query_id].append("system_behavior")
+        if ttft is not None:
+            value = ttft.per_sample.get(r.query_id)
+            if value is not None and value > 6000:
+                reasons_by_qid[r.query_id].append("latency")
 
     return reasons_by_qid
 
@@ -378,10 +492,31 @@ def render_failures(
                 "final_status": r.final_status,
                 "response_preview": (r.response or "")[:200],
                 "failure_reasons": reasons_by_qid[r.query_id],
+                "failure_categories": sorted(
+                    {
+                        _failure_category(reason)
+                        for reason in reasons_by_qid[r.query_id]
+                    }
+                ),
                 "scores": score_by_qid.get(r.query_id, {}),
             }
         )
     return failures
+
+
+def _failure_category(reason: str) -> str:
+    """Map concrete failure reasons to the plan's root-cause taxonomy."""
+    if reason == "tool_deferred":
+        return "tool_deferred"
+    if reason == "intent":
+        return "intent"
+    if reason in {"over_retrieved", "system_behavior"}:
+        return "system_behavior"
+    if reason.startswith("hit@") or reason == "refused_when_required":
+        return "retrieval"
+    if reason == "latency":
+        return "latency"
+    return "generation"
 
 
 def write_all(
@@ -392,6 +527,7 @@ def write_all(
     status: dict[str, int],
     report_metrics: list[MetricResult] | None = None,
     manual_overrides: dict[str, dict[str, float]] | None = None,
+    run_metadata: dict | None = None,
 ) -> dict[str, Path]:
     """写 report.md + per_sample.csv + failures.jsonl。返回 {产物名 → 路径}。"""
     report_dir.mkdir(parents=True, exist_ok=True)
@@ -401,7 +537,15 @@ def write_all(
 
     md_path = report_dir / "report.md"
     md_path.write_text(
-        render_report_md(runs_file, report_metrics, len(records), status), encoding="utf-8"
+        render_report_md(
+            runs_file,
+            report_metrics,
+            len(records),
+            status,
+            run_metadata=run_metadata,
+            records=records,
+        ),
+        encoding="utf-8",
     )
     out["report.md"] = md_path
 

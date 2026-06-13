@@ -17,6 +17,7 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+FULL_DATASET = PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1_all.jsonl"
 
 
 def cmd_run(args: argparse.Namespace) -> int:
@@ -31,6 +32,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             filter_intent=args.filter_intent,
             debug=args.debug,
             dataset_path=args.dataset,
+            profile=args.profile,
         )
         return 0 if out_path.name else 1
     except RuntimeError as e:
@@ -42,7 +44,38 @@ def cmd_score(args: argparse.Namespace) -> int:
     from eval.rag.pipeline.score import score
 
     runs_file = _resolve_runs_file(args.runs_file)
-    score(runs_file=runs_file, skip_ragas=args.skip_ragas, ragas_limit=args.ragas_limit, ragas_n=args.ragas_n)
+    score(
+        runs_file=runs_file,
+        skip_ragas=args.skip_ragas,
+        ragas_limit=args.ragas_limit,
+        ragas_n=args.ragas_n,
+        strip_frontmatter=args.strip_frontmatter,
+    )
+    return 0
+
+
+def cmd_subset(args: argparse.Namespace) -> int:
+    from eval.rag.pipeline.subset import derive_profile_run
+
+    source = _resolve_runs_file(args.runs_file)
+    if source is None:
+        print(f"找不到 runs 文件：{args.runs_file}", file=sys.stderr)
+        return 2
+    try:
+        output = derive_profile_run(
+            source,
+            dataset_path=args.dataset,
+            profile=args.profile,
+            out_path=args.output,
+        )
+    except RuntimeError as exc:
+        print(f"错误：{exc}", file=sys.stderr)
+        return 2
+    try:
+        display = output.relative_to(PROJECT_ROOT)
+    except ValueError:
+        display = output
+    print(f"静态子集 run：{display}")
     return 0
 
 
@@ -137,6 +170,7 @@ def cmd_report(args: argparse.Namespace) -> int:
             status,
             report_metrics=report_metrics,
             manual_overrides=manual_overrides,
+            run_metadata=payload.get("run_metadata", {}),
         )
         for name, path in outs.items():
             print(f"  {name}: {path.relative_to(PROJECT_ROOT)}")
@@ -154,7 +188,7 @@ def cmd_diff(args: argparse.Namespace) -> int:
         out = compare(args.run_a, args.run_b, out_md=args.out_md)
         print(out)
         return 0
-    except FileNotFoundError as e:
+    except (FileNotFoundError, ValueError) as e:
         print(f"错误：{e}", file=sys.stderr)
         return 2
 
@@ -169,6 +203,7 @@ def cmd_all(args: argparse.Namespace) -> int:
             sleep=args.sleep,
             workers=args.workers,
             dataset_path=args.dataset,
+            profile=args.profile,
         )
     except RuntimeError as e:
         print(f"错误：{e}", file=sys.stderr)
@@ -177,7 +212,13 @@ def cmd_all(args: argparse.Namespace) -> int:
     if not runs_file.name:
         return 1
 
-    score(runs_file=runs_file, skip_ragas=args.skip_ragas, ragas_limit=args.ragas_limit, ragas_n=args.ragas_n)
+    score(
+        runs_file=runs_file,
+        skip_ragas=args.skip_ragas,
+        ragas_limit=args.ragas_limit,
+        ragas_n=args.ragas_n,
+        strip_frontmatter=args.strip_frontmatter,
+    )
 
     args_report = argparse.Namespace(runs_file=runs_file, theme=args.theme, only_slides=False)
     return cmd_report(args_report)
@@ -191,12 +232,18 @@ def build_parser() -> argparse.ArgumentParser:
     rag_sub = p_rag.add_subparsers(dest="rag_command", required=True)
 
     p_run = rag_sub.add_parser("run", help="调 ragent 跑评测")
-    p_run.add_argument("--limit", type=int, default=20, help="只跑前 N 条")
+    p_run.add_argument("--limit", type=int, default=None, help="只跑前 N 条（默认跑完整 Profile）")
     p_run.add_argument(
         "--dataset",
         type=Path,
-        default=PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1.jsonl",
+        default=FULL_DATASET,
         help="评估集 JSONL 路径",
+    )
+    p_run.add_argument(
+        "--profile",
+        choices=["static-v1", "tool-deferred", "all"],
+        default="static-v1",
+        help="评测 Profile（默认 static-v1）",
     )
     p_run.add_argument("--start", type=int, default=0, help="跳过前 N 条")
     p_run.add_argument("--sleep", type=float, default=0.3, help="每条之间等待秒数")
@@ -217,6 +264,20 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_score.set_defaults(func=cmd_score)
 
+    p_subset = rag_sub.add_parser(
+        "subset",
+        help="从已有全量 recording 派生指定 Profile（不重新调用 ragent）",
+    )
+    p_subset.add_argument("runs_file", type=Path)
+    p_subset.add_argument("--dataset", type=Path, default=FULL_DATASET)
+    p_subset.add_argument(
+        "--profile",
+        choices=["static-v1", "tool-deferred", "all"],
+        default="static-v1",
+    )
+    p_subset.add_argument("-o", "--output", type=Path, default=None)
+    p_subset.set_defaults(func=cmd_subset)
+
     p_report = rag_sub.add_parser("report", help="出 markdown / csv / slides")
     p_report.add_argument(
         "runs_file", type=Path, nargs="?", default=None,
@@ -233,12 +294,28 @@ def build_parser() -> argparse.ArgumentParser:
     p_diff.set_defaults(func=cmd_diff)
 
     p_all = rag_sub.add_parser("all", help="run → score → report 一条龙")
-    p_all.add_argument("--limit", type=int, default=20)
+    p_all.add_argument("--limit", type=int, default=None)
     p_all.add_argument(
         "--dataset",
         type=Path,
-        default=PROJECT_ROOT / "eval" / "rag" / "dataset" / "eval_set_v1.jsonl",
+        default=FULL_DATASET,
         help="评估集 JSONL 路径",
+    )
+    p_score.add_argument(
+        "--strip-frontmatter",
+        action="store_true",
+        help="RAGAS 评分前剥离 contexts 的 YAML frontmatter（用于 A/B）",
+    )
+    p_all.add_argument(
+        "--profile",
+        choices=["static-v1", "tool-deferred", "all"],
+        default="static-v1",
+        help="评测 Profile（默认 static-v1）",
+    )
+    p_all.add_argument(
+        "--strip-frontmatter",
+        action="store_true",
+        help="RAGAS 评分前剥离 contexts 的 YAML frontmatter（用于 A/B）",
     )
     p_all.add_argument("--sleep", type=float, default=0.3)
     p_all.add_argument("-w", "--workers", type=int, default=1, help="并行线程数（默认 1 顺序）")

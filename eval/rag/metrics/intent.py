@@ -4,7 +4,7 @@
 """
 from __future__ import annotations
 
-from eval.rag.metrics._common import slice_mean
+from eval.rag.metrics._common import is_core_eligible, slice_mean
 from eval.common.schemas import EvalRecord, MetricResult
 
 
@@ -16,7 +16,9 @@ def compute(records: list[EvalRecord]) -> list[MetricResult]:
             return None
         return 1.0 if r.intent_pred == r.intent_l2 else 0.0
 
-    overall, by_l1, by_l2, per_sample = slice_mean(records, value)
+    overall, by_l1, by_l2, per_sample = slice_mean(
+        records, value, is_core_eligible
+    )
     return [
         MetricResult(
             name="intent_top1",
