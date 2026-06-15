@@ -1,0 +1,692 @@
+{
+  "APP_GUIDE_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134958191370240",
+    "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_001.md"
+  },
+  "APP_GUIDE_002": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134958497554432",
+    "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_002.md"
+  },
+  "APP_GUIDE_003": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134958765989888",
+    "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_003.md"
+  },
+  "APP_GUIDE_004": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134959017648128",
+    "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_004.md"
+  },
+  "APP_GUIDE_005": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134959311249408",
+    "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_005.md"
+  },
+  "AUTO_GUIDE_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134959709708288",
+    "rel_path": "knowledge_base\\02_manual\\network\\AUTO_GUIDE_001.md"
+  },
+  "AUTO_GUIDE_002": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134960057835520",
+    "rel_path": "knowledge_base\\02_manual\\network\\AUTO_GUIDE_002.md"
+  },
+  "CODE_AIR_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134972707856384",
+    "rel_path": "knowledge_base\\04_faq\\error_code\\CODE_AIR_001.md"
+  },
+  "CODE_FW_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134972959514624",
+    "rel_path": "knowledge_base\\04_faq\\error_code\\CODE_FW_001.md"
+  },
+  "CODE_FW_002": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134973412499456",
+    "rel_path": "knowledge_base\\04_faq\\error_code\\CODE_FW_002.md"
+  },
+  "CODE_LOCK_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134973655769088",
+    "rel_path": "knowledge_base\\04_faq\\error_code\\CODE_LOCK_001.md"
+  },
+  "CODE_PHONE_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134973945176064",
+    "rel_path": "knowledge_base\\04_faq\\error_code\\CODE_PHONE_001.md"
+  },
+  "CODE_VAC_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134974314274816",
+    "rel_path": "knowledge_base\\04_faq\\error_code\\CODE_VAC_001.md"
+  },
+  "FAQ_AIR_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134974691762176",
+    "rel_path": "knowledge_base\\04_faq\\trouble\\FAQ_AIR_001.md"
+  },
+  "FAQ_LOCK_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134974922448896",
+    "rel_path": "knowledge_base\\04_faq\\trouble\\FAQ_LOCK_001.md"
+  },
+  "FAQ_NET_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134975157329920",
+    "rel_path": "knowledge_base\\04_faq\\trouble\\FAQ_NET_001.md"
+  },
+  "FAQ_VAC_001": {
+    "kb_id": "2066134921201803264",
+    "kb_key": "faq",
+    "ragent_doc_id": "2066134975526428672",
+    "rel_path": "knowledge_base\\04_faq\\trouble\\FAQ_VAC_001.md"
+  },
+  "GUIDE_AIR_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134952776523776",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_AIR_001.md"
+  },
+  "GUIDE_AIR_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134953154011136",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_AIR_002.md"
+  },
+  "GUIDE_BUDS_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134953636356096",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_BUDS_001.md"
+  },
+  "GUIDE_GIFT_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134954013843456",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_GIFT_001.md"
+  },
+  "GUIDE_GIFT_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134954273890304",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_GIFT_002.md"
+  },
+  "GUIDE_HOME_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134954663960576",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_HOME_001.md"
+  },
+  "GUIDE_HOME_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134955045642240",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_HOME_002.md"
+  },
+  "GUIDE_PHONE_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134955389575168",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_PHONE_001.md"
+  },
+  "GUIDE_PHONE_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134955729313792",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_PHONE_002.md"
+  },
+  "GUIDE_PHONE_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134956081635328",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_PHONE_003.md"
+  },
+  "GUIDE_PHONE_004": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134956421373952",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_PHONE_004.md"
+  },
+  "GUIDE_VAC_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134956710780928",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_VAC_001.md"
+  },
+  "GUIDE_VAC_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134957067296768",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_VAC_002.md"
+  },
+  "GUIDE_VAC_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134957381869568",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_VAC_003.md"
+  },
+  "GUIDE_WATCH_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134957847437312",
+    "rel_path": "knowledge_base\\01_product\\guide\\GUIDE_WATCH_001.md"
+  },
+  "MANUAL_AIR_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134961504870400",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_AIR_001.md"
+  },
+  "MANUAL_AIR_002": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134961844609024",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_AIR_002.md"
+  },
+  "MANUAL_BOOK_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134962171764736",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_BOOK_001.md"
+  },
+  "MANUAL_BUDS_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134962519891968",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_BUDS_001.md"
+  },
+  "MANUAL_HEALTH_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134962977071104",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_HEALTH_001.md"
+  },
+  "MANUAL_LOCK_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134963371335680",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_LOCK_001.md"
+  },
+  "MANUAL_LOCK_002": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134963698491392",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_LOCK_002.md"
+  },
+  "MANUAL_PAD_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134964092755968",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_PAD_001.md"
+  },
+  "MANUAL_PHONE_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134964482826240",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_PHONE_001.md"
+  },
+  "MANUAL_PHONE_002": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134964847730688",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_PHONE_002.md"
+  },
+  "MANUAL_SPK_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134965279744000",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_SPK_001.md"
+  },
+  "MANUAL_VAC_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134965661425664",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_VAC_001.md"
+  },
+  "MANUAL_VAC_002": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134966101827584",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_VAC_002.md"
+  },
+  "MANUAL_VAC_003": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134966470926336",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_VAC_003.md"
+  },
+  "MANUAL_WATCH_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134966881968128",
+    "rel_path": "knowledge_base\\02_manual\\product\\MANUAL_WATCH_001.md"
+  },
+  "NET_GUIDE_001": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134960498237440",
+    "rel_path": "knowledge_base\\02_manual\\network\\NET_GUIDE_001.md"
+  },
+  "NET_GUIDE_002": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134960796033024",
+    "rel_path": "knowledge_base\\02_manual\\network\\NET_GUIDE_002.md"
+  },
+  "NET_GUIDE_003": {
+    "kb_id": "2066134920790761472",
+    "kb_key": "manual",
+    "ragent_doc_id": "2066134961144160256",
+    "rel_path": "knowledge_base\\02_manual\\network\\NET_GUIDE_003.md"
+  },
+  "POLICY_INV_001": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134967284621312",
+    "rel_path": "knowledge_base\\03_policy\\invoice_vip\\POLICY_INV_001.md"
+  },
+  "POLICY_LOG_001": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134968333197312",
+    "rel_path": "knowledge_base\\03_policy\\logistics\\POLICY_LOG_001.md"
+  },
+  "POLICY_LOG_002": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134968786182144",
+    "rel_path": "knowledge_base\\03_policy\\logistics\\POLICY_LOG_002.md"
+  },
+  "POLICY_LOG_003": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134969117532160",
+    "rel_path": "knowledge_base\\03_policy\\logistics\\POLICY_LOG_003.md"
+  },
+  "POLICY_RET_001": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134969423716352",
+    "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_001.md"
+  },
+  "POLICY_RET_002": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134969734094848",
+    "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_002.md"
+  },
+  "POLICY_RET_003": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134970124165120",
+    "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_003.md"
+  },
+  "POLICY_RET_004": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134970581344256",
+    "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_004.md"
+  },
+  "POLICY_VIP_001": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134967565639680",
+    "rel_path": "knowledge_base\\03_policy\\invoice_vip\\POLICY_VIP_001.md"
+  },
+  "POLICY_VIP_002": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134967871823872",
+    "rel_path": "knowledge_base\\03_policy\\invoice_vip\\POLICY_VIP_002.md"
+  },
+  "POLICY_WAR_001": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134970933665792",
+    "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_001.md"
+  },
+  "POLICY_WAR_002": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134971290181632",
+    "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_002.md"
+  },
+  "POLICY_WAR_003": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134971621531648",
+    "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_003.md"
+  },
+  "POLICY_WAR_004": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134971868995584",
+    "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_004.md"
+  },
+  "POLICY_WAR_005": {
+    "kb_id": "2066134921034031104",
+    "kb_key": "policy",
+    "ragent_doc_id": "2066134972309397504",
+    "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_005.md"
+  },
+  "PROD_AIR_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134925073145856",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_AIR_001.md"
+  },
+  "PROD_AIR_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134933474336768",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_AIR_002.md"
+  },
+  "PROD_AIR_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134934032179200",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_AIR_003.md"
+  },
+  "PROD_BOOK_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134934430638080",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BOOK_001.md"
+  },
+  "PROD_BOOK_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134934837485568",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BOOK_002.md"
+  },
+  "PROD_BOOK_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134935370162176",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BOOK_003.md"
+  },
+  "PROD_BUDS_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134935722483712",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BUDS_001.md"
+  },
+  "PROD_BUDS_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134936058028032",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BUDS_002.md"
+  },
+  "PROD_BUDS_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134936372600832",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BUDS_003.md"
+  },
+  "PROD_BUDS_004": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134937018523648",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BUDS_004.md"
+  },
+  "PROD_BUDS_005": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134937475702784",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_BUDS_005.md"
+  },
+  "PROD_CAM_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134937807052800",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_CAM_001.md"
+  },
+  "PROD_CAM_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134938297786368",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_CAM_002.md"
+  },
+  "PROD_HEALTH_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134938696245248",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_HEALTH_001.md"
+  },
+  "PROD_HEALTH_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134939174395904",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_HEALTH_002.md"
+  },
+  "PROD_HEALTH_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134939715461120",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_HEALTH_003.md"
+  },
+  "PROD_HEALTH_004": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134940076171264",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_HEALTH_004.md"
+  },
+  "PROD_HEALTH_005": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134940503990272",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_HEALTH_005.md"
+  },
+  "PROD_LIFE_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134940839534592",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LIFE_001.md"
+  },
+  "PROD_LIFE_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134941120552960",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LIFE_002.md"
+  },
+  "PROD_LIFE_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134941514817536",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LIFE_003.md"
+  },
+  "PROD_LIFE_004": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134941800030208",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LIFE_004.md"
+  },
+  "PROD_LIFE_005": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134942232043520",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LIFE_005.md"
+  },
+  "PROD_LIGHT_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134942517256192",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LIGHT_001.md"
+  },
+  "PROD_LIGHT_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134942798274560",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LIGHT_002.md"
+  },
+  "PROD_LOCK_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134943205122048",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LOCK_001.md"
+  },
+  "PROD_LOCK_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134943645523968",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_LOCK_002.md"
+  },
+  "PROD_PAD_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134943909765120",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PAD_001.md"
+  },
+  "PROD_PAD_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134944262086656",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PAD_002.md"
+  },
+  "PROD_PAD_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134944606019584",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PAD_003.md"
+  },
+  "PROD_PHONE_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134944941563904",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PHONE_001.md"
+  },
+  "PROD_PHONE_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134945340022784",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PHONE_002.md"
+  },
+  "PROD_PHONE_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134945713315840",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PHONE_003.md"
+  },
+  "PROD_PHONE_004": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134946199855104",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PHONE_004.md"
+  },
+  "PROD_PHONE_005": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134946598313984",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PHONE_005.md"
+  },
+  "PROD_PHONE_006": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134947009355776",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_PHONE_006.md"
+  },
+  "PROD_SOCKET_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134947336511488",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_SOCKET_001.md"
+  },
+  "PROD_SPK_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134947776913408",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_SPK_001.md"
+  },
+  "PROD_SPK_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134948192149504",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_SPK_002.md"
+  },
+  "PROD_SPK_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134948624162816",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_SPK_003.md"
+  },
+  "PROD_VAC_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134949010038784",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_VAC_001.md"
+  },
+  "PROD_VAC_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134949383331840",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_VAC_002.md"
+  },
+  "PROD_VAC_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134949806956544",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_VAC_003.md"
+  },
+  "PROD_VAC_004": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134950264135680",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_VAC_004.md"
+  },
+  "PROD_VAC_005": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134950658400256",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_VAC_005.md"
+  },
+  "PROD_WATCH_001": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134951040081920",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_WATCH_001.md"
+  },
+  "PROD_WATCH_002": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134951396597760",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_WATCH_002.md"
+  },
+  "PROD_WATCH_003": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134951786668032",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_WATCH_003.md"
+  },
+  "PROD_WATCH_004": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134952113823744",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_WATCH_004.md"
+  },
+  "PROD_WATCH_005": {
+    "kb_id": "2066134919201120256",
+    "kb_key": "product",
+    "ragent_doc_id": "2066134952466145280",
+    "rel_path": "knowledge_base\\01_product\\detail\\PROD_WATCH_005.md"
+  }
+}

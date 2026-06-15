@@ -141,7 +141,23 @@ def main() -> int:
         default=3,
         help="文档处于 RUNNING 状态时的重试次数（每次间隔 5s），默认 3",
     )
+    parser.add_argument(
+        "--state-dir",
+        type=Path,
+        default=None,
+        help="只清理该隔离实验目录中的本地状态文件",
+    )
+    parser.add_argument("--doc-map", type=Path, default=None)
     args = parser.parse_args()
+    state_dir = Path(args.state_dir) if args.state_dir else None
+    kb_ids_path = state_dir / "kb_ids.json" if state_dir else KB_IDS_PATH
+    intent_ids_path = state_dir / "intent_ids.json" if state_dir else INTENT_IDS_PATH
+    experiment_path = state_dir / "experiment.json" if state_dir else None
+    doc_map_path = (
+        Path(args.doc_map)
+        if args.doc_map
+        else (state_dir / "doc_id_map.json" if state_dir else DOC_MAP_PATH)
+    )
 
     base_url = os.environ.get("RAGENT_BASE_URL", DEFAULT_BASE_URL).rstrip("/")
     username = os.environ.get("RAGENT_USERNAME")
@@ -222,10 +238,17 @@ def main() -> int:
     print(f"\n完成：失败文档 {len(failed_docs)}，失败 KB {len(failed_kbs)}")
 
     if not args.keep_local:
-        for path in (KB_IDS_PATH, DOC_MAP_PATH, INTENT_IDS_PATH):
+        local_paths = [kb_ids_path, doc_map_path, intent_ids_path]
+        if experiment_path:
+            local_paths.append(experiment_path)
+        for path in local_paths:
             if path.exists():
                 path.unlink()
-                print(f"已删除本地：{path.relative_to(INIT_DIR.parent.parent.parent)}")
+                try:
+                    display = path.relative_to(INIT_DIR.parent.parent.parent)
+                except ValueError:
+                    display = path
+                print(f"已删除本地：{display}")
 
     return 0 if not failed_docs and not failed_kbs else 1
 

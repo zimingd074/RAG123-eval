@@ -15,6 +15,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import sys
@@ -98,6 +99,7 @@ def create_kb(
     token: str,
     name: str,
     collection_name: str,
+    embedding_model: str,
 ) -> str:
     """创建一个 KB，返回 kb_id。"""
     resp = http_json(
@@ -105,7 +107,7 @@ def create_kb(
         method="POST",
         body={
             "name": name,
-            "embeddingModel": EMBEDDING_MODEL,
+            "embeddingModel": embedding_model,
             "collectionName": collection_name,
         },
         token=token,
@@ -119,6 +121,24 @@ def create_kb(
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="Step 1: 创建隔离知识库")
+    parser.add_argument("--embedding-model", default=EMBEDDING_MODEL)
+    parser.add_argument("--dimension", type=int, default=1536)
+    parser.add_argument(
+        "--collection-prefix",
+        default="",
+        help="为 collection/bucket 名增加实验前缀，避免隔离环境之间冲突",
+    )
+    parser.add_argument(
+        "--state-dir",
+        type=Path,
+        default=None,
+        help="写入 kb_ids.json 和 experiment.json 的隔离目录",
+    )
+    args = parser.parse_args()
+    state_dir = Path(args.state_dir) if args.state_dir else OUTPUT_PATH.parent
+    state_dir.mkdir(parents=True, exist_ok=True)
+    output_path = state_dir / "kb_ids.json"
     base_url = os.environ.get("RAGENT_BASE_URL", DEFAULT_BASE_URL).rstrip("/")
     username = os.environ.get("RAGENT_USERNAME")
     password = os.environ.get("RAGENT_PASSWORD")
@@ -133,20 +153,47 @@ def main() -> int:
     print(f"[2/2] 创建 {len(KB_SPECS)} 个 KB ...")
     results: dict[str, dict[str, str]] = {}
     for spec in KB_SPECS:
-        kb_id = create_kb(base_url, token, spec["name"], spec["collection_name"])
+        collection_name = (
+            f"{args.collection_prefix}-{spec['collection_name']}"
+            if args.collection_prefix
+            else spec["collection_name"]
+        )
+        kb_id = create_kb(
+            base_url,
+            token,
+            spec["name"],
+            collection_name,
+            args.embedding_model,
+        )
         print(f"      {spec['key']:>8s}  '{spec['name']}'  ->  {kb_id}")
         results[spec["key"]] = {
             "kb_id": kb_id,
             "name": spec["name"],
-            "collection_name": spec["collection_name"],
-            "embedding_model": EMBEDDING_MODEL,
+            "collection_name": collection_name,
+            "embedding_model": args.embedding_model,
+            "embedding_dimension": args.dimension,
         }
 
-    OUTPUT_PATH.write_text(
+    output_path.write_text(
         json.dumps(results, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(f"\n写入 {OUTPUT_PATH.relative_to(Path.cwd()) if OUTPUT_PATH.is_relative_to(Path.cwd()) else OUTPUT_PATH}")
+    (state_dir / "experiment.json").write_text(
+        json.dumps(
+            {
+                "embedding_model": args.embedding_model,
+                "dimension": args.dimension,
+                "ragent_base_url": base_url,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    print(
+        f"\n写入 {output_path.relative_to(Path.cwd()) if output_path.is_relative_to(Path.cwd()) else output_path}"
+    )
     return 0
 
 

@@ -114,6 +114,10 @@ class EvalRecord:
     scope_reason: str = ""
     annotation_rationale: str = ""
     requires_tool: bool = False
+    chat_trace_id: Optional[str] = None
+    eval_trace_id: Optional[str] = None
+    chat_trace: Optional[dict[str, Any]] = None
+    eval_trace: Optional[dict[str, Any]] = None
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "EvalRecord":
@@ -127,6 +131,10 @@ class EvalRecord:
         kwargs.setdefault("scope_reason", "")
         kwargs.setdefault("annotation_rationale", "")
         kwargs.setdefault("requires_tool", False)
+        kwargs.setdefault("chat_trace_id", d.get("trace_id"))
+        kwargs.setdefault("eval_trace_id", d.get("trace_id"))
+        kwargs.setdefault("chat_trace", None)
+        kwargs.setdefault("eval_trace", None)
         try:
             return cls(**kwargs)
         except TypeError as exc:

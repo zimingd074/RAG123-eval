@@ -1,0 +1,5 @@
+{
+  "embedding_model": "qwen-emb-8b",
+  "dimension": 1536,
+  "ragent_base_url": "http://localhost:19092/api/ragent"
+}

@@ -18,6 +18,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from eval.common.schemas import EvalRecord, MetricResult
+from eval.rag.report.trace_analysis import analyze as analyze_traces
 
 ANSWER_CORRECTNESS_FAIL_THRESHOLD = 0.5
 FAITHFULNESS_FAIL_THRESHOLD = 0.5
@@ -269,6 +270,66 @@ def render_report_md(
         lines.append("_无样本_")
 
     if records:
+        trace_summary = analyze_traces(records)
+        if trace_summary["stages"]:
+            lines.append("\n## Retrieval Trace\n")
+            lines.append("| Stage | Count | P50 (ms) | P95 (ms) | Candidates avg/max |")
+            lines.append("|---|---:|---:|---:|---:|")
+            for stage in trace_summary["stages"]:
+                candidate_text = "—"
+                if stage["candidate_mean"] is not None:
+                    candidate_text = (
+                        f"{stage['candidate_mean']:.1f}/"
+                        f"{int(stage['candidate_max'])}"
+                    )
+                lines.append(
+                    f"| {stage['stage']} | {stage['count']} | "
+                    f"{int(stage['p50_ms'])} | {int(stage['p95_ms'])} | "
+                    f"{candidate_text} |"
+                )
+            retrieval_latency = trace_summary["retrieval_latency"]
+            if retrieval_latency:
+                lines.append(
+                    f"\n> multi-channel-retrieval: "
+                    f"count {retrieval_latency['count']}, "
+                    f"P50 {int(retrieval_latency['p50_ms'])}ms, "
+                    f"P95 {int(retrieval_latency['p95_ms'])}ms"
+                )
+            slowest = trace_summary["slowest"]
+            if slowest:
+                lines.append(
+                    f"\n> Slowest node: `{slowest['query_id']}` / "
+                    f"`{slowest['node']}` / {int(slowest['duration_ms'])}ms"
+                )
+            fallback = trace_summary["rerank_fallback_rate"]
+            timeout = trace_summary["rerank_timeout_rate"]
+            if fallback is not None:
+                lines.append(
+                    f"> Rerank fallback rate: {fallback * 100:.1f}%; "
+                    f"timeout rate: {timeout * 100:.1f}%"
+                )
+            if trace_summary["bottlenecks"]:
+                lines.append("\n### Retrieval Bottlenecks (>2000ms)\n")
+                lines.append("| Query | Retrieval (ms) | Bottleneck stage | Stage (ms) |")
+                lines.append("|---|---:|---|---:|")
+                for item in trace_summary["bottlenecks"]:
+                    lines.append(
+                        f"| `{item['query_id']}` | {int(item['retrieval_ms'])} | "
+                        f"{item['bottleneck_stage']} | {int(item['stage_ms'])} |"
+                    )
+            changes = trace_summary["ranking_changes"]
+            if changes:
+                lines.append("\n### RRF / Rerank Rank Changes\n")
+                lines.append("| Query | Chunk | RRF rank | Rerank rank |")
+                lines.append("|---|---|---:|---:|")
+                for change in changes[:30]:
+                    lines.append(
+                        f"| `{change['query_id']}` | "
+                        f"`{change.get('chunkId', '?')}` | "
+                        f"{change.get('rrfRank', '—')} | "
+                        f"{change.get('rerankRank', '—')} |"
+                    )
+
         lines.append("\n## 按难度分层（核心指标）\n")
         difficulty_rows = _difficulty_breakdown(records, idx)
         if difficulty_rows:
@@ -362,6 +423,8 @@ def render_per_sample_csv(
         "requires_tool",
         "scope_reason",
         "final_status",
+        "chat_trace_id",
+        "eval_trace_id",
     ]
     for name in metric_names:
         header.append(name)
@@ -381,6 +444,8 @@ def render_per_sample_csv(
             str(r.requires_tool),
             r.scope_reason,
             r.final_status,
+            r.chat_trace_id or "",
+            r.eval_trace_id or "",
         ]
         for name in metric_names:
             v = idx[name].per_sample.get(r.query_id)

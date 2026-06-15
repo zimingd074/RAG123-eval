@@ -47,6 +47,7 @@ SSE_CONNECT_TIMEOUT = 15
 SSE_READ_TIMEOUT = 300
 EVAL_CONNECT_TIMEOUT = 15
 EVAL_READ_TIMEOUT = 180
+TRACE_READ_TIMEOUT = 15
 
 
 def login(base_url: str, username: str, password: str) -> str:
@@ -196,10 +197,17 @@ def stream_chat_one_query(
     return state
 
 
-def fetch_eval_retrieval(base_url: str, token: str, query: str) -> dict[str, Any]:
+def fetch_eval_retrieval(
+    base_url: str,
+    token: str,
+    query: str,
+    intent_leaf_id: str | None = None,
+) -> dict[str, Any]:
     """走 GET /rag/eval，取回检索证据（docIds / chunkIds / contexts / intent）。"""
     headers = {"Authorization": token, "Accept": "application/json"}
     params = {"question": query}
+    if intent_leaf_id:
+        params["intentLeafId"] = intent_leaf_id
 
     state: dict[str, Any] = {
         "retrieved_doc_ids_ragent": [],
@@ -238,6 +246,68 @@ def fetch_eval_retrieval(base_url: str, token: str, query: str) -> dict[str, Any
     return state
 
 
+def fetch_trace_detail(
+    base_url: str,
+    token: str,
+    *,
+    trace_id: str | None = None,
+    task_id: str | None = None,
+    retries: int = 5,
+) -> dict[str, Any] | None:
+    """Fetch and normalize one trace detail after its asynchronous run finishes."""
+    if not trace_id and not task_id:
+        return None
+    headers = {"Authorization": token, "Accept": "application/json"}
+    path = (
+        f"/rag/traces/runs/{trace_id}"
+        if trace_id
+        else f"/rag/traces/tasks/{task_id}"
+    )
+    for attempt in range(retries):
+        try:
+            resp = requests.get(
+                f"{base_url}{path}",
+                headers=headers,
+                timeout=TRACE_READ_TIMEOUT,
+            )
+            resp.raise_for_status()
+            envelope = resp.json()
+            data = envelope.get("data") if envelope.get("success") else None
+            if data:
+                return _normalize_trace_detail(data)
+        except Exception:  # noqa: BLE001
+            pass
+        if attempt + 1 < retries:
+            time.sleep(0.2 * (attempt + 1))
+    return None
+
+
+def _normalize_trace_detail(detail: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(detail)
+    run = dict(normalized.get("run") or {})
+    run["extraData"] = _parse_extra_data(run.get("extraData"))
+    normalized["run"] = run
+    nodes = []
+    for raw_node in normalized.get("nodes") or []:
+        node = dict(raw_node)
+        node["extraData"] = _parse_extra_data(node.get("extraData"))
+        nodes.append(node)
+    normalized["nodes"] = nodes
+    return normalized
+
+
+def _parse_extra_data(raw: Any) -> dict[str, Any]:
+    if isinstance(raw, dict):
+        return raw
+    if not raw:
+        return {}
+    try:
+        parsed = json.loads(raw)
+        return parsed if isinstance(parsed, dict) else {}
+    except (TypeError, json.JSONDecodeError):
+        return {}
+
+
 def build_record(
     sample: EvalSample,
     chat_state: dict[str, Any],
@@ -253,6 +323,10 @@ def build_record(
     intent_codes = list(eval_state["intent_leaf_ids"])
     intent_pred = next((c for c in intent_codes if c), None)
     meta = chat_state["meta"] or {}
+    chat_trace = chat_state.get("trace_detail")
+    eval_trace = eval_state.get("trace_detail")
+    chat_trace_id = ((chat_trace or {}).get("run") or {}).get("traceId")
+    eval_trace_id = eval_state["trace_id"]
 
     return EvalRecord(
         query_id=sample.query_id,
@@ -287,6 +361,10 @@ def build_record(
         scope_reason=sample.scope_reason,
         annotation_rationale=sample.annotation_rationale,
         requires_tool=sample.requires_tool,
+        chat_trace_id=chat_trace_id,
+        eval_trace_id=eval_trace_id,
+        chat_trace=chat_trace,
+        eval_trace=eval_trace,
     )
 
 
@@ -303,12 +381,24 @@ def _process_one(
     token: str,
     ragent_to_biz: dict[str, str],
     debug: bool,
+    runs_dir: Path = RUNS_DIR,
 ) -> tuple[int, EvalRecord, str]:
     """处理单条样本，返回 (序号, record, 预览文本)。独立函数便于 ThreadPoolExecutor 调度。"""
     preview = (sample.query[:40] + "…") if len(sample.query) > 40 else sample.query
-    debug_path = RUNS_DIR / f"debug_{sample.query_id}.sse" if debug else None
+    debug_path = runs_dir / f"debug_{sample.query_id}.sse" if debug else None
     chat_state = stream_chat_one_query(base_url, token, sample.query, debug_raw_path=debug_path)
     eval_state = fetch_eval_retrieval(base_url, token, sample.query)
+    meta = chat_state.get("meta") or {}
+    chat_state["trace_detail"] = fetch_trace_detail(
+        base_url,
+        token,
+        task_id=meta.get("taskId"),
+    )
+    eval_state["trace_detail"] = fetch_trace_detail(
+        base_url,
+        token,
+        trace_id=eval_state.get("trace_id"),
+    )
     record = build_record(sample, chat_state, eval_state, ragent_to_biz)
     return idx, record, preview
 
@@ -324,6 +414,10 @@ def run(
     dataset_path: Path = EVAL_SET_PATH,
     profile: EvaluationProfile = DEFAULT_PROFILE,
     out_path: Path | None = None,
+    doc_map_path: Path | None = None,
+    state_dir: Path | None = None,
+    embedding_model: str | None = None,
+    dimension: int | None = None,
 ) -> Path:
     """主入口。返回 runs/*.jsonl 的路径。环境变量：
     RAGENT_BASE_URL / RAGENT_USERNAME / RAGENT_PASSWORD。
@@ -334,12 +428,38 @@ def run(
     if not username or not password:
         raise RuntimeError("缺少环境变量 RAGENT_USERNAME / RAGENT_PASSWORD")
 
-    if not DOC_MAP_PATH.exists():
-        raise RuntimeError(f"找不到 {DOC_MAP_PATH}，请先跑 eval/rag/init/upload_docs.py")
+    effective_doc_map = (
+        Path(doc_map_path)
+        if doc_map_path is not None
+        else (Path(state_dir) / "doc_id_map.json" if state_dir else DOC_MAP_PATH)
+    )
+    runs_dir = Path(state_dir) / "runs" if state_dir else RUNS_DIR
+    experiment_path = Path(state_dir) / "experiment.json" if state_dir else None
+    experiment = {}
+    if experiment_path and experiment_path.exists():
+        experiment = json.loads(experiment_path.read_text(encoding="utf-8"))
+        state_model = experiment.get("embedding_model")
+        state_dimension = experiment.get("dimension")
+        if embedding_model and state_model and embedding_model != state_model:
+            raise RuntimeError(
+                f"--embedding-model={embedding_model} 与 "
+                f"{experiment_path} 中的 {state_model} 不一致"
+            )
+        if dimension and state_dimension and dimension != int(state_dimension):
+            raise RuntimeError(
+                f"--dimension={dimension} 与 "
+                f"{experiment_path} 中的 {state_dimension} 不一致"
+            )
+        embedding_model = embedding_model or state_model
+        dimension = dimension or state_dimension
+    if not effective_doc_map.exists():
+        raise RuntimeError(
+            f"找不到 {effective_doc_map}，请先跑 eval/rag/init/upload_docs.py"
+        )
     if not dataset_path.exists():
         raise RuntimeError(f"找不到评估集：{dataset_path}")
 
-    ragent_to_biz = load_ragent_to_biz_map()
+    ragent_to_biz = load_ragent_to_biz_map(effective_doc_map)
     all_samples = load_samples(dataset_path)
     samples, profile_excluded = select_samples(all_samples, profile)
     if filter_intent:
@@ -349,8 +469,10 @@ def run(
         print("没有可执行的样本", file=sys.stderr)
         return Path()
 
-    RUNS_DIR.mkdir(exist_ok=True)
-    out_path = out_path or (RUNS_DIR / f"v1_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl")
+    runs_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_path or (
+        runs_dir / f"v1_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl"
+    )
     metadata = {
         "dataset_path": str(dataset_path.resolve()),
         "dataset_sha256": dataset_sha256(dataset_path),
@@ -367,6 +489,11 @@ def run(
         "filter_intent": filter_intent,
         "start": start,
         "limit": limit,
+        "doc_map_path": str(effective_doc_map.resolve()),
+        "state_dir": str(Path(state_dir).resolve()) if state_dir else None,
+        "embedding_model": embedding_model,
+        "embedding_dimension": dimension,
+        "experiment": experiment,
     }
     write_run_metadata(out_path, metadata)
 
@@ -391,11 +518,22 @@ def run(
                     end="", flush=True,
                 )
 
-                debug_path = RUNS_DIR / f"debug_{sample.query_id}.sse" if debug else None
+                debug_path = runs_dir / f"debug_{sample.query_id}.sse" if debug else None
                 chat_state = stream_chat_one_query(
                     base_url, token, sample.query, debug_raw_path=debug_path,
                 )
                 eval_state = fetch_eval_retrieval(base_url, token, sample.query)
+                meta = chat_state.get("meta") or {}
+                chat_state["trace_detail"] = fetch_trace_detail(
+                    base_url,
+                    token,
+                    task_id=meta.get("taskId"),
+                )
+                eval_state["trace_detail"] = fetch_trace_detail(
+                    base_url,
+                    token,
+                    trace_id=eval_state.get("trace_id"),
+                )
                 record = build_record(sample, chat_state, eval_state, ragent_to_biz)
                 out_fp.write(json.dumps(dataclasses.asdict(record), ensure_ascii=False) + "\n")
                 out_fp.flush()
@@ -427,7 +565,7 @@ def run(
                     future = executor.submit(
                         _process_one,
                         sample, idx, len(samples),
-                        base_url, token, ragent_to_biz, debug,
+                        base_url, token, ragent_to_biz, debug, runs_dir,
                     )
                     future_map[future] = idx
 

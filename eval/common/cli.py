@@ -33,6 +33,10 @@ def cmd_run(args: argparse.Namespace) -> int:
             debug=args.debug,
             dataset_path=args.dataset,
             profile=args.profile,
+            doc_map_path=args.doc_map,
+            state_dir=args.state_dir,
+            embedding_model=args.embedding_model,
+            dimension=args.dimension,
         )
         return 0 if out_path.name else 1
     except RuntimeError as e:
@@ -204,6 +208,10 @@ def cmd_all(args: argparse.Namespace) -> int:
             workers=args.workers,
             dataset_path=args.dataset,
             profile=args.profile,
+            doc_map_path=args.doc_map,
+            state_dir=args.state_dir,
+            embedding_model=args.embedding_model,
+            dimension=args.dimension,
         )
     except RuntimeError as e:
         print(f"错误：{e}", file=sys.stderr)
@@ -222,6 +230,17 @@ def cmd_all(args: argparse.Namespace) -> int:
 
     args_report = argparse.Namespace(runs_file=runs_file, theme=args.theme, only_slides=False)
     return cmd_report(args_report)
+
+
+def cmd_embedding_benchmark(args: argparse.Namespace) -> int:
+    from eval.rag.embedding_benchmark import run
+
+    try:
+        run(args)
+        return 0
+    except RuntimeError as exc:
+        print(f"错误：{exc}", file=sys.stderr)
+        return 2
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -245,6 +264,20 @@ def build_parser() -> argparse.ArgumentParser:
         default="static-v1",
         help="评测 Profile（默认 static-v1）",
     )
+    p_run.add_argument(
+        "--doc-map",
+        type=Path,
+        default=None,
+        help="业务文档 ID 到 ragent 文档 ID 的映射文件",
+    )
+    p_run.add_argument(
+        "--state-dir",
+        type=Path,
+        default=None,
+        help="隔离实验状态目录；未显式指定 --doc-map 时读取其中的 doc_id_map.json",
+    )
+    p_run.add_argument("--embedding-model", default=None)
+    p_run.add_argument("--dimension", type=int, default=None)
     p_run.add_argument("--start", type=int, default=0, help="跳过前 N 条")
     p_run.add_argument("--sleep", type=float, default=0.3, help="每条之间等待秒数")
     p_run.add_argument("-w", "--workers", type=int, default=1, help="并行线程数（默认 1 顺序）")
@@ -312,6 +345,10 @@ def build_parser() -> argparse.ArgumentParser:
         default="static-v1",
         help="评测 Profile（默认 static-v1）",
     )
+    p_all.add_argument("--doc-map", type=Path, default=None)
+    p_all.add_argument("--state-dir", type=Path, default=None)
+    p_all.add_argument("--embedding-model", default=None)
+    p_all.add_argument("--dimension", type=int, default=None)
     p_all.add_argument(
         "--strip-frontmatter",
         action="store_true",
@@ -329,6 +366,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_all.add_argument("--theme", default="swiss", choices=["swiss", "magazine"])
     p_all.set_defaults(func=cmd_all)
+
+    from eval.rag.embedding_benchmark import add_arguments
+
+    p_embedding = rag_sub.add_parser(
+        "embedding-benchmark",
+        help="SiliconFlow embedding 模型、指令与维度横评",
+    )
+    add_arguments(p_embedding)
+    p_embedding.set_defaults(func=cmd_embedding_benchmark)
 
     return parser
 

@@ -1,0 +1,1145 @@
+{
+  "dataset": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_static_stratified60_20260614.jsonl",
+  "state_dir": "D:\\PycharmProjects\\ragenteval\\eval\\states\\qwen8b_1536_weak20",
+  "base_url": "http://localhost:19092/api/ragent",
+  "metrics": {
+    "hit@1": 0.8,
+    "recall@1": 0.4708,
+    "hit@3": 0.95,
+    "recall@3": 0.7083,
+    "hit@5": 0.95,
+    "recall@5": 0.8139,
+    "hit@10": 0.95,
+    "recall@10": 0.8139,
+    "mrr@10": 0.8722,
+    "latency_p50_ms": 956.5,
+    "latency_p95_ms": 4585.0,
+    "error_rate": 0.0,
+    "sample_count": 60
+  },
+  "rows": [
+    {
+      "query_id": "S2-02",
+      "query": "Redmi K70 电池容量多大，支持多少瓦快充？",
+      "intent_l2": "S2_参数咨询",
+      "intent_leaf_id": "S2_参数咨询",
+      "expected_doc_ids": [
+        "PROD_PHONE_006"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PHONE_006",
+        "GUIDE_PHONE_002",
+        "GUIDE_PHONE_004",
+        "GUIDE_PHONE_001"
+      ],
+      "latency_ms": 2403.6,
+      "error": null
+    },
+    {
+      "query_id": "S2-06",
+      "query": "小米手表 S2 防水吗？能游泳戴吗？",
+      "intent_l2": "S2_参数咨询",
+      "intent_leaf_id": "S2_参数咨询",
+      "expected_doc_ids": [
+        "PROD_WATCH_002",
+        "MANUAL_WATCH_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_WATCH_002",
+        "PROD_WATCH_003",
+        "PROD_WATCH_001",
+        "PROD_WATCH_005"
+      ],
+      "latency_ms": 535.2,
+      "error": null
+    },
+    {
+      "query_id": "S2-08",
+      "query": "石头 G10 在地毯上吸力会下降吗？",
+      "intent_l2": "S2_参数咨询",
+      "intent_leaf_id": "S2_参数咨询",
+      "expected_doc_ids": [
+        "PROD_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_VAC_003",
+        "PROD_VAC_004",
+        "GUIDE_VAC_001",
+        "GUIDE_VAC_002",
+        "GUIDE_VAC_003"
+      ],
+      "latency_ms": 543.1,
+      "error": null
+    },
+    {
+      "query_id": "S2-09",
+      "query": "小米平板 6 看视频能撑多久？",
+      "intent_l2": "S2_参数咨询",
+      "intent_leaf_id": "S2_参数咨询",
+      "expected_doc_ids": [
+        "PROD_PAD_002"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PAD_003",
+        "PROD_PAD_002",
+        "PROD_PAD_001",
+        "PROD_PHONE_001",
+        "PROD_PHONE_004"
+      ],
+      "latency_ms": 2340.4,
+      "error": null
+    },
+    {
+      "query_id": "S2-10",
+      "query": "小米 Buds 4 的延迟多少 ms？打游戏够用吗？",
+      "intent_l2": "S2_参数咨询",
+      "intent_leaf_id": "S2_参数咨询",
+      "expected_doc_ids": [
+        "PROD_BUDS_003",
+        "MANUAL_BUDS_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_BUDS_004",
+        "PROD_BUDS_003",
+        "GUIDE_BUDS_001",
+        "PROD_BUDS_005",
+        "PROD_BUDS_001"
+      ],
+      "latency_ms": 2456.7,
+      "error": null
+    },
+    {
+      "query_id": "S3-08",
+      "query": "小米手表 S2 和苹果手表哪个好？",
+      "intent_l2": "S3_对比选购",
+      "intent_leaf_id": "S3_对比选购",
+      "expected_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_001",
+        "PROD_WATCH_003"
+      ],
+      "latency_ms": 3219.4,
+      "error": null
+    },
+    {
+      "query_id": "S4-05",
+      "query": "现在买和等双十一买哪个划算？",
+      "intent_l2": "S4_价格活动",
+      "intent_leaf_id": "S4_价格活动",
+      "expected_doc_ids": [
+        "POLICY_RET_004"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_LOG_001",
+        "POLICY_RET_004",
+        "POLICY_VIP_002",
+        "POLICY_WAR_005",
+        "POLICY_LOG_002"
+      ],
+      "latency_ms": 817.3,
+      "error": null
+    },
+    {
+      "query_id": "S4-06",
+      "query": "我买了一周降价了能补差价吗？",
+      "intent_l2": "S4_价格活动",
+      "intent_leaf_id": "S4_价格活动",
+      "expected_doc_ids": [
+        "POLICY_RET_004"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_RET_004",
+        "POLICY_RET_001",
+        "POLICY_RET_002",
+        "POLICY_RET_003",
+        "POLICY_WAR_005"
+      ],
+      "latency_ms": 3119.0,
+      "error": null
+    },
+    {
+      "query_id": "S5-04",
+      "query": "新款手表什么时候上市？",
+      "intent_l2": "S5_库存到货",
+      "intent_leaf_id": "S5_库存到货",
+      "expected_doc_ids": [
+        "GUIDE_WATCH_001",
+        "POLICY_LOG_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_WATCH_002",
+        "PROD_WATCH_003",
+        "PROD_WATCH_004",
+        "PROD_WATCH_005",
+        "PROD_WATCH_001"
+      ],
+      "latency_ms": 739.3,
+      "error": null
+    },
+    {
+      "query_id": "S6-01",
+      "query": "小米 14 Pro 用什么充电器？",
+      "intent_l2": "S6_配件兼容",
+      "intent_leaf_id": "S6_配件兼容",
+      "expected_doc_ids": [
+        "PROD_PHONE_004",
+        "MANUAL_PHONE_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PHONE_004",
+        "PROD_PHONE_003",
+        "PROD_PHONE_001",
+        "PROD_PHONE_002"
+      ],
+      "latency_ms": 493.5,
+      "error": null
+    },
+    {
+      "query_id": "S6-03",
+      "query": "我的旧充电线还能给小米 14 用吗？",
+      "intent_l2": "S6_配件兼容",
+      "intent_leaf_id": "S6_配件兼容",
+      "expected_doc_ids": [
+        "PROD_PHONE_003",
+        "MANUAL_PHONE_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PHONE_003",
+        "PROD_PHONE_004",
+        "PROD_PHONE_002",
+        "PROD_PHONE_001",
+        "PROD_PHONE_006"
+      ],
+      "latency_ms": 692.3,
+      "error": null
+    },
+    {
+      "query_id": "S6-04",
+      "query": "T7 的滤芯能用在 G10S Pro 上吗？",
+      "intent_l2": "S6_配件兼容",
+      "intent_leaf_id": "S6_配件兼容",
+      "expected_doc_ids": [
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_VAC_004",
+        "PROD_VAC_001",
+        "MANUAL_VAC_003",
+        "GUIDE_VAC_001"
+      ],
+      "latency_ms": 1382.4,
+      "error": null
+    },
+    {
+      "query_id": "S6-06",
+      "query": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "intent_l2": "S6_配件兼容",
+      "intent_leaf_id": "S6_配件兼容",
+      "expected_doc_ids": [
+        "PROD_BUDS_002",
+        "PROD_BUDS_003",
+        "MANUAL_BUDS_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_BUDS_002",
+        "PROD_BUDS_001",
+        "PROD_BUDS_004",
+        "PROD_BUDS_003",
+        "MANUAL_BUDS_001"
+      ],
+      "latency_ms": 483.4,
+      "error": null
+    },
+    {
+      "query_id": "S7-03",
+      "query": "家里养猫，扫地机选哪款不容易卡毛？",
+      "intent_l2": "S7_适用场景",
+      "intent_leaf_id": "S7_适用场景",
+      "expected_doc_ids": [
+        "GUIDE_VAC_001",
+        "PROD_VAC_002",
+        "PROD_VAC_004"
+      ],
+      "retrieved_doc_ids": [
+        "GUIDE_VAC_001",
+        "PROD_VAC_001",
+        "GUIDE_VAC_003",
+        "GUIDE_VAC_002",
+        "PROD_VAC_002"
+      ],
+      "latency_ms": 444.0,
+      "error": null
+    },
+    {
+      "query_id": "S7-05",
+      "query": "我家是长条户型，扫地机会乱跑吗？",
+      "intent_l2": "S7_适用场景",
+      "intent_leaf_id": "S7_适用场景",
+      "expected_doc_ids": [
+        "GUIDE_VAC_002",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "GUIDE_VAC_002",
+        "GUIDE_VAC_003",
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "GUIDE_VAC_001"
+      ],
+      "latency_ms": 4384.7,
+      "error": null
+    },
+    {
+      "query_id": "S7-06",
+      "query": "出租屋能装智能门锁吗？",
+      "intent_l2": "S7_适用场景",
+      "intent_leaf_id": "S7_适用场景",
+      "expected_doc_ids": [
+        "GUIDE_HOME_002",
+        "PROD_LOCK_001",
+        "POLICY_RET_001"
+      ],
+      "retrieved_doc_ids": [
+        "GUIDE_HOME_002",
+        "MANUAL_LOCK_001",
+        "GUIDE_HOME_001",
+        "PROD_LOCK_002",
+        "PROD_LOCK_001"
+      ],
+      "latency_ms": 2289.4,
+      "error": null
+    },
+    {
+      "query_id": "S2-11",
+      "query": "RedmiBook Pro 14 适合剪视频吗？",
+      "intent_l2": "S2_参数咨询",
+      "intent_leaf_id": "S2_参数咨询",
+      "expected_doc_ids": [
+        "PROD_BOOK_001",
+        "PROD_BOOK_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_BOOK_003",
+        "PROD_BOOK_001",
+        "PROD_BOOK_002",
+        "PROD_PHONE_006"
+      ],
+      "latency_ms": 956.5,
+      "error": null
+    },
+    {
+      "query_id": "S7-07",
+      "query": "租房想低成本做智能家居，哪些设备适合带走？",
+      "intent_l2": "S7_适用场景",
+      "intent_leaf_id": "S7_适用场景",
+      "expected_doc_ids": [
+        "GUIDE_HOME_002",
+        "PROD_SPK_001",
+        "PROD_SOCKET_001",
+        "PROD_LIGHT_002"
+      ],
+      "retrieved_doc_ids": [
+        "GUIDE_HOME_002",
+        "GUIDE_HOME_001",
+        "PROD_SPK_001",
+        "PROD_SOCKET_001",
+        "PROD_SPK_002"
+      ],
+      "latency_ms": 1498.6,
+      "error": null
+    },
+    {
+      "query_id": "S8-01",
+      "query": "扫地机怎么开机？",
+      "intent_l2": "S8_操作指引",
+      "intent_leaf_id": "S8_操作指引",
+      "expected_doc_ids": [
+        "MANUAL_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_001",
+        "MANUAL_VAC_002",
+        "MANUAL_VAC_003",
+        "PROD_VAC_001",
+        "PROD_VAC_002"
+      ],
+      "latency_ms": 2596.8,
+      "error": null
+    },
+    {
+      "query_id": "S8-04",
+      "query": "智能门锁怎么添加新指纹？",
+      "intent_l2": "S8_操作指引",
+      "intent_leaf_id": "S8_操作指引",
+      "expected_doc_ids": [
+        "MANUAL_LOCK_001",
+        "MANUAL_LOCK_002"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_LOCK_001",
+        "MANUAL_LOCK_002",
+        "PROD_LOCK_001",
+        "PROD_LOCK_002",
+        "APP_GUIDE_002"
+      ],
+      "latency_ms": 1631.6,
+      "error": null
+    },
+    {
+      "query_id": "S8-06",
+      "query": "扫地机怎么设置只扫客厅不扫卧室？",
+      "intent_l2": "S8_操作指引",
+      "intent_leaf_id": "S8_操作指引",
+      "expected_doc_ids": [
+        "MANUAL_VAC_002",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_002",
+        "MANUAL_VAC_001",
+        "GUIDE_VAC_002",
+        "GUIDE_VAC_001",
+        "PROD_VAC_002"
+      ],
+      "latency_ms": 1868.8,
+      "error": null
+    },
+    {
+      "query_id": "S8-08",
+      "query": "小米手表 S2 怎么自定义表盘？",
+      "intent_l2": "S8_操作指引",
+      "intent_leaf_id": "S8_操作指引",
+      "expected_doc_ids": [
+        "MANUAL_WATCH_001",
+        "PROD_WATCH_002"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_WATCH_001",
+        "PROD_WATCH_002",
+        "PROD_WATCH_003",
+        "PROD_WATCH_001"
+      ],
+      "latency_ms": 4177.4,
+      "error": null
+    },
+    {
+      "query_id": "S9-02",
+      "query": "智能门锁配网失败怎么办？",
+      "intent_l2": "S9_配网连接",
+      "intent_leaf_id": "S9_配网连接",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "FAQ_LOCK_001",
+        "MANUAL_LOCK_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_LOCK_001",
+        "NET_GUIDE_001",
+        "FAQ_NET_001",
+        "FAQ_LOCK_001"
+      ],
+      "latency_ms": 512.7,
+      "error": null
+    },
+    {
+      "query_id": "S9-05",
+      "query": "智能门锁离路由器太远连不上怎么办？",
+      "intent_l2": "S9_配网连接",
+      "intent_leaf_id": "S9_配网连接",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "NET_GUIDE_003",
+        "FAQ_LOCK_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_LOCK_001",
+        "FAQ_LOCK_001",
+        "FAQ_NET_001",
+        "NET_GUIDE_003"
+      ],
+      "latency_ms": 5583.3,
+      "error": null
+    },
+    {
+      "query_id": "S9-06",
+      "query": "扫地机一直配网失败，重启也没用",
+      "intent_l2": "S9_配网连接",
+      "intent_leaf_id": "S9_配网连接",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "NET_GUIDE_002",
+        "FAQ_NET_001",
+        "FAQ_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "NET_GUIDE_001",
+        "CODE_FW_001",
+        "MANUAL_VAC_001",
+        "FAQ_NET_001",
+        "NET_GUIDE_002"
+      ],
+      "latency_ms": 1732.5,
+      "error": null
+    },
+    {
+      "query_id": "S9-07",
+      "query": "蓝牙连上了但 APP 显示离线",
+      "intent_l2": "S9_配网连接",
+      "intent_leaf_id": "S9_配网连接",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "FAQ_NET_001",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_LOCK_001",
+        "CODE_AIR_001",
+        "FAQ_LOCK_001",
+        "FAQ_AIR_001",
+        "NET_GUIDE_003"
+      ],
+      "latency_ms": 775.6,
+      "error": null
+    },
+    {
+      "query_id": "S10-02",
+      "query": "怎么修改收货地址？",
+      "intent_l2": "S10_APP功能",
+      "intent_leaf_id": "S10_APP功能",
+      "expected_doc_ids": [
+        "APP_GUIDE_001"
+      ],
+      "retrieved_doc_ids": [
+        "APP_GUIDE_001",
+        "APP_GUIDE_005",
+        "APP_GUIDE_002",
+        "APP_GUIDE_004",
+        "MANUAL_SPK_001"
+      ],
+      "latency_ms": 4585.0,
+      "error": null
+    },
+    {
+      "query_id": "S10-03",
+      "query": "APP 里怎么查扫地机的清扫记录？",
+      "intent_l2": "S10_APP功能",
+      "intent_leaf_id": "S10_APP功能",
+      "expected_doc_ids": [
+        "APP_GUIDE_003",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_001",
+        "APP_GUIDE_003",
+        "MANUAL_VAC_002",
+        "MANUAL_VAC_003",
+        "AUTO_GUIDE_002"
+      ],
+      "latency_ms": 958.6,
+      "error": null
+    },
+    {
+      "query_id": "S10-05",
+      "query": "APP 推送太多怎么关闭？",
+      "intent_l2": "S10_APP功能",
+      "intent_leaf_id": "S10_APP功能",
+      "expected_doc_ids": [
+        "APP_GUIDE_005"
+      ],
+      "retrieved_doc_ids": [
+        "APP_GUIDE_005",
+        "APP_GUIDE_004",
+        "APP_GUIDE_001",
+        "APP_GUIDE_002",
+        "MANUAL_VAC_002"
+      ],
+      "latency_ms": 2169.8,
+      "error": null
+    },
+    {
+      "query_id": "S10-07",
+      "query": "我换手机了，旧设备数据怎么迁移？",
+      "intent_l2": "S10_APP功能",
+      "intent_leaf_id": "S10_APP功能",
+      "expected_doc_ids": [
+        "APP_GUIDE_004",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_PHONE_001",
+        "APP_GUIDE_004",
+        "MANUAL_PAD_001",
+        "APP_GUIDE_003",
+        "APP_GUIDE_002"
+      ],
+      "latency_ms": 1611.0,
+      "error": null
+    },
+    {
+      "query_id": "S11-01",
+      "query": "我的小米手表 S3 怎么升级系统？",
+      "intent_l2": "S11_固件升级",
+      "intent_leaf_id": "S11_固件升级",
+      "expected_doc_ids": [
+        "CODE_FW_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_FW_001",
+        "CODE_FW_002",
+        "CODE_PHONE_001",
+        "FAQ_NET_001"
+      ],
+      "latency_ms": 433.3,
+      "error": null
+    },
+    {
+      "query_id": "S11-03",
+      "query": "升级失败了卡在 50% 了",
+      "intent_l2": "S11_固件升级",
+      "intent_leaf_id": "S11_固件升级",
+      "expected_doc_ids": [
+        "CODE_FW_002",
+        "CODE_FW_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_FW_001",
+        "CODE_FW_002",
+        "CODE_PHONE_001",
+        "CODE_LOCK_001"
+      ],
+      "latency_ms": 1715.9,
+      "error": null
+    },
+    {
+      "query_id": "S11-04",
+      "query": "升级新固件后续航变差了怎么办？",
+      "intent_l2": "S11_固件升级",
+      "intent_leaf_id": "S11_固件升级",
+      "expected_doc_ids": [
+        "CODE_FW_002",
+        "CODE_PHONE_001",
+        "CODE_FW_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_FW_001",
+        "CODE_FW_002",
+        "CODE_AIR_001",
+        "FAQ_NET_001"
+      ],
+      "latency_ms": 464.7,
+      "error": null
+    },
+    {
+      "query_id": "S12-03",
+      "query": "回家自动开灯开空调怎么设置？",
+      "intent_l2": "S12_生态联动",
+      "intent_leaf_id": "S12_生态联动",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "AUTO_GUIDE_001",
+        "PROD_LIGHT_001",
+        "PROD_SOCKET_001",
+        "PROD_SPK_002",
+        "MANUAL_AIR_001"
+      ],
+      "latency_ms": 458.4,
+      "error": null
+    },
+    {
+      "query_id": "S12-04",
+      "query": "门锁开门后扫地机自动暂停能实现吗？",
+      "intent_l2": "S12_生态联动",
+      "intent_leaf_id": "S12_生态联动",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "AUTO_GUIDE_002",
+        "PROD_LOCK_001",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_003",
+        "MANUAL_VAC_001",
+        "MANUAL_VAC_002",
+        "PROD_VAC_002"
+      ],
+      "latency_ms": 607.4,
+      "error": null
+    },
+    {
+      "query_id": "S12-05",
+      "query": "想做个离家模式，关灯关空调启动扫地机",
+      "intent_l2": "S12_生态联动",
+      "intent_leaf_id": "S12_生态联动",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "AUTO_GUIDE_001",
+        "MANUAL_VAC_001",
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "MANUAL_VAC_002"
+      ],
+      "latency_ms": 603.8,
+      "error": null
+    },
+    {
+      "query_id": "S12-06",
+      "query": "比特设备能接入苹果家庭吗？",
+      "intent_l2": "S12_生态联动",
+      "intent_leaf_id": "S12_生态联动",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_002",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "APP_GUIDE_002",
+        "APP_GUIDE_004",
+        "APP_GUIDE_005",
+        "APP_GUIDE_003",
+        "APP_GUIDE_001"
+      ],
+      "latency_ms": 1970.5,
+      "error": null
+    },
+    {
+      "query_id": "S13-02",
+      "query": "扫地机滚刷怎么清洗？",
+      "intent_l2": "S13_保养维护",
+      "intent_leaf_id": "S13_保养维护",
+      "expected_doc_ids": [
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_001",
+        "MANUAL_VAC_003",
+        "CODE_VAC_001",
+        "MANUAL_VAC_002"
+      ],
+      "latency_ms": 3714.7,
+      "error": null
+    },
+    {
+      "query_id": "S13-05",
+      "query": "扫地机的水箱可以用洗洁精洗吗？",
+      "intent_l2": "S13_保养维护",
+      "intent_leaf_id": "S13_保养维护",
+      "expected_doc_ids": [
+        "MANUAL_VAC_003",
+        "MANUAL_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_003",
+        "MANUAL_VAC_001",
+        "MANUAL_VAC_002",
+        "CODE_VAC_001"
+      ],
+      "latency_ms": 535.5,
+      "error": null
+    },
+    {
+      "query_id": "S13-07",
+      "query": "扫地机用了半年吸力变弱了",
+      "intent_l2": "S13_保养维护",
+      "intent_leaf_id": "S13_保养维护",
+      "expected_doc_ids": [
+        "MANUAL_VAC_003",
+        "FAQ_VAC_001",
+        "CODE_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "FAQ_VAC_001",
+        "MANUAL_VAC_001",
+        "MANUAL_VAC_003",
+        "CODE_VAC_001"
+      ],
+      "latency_ms": 4552.1,
+      "error": null
+    },
+    {
+      "query_id": "S13-08",
+      "query": "净化器一直亮红灯，是滤芯问题吗？",
+      "intent_l2": "S13_保养维护",
+      "intent_leaf_id": "S13_保养维护",
+      "expected_doc_ids": [
+        "FAQ_AIR_001",
+        "MANUAL_AIR_002",
+        "CODE_AIR_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_AIR_001",
+        "FAQ_AIR_001",
+        "MANUAL_AIR_001",
+        "MANUAL_AIR_002"
+      ],
+      "latency_ms": 468.6,
+      "error": null
+    },
+    {
+      "query_id": "S13-09",
+      "query": "扫地机刷头掉毛了还能用吗？要换吗？",
+      "intent_l2": "S13_保养维护",
+      "intent_leaf_id": "S13_保养维护",
+      "expected_doc_ids": [
+        "MANUAL_VAC_003",
+        "FAQ_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_003",
+        "MANUAL_VAC_001",
+        "CODE_VAC_001"
+      ],
+      "latency_ms": 463.0,
+      "error": null
+    },
+    {
+      "query_id": "S14-01",
+      "query": "小米 14 Pro 保修期多久？",
+      "intent_l2": "S14_售后政策",
+      "intent_leaf_id": "S14_售后政策",
+      "expected_doc_ids": [
+        "POLICY_WAR_001",
+        "POLICY_WAR_002"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_001",
+        "POLICY_WAR_004",
+        "POLICY_WAR_005",
+        "POLICY_RET_001"
+      ],
+      "latency_ms": 450.2,
+      "error": null
+    },
+    {
+      "query_id": "S14-05",
+      "query": "电池衰减算保修吗？",
+      "intent_l2": "S14_售后政策",
+      "intent_leaf_id": "S14_售后政策",
+      "expected_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_003",
+        "POLICY_WAR_004",
+        "POLICY_WAR_001",
+        "POLICY_RET_004"
+      ],
+      "latency_ms": 818.6,
+      "error": null
+    },
+    {
+      "query_id": "S14-07",
+      "query": "我没有发票还能保修吗？",
+      "intent_l2": "S14_售后政策",
+      "intent_leaf_id": "S14_售后政策",
+      "expected_doc_ids": [
+        "POLICY_WAR_005",
+        "POLICY_WAR_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_WAR_005",
+        "POLICY_WAR_004",
+        "POLICY_WAR_002",
+        "POLICY_WAR_001",
+        "POLICY_INV_001"
+      ],
+      "latency_ms": 466.0,
+      "error": null
+    },
+    {
+      "query_id": "S14-08",
+      "query": "我在二手平台买的，能享受官方保修吗？",
+      "intent_l2": "S14_售后政策",
+      "intent_leaf_id": "S14_售后政策",
+      "expected_doc_ids": [
+        "POLICY_WAR_005",
+        "POLICY_WAR_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_WAR_005",
+        "POLICY_WAR_001",
+        "POLICY_WAR_002",
+        "POLICY_RET_001",
+        "POLICY_WAR_004"
+      ],
+      "latency_ms": 486.3,
+      "error": null
+    },
+    {
+      "query_id": "S15-02",
+      "query": "怎么申请退货？",
+      "intent_l2": "S15_退换货",
+      "intent_leaf_id": "S15_退换货",
+      "expected_doc_ids": [
+        "POLICY_RET_002"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_RET_002",
+        "POLICY_RET_001",
+        "POLICY_RET_003",
+        "POLICY_RET_004",
+        "POLICY_INV_001"
+      ],
+      "latency_ms": 2492.7,
+      "error": null
+    },
+    {
+      "query_id": "S15-05",
+      "query": "退货运费谁出？",
+      "intent_l2": "S15_退换货",
+      "intent_leaf_id": "S15_退换货",
+      "expected_doc_ids": [
+        "POLICY_RET_003",
+        "POLICY_RET_002"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_RET_003",
+        "POLICY_RET_004",
+        "POLICY_RET_002",
+        "POLICY_RET_001",
+        "POLICY_WAR_005"
+      ],
+      "latency_ms": 6846.4,
+      "error": null
+    },
+    {
+      "query_id": "S15-06",
+      "query": "买了 3 天降价了，能退掉重新买吗？",
+      "intent_l2": "S15_退换货",
+      "intent_leaf_id": "S15_退换货",
+      "expected_doc_ids": [
+        "POLICY_RET_004",
+        "POLICY_RET_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_RET_004",
+        "POLICY_RET_001",
+        "POLICY_RET_002",
+        "POLICY_RET_003",
+        "POLICY_WAR_005"
+      ],
+      "latency_ms": 1584.1,
+      "error": null
+    },
+    {
+      "query_id": "S15-07",
+      "query": "赠品丢了能退主商品吗？",
+      "intent_l2": "S15_退换货",
+      "intent_leaf_id": "S15_退换货",
+      "expected_doc_ids": [
+        "POLICY_RET_003",
+        "POLICY_RET_002"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_RET_003",
+        "POLICY_RET_001",
+        "POLICY_WAR_005",
+        "POLICY_RET_002",
+        "POLICY_WAR_001"
+      ],
+      "latency_ms": 6118.5,
+      "error": null
+    },
+    {
+      "query_id": "S16-01",
+      "query": "我下单了一个比特严选自营商品，一般什么时候发货？",
+      "intent_l2": "S16_物流配送",
+      "intent_leaf_id": "S16_物流配送",
+      "expected_doc_ids": [
+        "POLICY_LOG_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_LOG_001",
+        "POLICY_LOG_002",
+        "POLICY_LOG_003",
+        "POLICY_RET_001",
+        "POLICY_INV_001"
+      ],
+      "latency_ms": 2447.6,
+      "error": null
+    },
+    {
+      "query_id": "S16-03",
+      "query": "能指定送货时间吗？",
+      "intent_l2": "S16_物流配送",
+      "intent_leaf_id": "S16_物流配送",
+      "expected_doc_ids": [
+        "POLICY_LOG_002"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_LOG_002",
+        "POLICY_LOG_001",
+        "POLICY_RET_003",
+        "POLICY_LOG_003",
+        "POLICY_RET_004"
+      ],
+      "latency_ms": 471.7,
+      "error": null
+    },
+    {
+      "query_id": "S16-05",
+      "query": "我能改收货地址吗？已经发货了",
+      "intent_l2": "S16_物流配送",
+      "intent_leaf_id": "S16_物流配送",
+      "expected_doc_ids": [
+        "POLICY_LOG_003"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_LOG_003",
+        "POLICY_LOG_002",
+        "POLICY_LOG_001",
+        "POLICY_RET_002",
+        "POLICY_RET_001"
+      ],
+      "latency_ms": 3023.1,
+      "error": null
+    },
+    {
+      "query_id": "S17-01",
+      "query": "怎么开发票？",
+      "intent_l2": "S17_发票会员",
+      "intent_leaf_id": "S17_发票会员",
+      "expected_doc_ids": [
+        "POLICY_INV_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_INV_001",
+        "POLICY_WAR_005",
+        "POLICY_RET_003",
+        "POLICY_VIP_002",
+        "POLICY_RET_004"
+      ],
+      "latency_ms": 590.2,
+      "error": null
+    },
+    {
+      "query_id": "S17-03",
+      "query": "可以开公司抬头的发票吗？",
+      "intent_l2": "S17_发票会员",
+      "intent_leaf_id": "S17_发票会员",
+      "expected_doc_ids": [
+        "POLICY_INV_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_INV_001",
+        "POLICY_WAR_005",
+        "POLICY_RET_003",
+        "POLICY_LOG_002",
+        "POLICY_RET_004"
+      ],
+      "latency_ms": 495.2,
+      "error": null
+    },
+    {
+      "query_id": "S17-06",
+      "query": "会员到期前多久会提醒？",
+      "intent_l2": "S17_发票会员",
+      "intent_leaf_id": "S17_发票会员",
+      "expected_doc_ids": [
+        "POLICY_VIP_002",
+        "POLICY_VIP_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_VIP_002",
+        "POLICY_VIP_001",
+        "POLICY_RET_004",
+        "POLICY_LOG_002",
+        "POLICY_RET_003"
+      ],
+      "latency_ms": 539.5,
+      "error": null
+    },
+    {
+      "query_id": "F1-03",
+      "query": "智能门锁指纹突然识别不了了",
+      "intent_l2": "F1_故障报告",
+      "intent_leaf_id": "F1_故障报告",
+      "expected_doc_ids": [
+        "FAQ_LOCK_001",
+        "CODE_LOCK_001",
+        "MANUAL_LOCK_001"
+      ],
+      "retrieved_doc_ids": [
+        "FAQ_LOCK_001",
+        "CODE_LOCK_001",
+        "MANUAL_LOCK_002",
+        "MANUAL_LOCK_001"
+      ],
+      "latency_ms": 779.4,
+      "error": null
+    },
+    {
+      "query_id": "F1-04",
+      "query": "扫地机扫一会就停，提示故障 E5",
+      "intent_l2": "F1_故障报告",
+      "intent_leaf_id": "F1_故障报告",
+      "expected_doc_ids": [
+        "CODE_VAC_001",
+        "FAQ_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_VAC_001",
+        "FAQ_VAC_001",
+        "MANUAL_VAC_003",
+        "MANUAL_VAC_002"
+      ],
+      "latency_ms": 2820.8,
+      "error": null
+    },
+    {
+      "query_id": "F1-05",
+      "query": "手表充电时发烫得厉害",
+      "intent_l2": "F1_故障报告",
+      "intent_leaf_id": "F1_故障报告",
+      "expected_doc_ids": [
+        "MANUAL_WATCH_001",
+        "POLICY_WAR_001",
+        "POLICY_WAR_002"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_PHONE_001",
+        "CODE_FW_001",
+        "MANUAL_WATCH_001",
+        "MANUAL_PHONE_001"
+      ],
+      "latency_ms": 470.8,
+      "error": null
+    },
+    {
+      "query_id": "F3-03",
+      "query": "这手机用了 3 个月就卡",
+      "intent_l2": "F3_投诉吐槽",
+      "intent_leaf_id": "F3_投诉吐槽",
+      "expected_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_003"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_PHONE_001",
+        "MANUAL_PHONE_001",
+        "PROD_PHONE_006",
+        "PROD_PHONE_005",
+        "PROD_PHONE_001",
+        "PROD_PHONE_003"
+      ],
+      "latency_ms": 524.1,
+      "error": null
+    }
+  ]
+}

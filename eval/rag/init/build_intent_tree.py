@@ -369,14 +369,18 @@ def update_node(
         raise RuntimeError(f"更新意图节点失败：{body}")
 
 
-def load_intent_ids() -> dict[str, str]:
-    if INTENT_IDS_PATH.exists():
-        return json.loads(INTENT_IDS_PATH.read_text(encoding="utf-8"))
+def load_intent_ids(path: Path = INTENT_IDS_PATH) -> dict[str, str]:
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
     return {}
 
 
-def save_intent_ids(m: dict[str, str]) -> None:
-    INTENT_IDS_PATH.write_text(
+def save_intent_ids(
+    m: dict[str, str],
+    path: Path = INTENT_IDS_PATH,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
         json.dumps(m, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
@@ -399,20 +403,31 @@ def main() -> int:
         action="store_true",
         help="更新 intent_ids.json 中已存在的节点，应用 kbIds、描述和 Prompt",
     )
+    parser.add_argument("--state-dir", type=Path, default=None)
+    parser.add_argument("--doc-map", type=Path, default=None)
+    parser.add_argument("--dataset", type=Path, default=EVAL_SET_PATH)
     args = parser.parse_args()
+    state_dir = Path(args.state_dir) if args.state_dir else None
+    kb_ids_path = state_dir / "kb_ids.json" if state_dir else KB_IDS_PATH
+    intent_ids_path = state_dir / "intent_ids.json" if state_dir else INTENT_IDS_PATH
+    doc_map_path = (
+        Path(args.doc_map)
+        if args.doc_map
+        else (state_dir / "doc_id_map.json" if state_dir else DOC_MAP_PATH)
+    )
 
-    if not KB_IDS_PATH.exists():
-        print(f"找不到 {KB_IDS_PATH}，请先跑 create_kbs.py", file=sys.stderr)
+    if not kb_ids_path.exists():
+        print(f"找不到 {kb_ids_path}，请先跑 create_kbs.py", file=sys.stderr)
         return 2
-    if not DOC_MAP_PATH.exists():
-        print(f"找不到 {DOC_MAP_PATH}，请先跑 upload_docs.py", file=sys.stderr)
+    if not doc_map_path.exists():
+        print(f"找不到 {doc_map_path}，请先跑 upload_docs.py", file=sys.stderr)
         return 2
 
-    kb_ids = json.loads(KB_IDS_PATH.read_text(encoding="utf-8"))
-    doc_map = json.loads(DOC_MAP_PATH.read_text(encoding="utf-8"))
+    kb_ids = json.loads(kb_ids_path.read_text(encoding="utf-8"))
+    doc_map = json.loads(doc_map_path.read_text(encoding="utf-8"))
 
-    kb_keys_by_leaf = kb_keys_per_leaf(EVAL_SET_PATH, doc_map)
-    examples_per_leaf = sample_queries_per_leaf(EVAL_SET_PATH)
+    kb_keys_by_leaf = kb_keys_per_leaf(args.dataset, doc_map)
+    examples_per_leaf = sample_queries_per_leaf(args.dataset)
 
     payloads = build_payloads(kb_ids, kb_keys_by_leaf, examples_per_leaf)
 
@@ -457,11 +472,11 @@ def main() -> int:
     token = login(base_url, username, password)
     print("OK\n")
 
-    if args.force and INTENT_IDS_PATH.exists():
-        INTENT_IDS_PATH.unlink()
-        print(f"已删除 {INTENT_IDS_PATH}，将全量重建\n")
+    if args.force and intent_ids_path.exists():
+        intent_ids_path.unlink()
+        print(f"已删除 {intent_ids_path}，将全量重建\n")
 
-    intent_ids = load_intent_ids()
+    intent_ids = load_intent_ids(intent_ids_path)
     success = 0
     failed: list[tuple[str, str]] = []
     skipped = 0
@@ -488,7 +503,7 @@ def main() -> int:
         try:
             node_id = create_node(base_url, token, payload)
             intent_ids[code] = node_id
-            save_intent_ids(intent_ids)
+            save_intent_ids(intent_ids, intent_ids_path)
             success += 1
             print(f"  [{idx:>2d}/{len(payloads)}] ✓ {code} -> {node_id}")
         except Exception as exc:  # noqa: BLE001
@@ -498,7 +513,7 @@ def main() -> int:
     print(f"\n完成：成功 {success}，失败 {len(failed)}，跳过 {skipped}")
     if failed:
         return 1
-    print(f"\n写入 {INTENT_IDS_PATH}")
+    print(f"\n写入 {intent_ids_path}")
     return 0
 
 

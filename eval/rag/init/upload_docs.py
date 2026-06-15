@@ -134,22 +134,26 @@ def collect_targets() -> list[tuple[str, str, Path]]:
     return targets
 
 
-def load_kb_ids() -> dict[str, dict[str, str]]:
-    if not KB_IDS_PATH.exists():
+def load_kb_ids(path: Path = KB_IDS_PATH) -> dict[str, dict[str, str]]:
+    if not path.exists():
         raise RuntimeError(
-            f"找不到 {KB_IDS_PATH}，请先跑 create_kbs.py"
+            f"找不到 {path}，请先跑 create_kbs.py"
         )
-    return json.loads(KB_IDS_PATH.read_text(encoding="utf-8"))
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def load_doc_map() -> dict[str, dict[str, Any]]:
-    if DOC_MAP_PATH.exists():
-        return json.loads(DOC_MAP_PATH.read_text(encoding="utf-8"))
+def load_doc_map(path: Path = DOC_MAP_PATH) -> dict[str, dict[str, Any]]:
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
     return {}
 
 
-def save_doc_map(doc_map: dict[str, dict[str, Any]]) -> None:
-    DOC_MAP_PATH.write_text(
+def save_doc_map(
+    doc_map: dict[str, dict[str, Any]],
+    path: Path = DOC_MAP_PATH,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
         json.dumps(doc_map, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
@@ -174,7 +178,31 @@ def main() -> int:
         default=0.0,
         help="每个文件之间等待秒数（避开 ragent upload 信号量上限）",
     )
+    parser.add_argument(
+        "--state-dir",
+        type=Path,
+        default=None,
+        help="隔离实验状态目录，默认从这里读取 kb_ids.json 并写 doc_id_map.json",
+    )
+    parser.add_argument(
+        "--doc-map",
+        type=Path,
+        default=None,
+        help="显式指定 doc_id_map.json；优先于 --state-dir",
+    )
+    parser.add_argument(
+        "--rechunk-existing",
+        action="store_true",
+        help="对 doc_id_map.json 中已有文档重新触发分块和 embedding",
+    )
     args = parser.parse_args()
+    state_dir = Path(args.state_dir) if args.state_dir else None
+    kb_ids_path = state_dir / "kb_ids.json" if state_dir else KB_IDS_PATH
+    doc_map_path = (
+        Path(args.doc_map)
+        if args.doc_map
+        else (state_dir / "doc_id_map.json" if state_dir else DOC_MAP_PATH)
+    )
 
     base_url = os.environ.get("RAGENT_BASE_URL", DEFAULT_BASE_URL).rstrip("/")
     username = os.environ.get("RAGENT_USERNAME")
@@ -201,20 +229,40 @@ def main() -> int:
             print(f"  [{kb_key}] {biz_id}  <- {path.relative_to(PROJECT_ROOT)}")
         return 0
 
-    kb_ids = load_kb_ids()
-    doc_map = load_doc_map()
+    kb_ids = load_kb_ids(kb_ids_path)
+    doc_map = load_doc_map(doc_map_path)
     skipped = sum(1 for _, biz_id, _ in targets if biz_id in doc_map)
     if skipped:
-        print(f"已有 {skipped} 个在 doc_id_map.json 中，将跳过")
+        action = "重新分块" if args.rechunk_existing else "跳过"
+        print(f"已有 {skipped} 个在 doc_id_map.json 中，将统一{action}")
 
     print(f"\n登录 {base_url} ...")
     token = login(base_url, username, password)
     print("OK\n")
 
     success = 0
+    rechunked = 0
     failed: list[tuple[str, str]] = []
     for idx, (kb_key, biz_id, md_path) in enumerate(targets, start=1):
         if biz_id in doc_map:
+            if args.rechunk_existing:
+                try:
+                    ragent_doc_id = doc_map[biz_id]["ragent_doc_id"]
+                    trigger_chunk(base_url, token, ragent_doc_id)
+                    rechunked += 1
+                    print(
+                        f"  [{idx:>3d}/{len(targets)}] {kb_key:>8s} "
+                        f"{biz_id} -> rechunk {ragent_doc_id}"
+                    )
+                except Exception as exc:  # noqa: BLE001
+                    failed.append((biz_id, str(exc)))
+                    print(
+                        f"  [{idx:>3d}/{len(targets)}] {kb_key:>8s} "
+                        f"{biz_id} rechunk failed: {exc}",
+                        file=sys.stderr,
+                    )
+                if args.sleep > 0:
+                    time.sleep(args.sleep)
             continue
         kb_id = kb_ids[kb_key]["kb_id"]
         try:
@@ -226,7 +274,7 @@ def main() -> int:
                 "kb_id": kb_id,
                 "rel_path": str(md_path.relative_to(PROJECT_ROOT)),
             }
-            save_doc_map(doc_map)  # 增量保存，断点续传
+            save_doc_map(doc_map, doc_map_path)  # 增量保存，断点续传
             success += 1
             print(f"  [{idx:>3d}/{len(targets)}] {kb_key:>8s} {biz_id} -> {ragent_doc_id}")
         except Exception as exc:  # noqa: BLE001
@@ -235,13 +283,17 @@ def main() -> int:
         if args.sleep > 0:
             time.sleep(args.sleep)
 
-    print(f"\n完成：成功 {success}，失败 {len(failed)}，跳过 {skipped}")
+    actually_skipped = skipped - rechunked
+    print(
+        f"\n完成：新增 {success}，重新分块 {rechunked}，"
+        f"失败 {len(failed)}，跳过 {actually_skipped}"
+    )
     if failed:
         print("失败列表：", file=sys.stderr)
         for biz_id, msg in failed:
             print(f"  {biz_id}: {msg}", file=sys.stderr)
         return 1
-    print(f"\n写入 {DOC_MAP_PATH}")
+    print(f"\n写入 {doc_map_path}")
     print(
         "\n⚠️  chunk 是异步执行的。建议稍后调 "
         "GET /knowledge-base/{kb-id}/docs 查看每个文档的 chunkCount，"

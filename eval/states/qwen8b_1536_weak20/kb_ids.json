@@ -1,0 +1,30 @@
+{
+  "product": {
+    "kb_id": "2066138146432847872",
+    "name": "比特严选-商品库",
+    "collection_name": "ragent-eval-qwen8b-1536-kb-product",
+    "embedding_model": "qwen-emb-8b",
+    "embedding_dimension": 1536
+  },
+  "manual": {
+    "kb_id": "2066138147682750464",
+    "name": "比特严选-使用手册库",
+    "collection_name": "ragent-eval-qwen8b-1536-kb-manual",
+    "embedding_model": "qwen-emb-8b",
+    "embedding_dimension": 1536
+  },
+  "policy": {
+    "kb_id": "2066138147863105536",
+    "name": "比特严选-政策库",
+    "collection_name": "ragent-eval-qwen8b-1536-kb-policy",
+    "embedding_model": "qwen-emb-8b",
+    "embedding_dimension": 1536
+  },
+  "faq": {
+    "kb_id": "2066138148060237824",
+    "name": "比特严选-FAQ库",
+    "collection_name": "ragent-eval-qwen8b-1536-kb-faq",
+    "embedding_model": "qwen-emb-8b",
+    "embedding_dimension": 1536
+  }
+}

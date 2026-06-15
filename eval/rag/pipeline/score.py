@@ -19,6 +19,7 @@ from pathlib import Path
 from eval.rag.metrics import behavior, intent, latency, retrieval
 from eval.common.schemas import EvalRecord, MetricResult
 from eval.rag.dataset.profiles import load_run_metadata
+from eval.rag.report.trace_analysis import analyze as analyze_traces
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 RUNS_DIR = PROJECT_ROOT / "eval" / "runs"
@@ -164,6 +165,7 @@ def score(
         "status": status_distribution(records),
         "run_metadata": load_run_metadata(runs_file),
         "sanity_warnings": warnings,
+        "trace_analysis": analyze_traces(records),
         "metrics": [dataclasses.asdict(m) for m in results],
     }
     scores_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
