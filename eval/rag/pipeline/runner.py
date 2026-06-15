@@ -120,10 +120,16 @@ def stream_chat_one_query(
     base_url: str,
     token: str,
     query: str,
+    routing_model: str | None = None,
+    answer_model: str | None = None,
     debug_raw_path: Path | None = None,
 ) -> dict[str, Any]:
     """走 /rag/v3/chat SSE，聚合 response / thinking / final_status / first_token_ms。"""
     params = {"question": query}
+    if routing_model:
+        params["routingModelId"] = routing_model
+    if answer_model:
+        params["answerModelId"] = answer_model
     headers = {"Authorization": token, "Accept": "text/event-stream"}
 
     state: dict[str, Any] = {
@@ -246,6 +252,66 @@ def fetch_eval_retrieval(
     return state
 
 
+def replay_generation(
+    base_url: str,
+    token: str,
+    messages: list[dict[str, Any]],
+    answer_model: str,
+) -> dict[str, Any]:
+    """Replay one frozen generation input without rerunning routing or retrieval."""
+    headers = {
+        "Authorization": token,
+        "Accept": "text/event-stream",
+        "Content-Type": "application/json",
+    }
+    state: dict[str, Any] = {
+        "response": "",
+        "thinking": "",
+        "meta": None,
+        "final_status": "unknown",
+        "error": None,
+        "first_token_ms": None,
+    }
+    start = time.time()
+    try:
+        with requests.post(
+            f"{base_url}/rag/eval/generate",
+            json={
+                "answerModelId": answer_model,
+                "messages": messages,
+                "temperature": 0,
+                "topP": 1,
+            },
+            headers=headers,
+            stream=True,
+            timeout=(SSE_CONNECT_TIMEOUT, SSE_READ_TIMEOUT),
+        ) as resp:
+            resp.raise_for_status()
+            for event_name, data_str in parse_sse_stream(
+                chunk for chunk in resp.iter_content(chunk_size=512) if chunk
+            ):
+                payload: Any = data_str
+                if data_str and data_str != "[DONE]":
+                    try:
+                        payload = json.loads(data_str)
+                    except json.JSONDecodeError:
+                        pass
+                if event_name == "message" and isinstance(payload, dict):
+                    content = payload.get("delta", "") or ""
+                    if state["first_token_ms"] is None and content:
+                        state["first_token_ms"] = int((time.time() - start) * 1000)
+                    state["response"] += content
+                elif event_name == "finish":
+                    state["final_status"] = "success"
+                elif event_name == "done":
+                    break
+    except Exception as exc:  # noqa: BLE001
+        state["error"] = str(exc)
+        state["final_status"] = "error"
+    state["latency_ms"] = int((time.time() - start) * 1000)
+    return state
+
+
 def fetch_trace_detail(
     base_url: str,
     token: str,
@@ -308,6 +374,46 @@ def _parse_extra_data(raw: Any) -> dict[str, Any]:
         return {}
 
 
+def _trace_node_extra(
+    trace_detail: dict[str, Any] | None,
+    node_name: str,
+) -> dict[str, Any]:
+    if not trace_detail:
+        return {}
+    for node in reversed(trace_detail.get("nodes") or []):
+        if node.get("nodeName") == node_name:
+            extra = node.get("extraData")
+            return extra if isinstance(extra, dict) else {}
+    return {}
+
+
+def retrieval_state_from_chat_trace(
+    trace_detail: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    """Build the legacy eval-state shape from the same production trace."""
+    snapshot = _trace_node_extra(trace_detail, "eval-retrieval-result")
+    intent_snapshot = _trace_node_extra(trace_detail, "eval-intent-result")
+    if not snapshot:
+        return None
+    intent_ids: list[str | None] = []
+    for item in intent_snapshot.get("subIntents") or []:
+        candidates = item.get("candidates") or []
+        intent_ids.append(candidates[0].get("intentId") if candidates else None)
+    run = (trace_detail or {}).get("run") or {}
+    return {
+        "retrieved_doc_ids_ragent": snapshot.get("retrievedDocIds") or [],
+        "retrieved_chunk_ids": snapshot.get("retrievedChunkIds") or [],
+        "retrieved_contexts": snapshot.get("retrievedContexts") or [],
+        "retrieved_context_doc_ids": snapshot.get("retrievedContextDocIds") or [],
+        "intent_leaf_ids": intent_ids,
+        "has_kb": snapshot.get("hasKb"),
+        "has_mcp": snapshot.get("hasMcp"),
+        "trace_id": run.get("traceId"),
+        "trace_detail": trace_detail,
+        "error": None,
+    }
+
+
 def build_record(
     sample: EvalSample,
     chat_state: dict[str, Any],
@@ -327,6 +433,14 @@ def build_record(
     eval_trace = eval_state.get("trace_detail")
     chat_trace_id = ((chat_trace or {}).get("run") or {}).get("traceId")
     eval_trace_id = eval_state["trace_id"]
+    model_selection = _trace_node_extra(chat_trace, "eval-model-selection")
+    generation = _trace_node_extra(chat_trace, "eval-answer-generation")
+    model_calls = [
+        node.get("extraData") or {}
+        for node in (chat_trace or {}).get("nodes") or []
+        if node.get("nodeName", "").endswith("-llm")
+        or node.get("nodeName") == "eval-answer-generation"
+    ]
 
     return EvalRecord(
         query_id=sample.query_id,
@@ -361,10 +475,19 @@ def build_record(
         scope_reason=sample.scope_reason,
         annotation_rationale=sample.annotation_rationale,
         requires_tool=sample.requires_tool,
+        expected_answer_type=sample.expected_answer_type,
         chat_trace_id=chat_trace_id,
         eval_trace_id=eval_trace_id,
         chat_trace=chat_trace,
         eval_trace=eval_trace,
+        routing_model_id=model_selection.get("routingModelId"),
+        answer_model_id=model_selection.get("answerModelId"),
+        generation_input_hash=generation.get("inputHash"),
+        context_hash=generation.get("contextHash"),
+        estimated_input_tokens=generation.get("estimatedInputTokens"),
+        estimated_output_tokens=generation.get("estimatedOutputTokens"),
+        usage_estimated=bool(generation.get("usageEstimated", True)),
+        model_calls=model_calls,
     )
 
 
@@ -381,24 +504,40 @@ def _process_one(
     token: str,
     ragent_to_biz: dict[str, str],
     debug: bool,
+    routing_model: str | None,
+    answer_model: str | None,
+    require_same_trace: bool,
     runs_dir: Path = RUNS_DIR,
 ) -> tuple[int, EvalRecord, str]:
     """处理单条样本，返回 (序号, record, 预览文本)。独立函数便于 ThreadPoolExecutor 调度。"""
     preview = (sample.query[:40] + "…") if len(sample.query) > 40 else sample.query
     debug_path = runs_dir / f"debug_{sample.query_id}.sse" if debug else None
-    chat_state = stream_chat_one_query(base_url, token, sample.query, debug_raw_path=debug_path)
-    eval_state = fetch_eval_retrieval(base_url, token, sample.query)
+    chat_state = stream_chat_one_query(
+        base_url,
+        token,
+        sample.query,
+        routing_model=routing_model,
+        answer_model=answer_model,
+        debug_raw_path=debug_path,
+    )
     meta = chat_state.get("meta") or {}
     chat_state["trace_detail"] = fetch_trace_detail(
         base_url,
         token,
         task_id=meta.get("taskId"),
     )
-    eval_state["trace_detail"] = fetch_trace_detail(
-        base_url,
-        token,
-        trace_id=eval_state.get("trace_id"),
-    )
+    eval_state = retrieval_state_from_chat_trace(chat_state["trace_detail"])
+    if eval_state is None:
+        if require_same_trace:
+            raise RuntimeError(
+                f"{sample.query_id}: same-request evaluation trace is unavailable"
+            )
+        eval_state = fetch_eval_retrieval(base_url, token, sample.query)
+        eval_state["trace_detail"] = fetch_trace_detail(
+            base_url,
+            token,
+            trace_id=eval_state.get("trace_id"),
+        )
     record = build_record(sample, chat_state, eval_state, ragent_to_biz)
     return idx, record, preview
 
@@ -418,6 +557,9 @@ def run(
     state_dir: Path | None = None,
     embedding_model: str | None = None,
     dimension: int | None = None,
+    routing_model: str | None = None,
+    answer_model: str | None = None,
+    require_same_trace: bool = False,
 ) -> Path:
     """主入口。返回 runs/*.jsonl 的路径。环境变量：
     RAGENT_BASE_URL / RAGENT_USERNAME / RAGENT_PASSWORD。
@@ -493,6 +635,9 @@ def run(
         "state_dir": str(Path(state_dir).resolve()) if state_dir else None,
         "embedding_model": embedding_model,
         "embedding_dimension": dimension,
+        "routing_model": routing_model,
+        "answer_model": answer_model,
+        "require_same_trace": require_same_trace,
         "experiment": experiment,
     }
     write_run_metadata(out_path, metadata)
@@ -520,20 +665,31 @@ def run(
 
                 debug_path = runs_dir / f"debug_{sample.query_id}.sse" if debug else None
                 chat_state = stream_chat_one_query(
-                    base_url, token, sample.query, debug_raw_path=debug_path,
+                    base_url,
+                    token,
+                    sample.query,
+                    routing_model=routing_model,
+                    answer_model=answer_model,
+                    debug_raw_path=debug_path,
                 )
-                eval_state = fetch_eval_retrieval(base_url, token, sample.query)
                 meta = chat_state.get("meta") or {}
                 chat_state["trace_detail"] = fetch_trace_detail(
                     base_url,
                     token,
                     task_id=meta.get("taskId"),
                 )
-                eval_state["trace_detail"] = fetch_trace_detail(
-                    base_url,
-                    token,
-                    trace_id=eval_state.get("trace_id"),
-                )
+                eval_state = retrieval_state_from_chat_trace(chat_state["trace_detail"])
+                if eval_state is None:
+                    if require_same_trace:
+                        raise RuntimeError(
+                            f"{sample.query_id}: same-request evaluation trace is unavailable"
+                        )
+                    eval_state = fetch_eval_retrieval(base_url, token, sample.query)
+                    eval_state["trace_detail"] = fetch_trace_detail(
+                        base_url,
+                        token,
+                        trace_id=eval_state.get("trace_id"),
+                    )
                 record = build_record(sample, chat_state, eval_state, ragent_to_biz)
                 out_fp.write(json.dumps(dataclasses.asdict(record), ensure_ascii=False) + "\n")
                 out_fp.flush()
@@ -565,7 +721,14 @@ def run(
                     future = executor.submit(
                         _process_one,
                         sample, idx, len(samples),
-                        base_url, token, ragent_to_biz, debug, runs_dir,
+                        base_url,
+                        token,
+                        ragent_to_biz,
+                        debug,
+                        routing_model,
+                        answer_model,
+                        require_same_trace,
+                        runs_dir,
                     )
                     future_map[future] = idx
 

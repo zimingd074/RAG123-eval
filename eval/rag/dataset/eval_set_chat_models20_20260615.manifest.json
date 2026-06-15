@@ -1,0 +1,60 @@
+{
+  "source": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_v1_all.jsonl",
+  "seed": 20260615,
+  "sample_count": 20,
+  "difficulty_distribution": {
+    "hard": 6,
+    "medium": 8,
+    "easy": 6
+  },
+  "intent_distribution": {
+    "F1_故障报告": 1,
+    "S6_配件兼容": 1,
+    "S4_价格活动": 1,
+    "S7_适用场景": 2,
+    "S8_操作指引": 1,
+    "S9_配网连接": 1,
+    "S2_参数咨询": 1,
+    "S14_售后政策": 1,
+    "S16_物流配送": 2,
+    "S12_生态联动": 1,
+    "S15_退换货": 1,
+    "S5_库存到货": 1,
+    "S13_保养维护": 2,
+    "F3_投诉吐槽": 1,
+    "S11_固件升级": 1,
+    "S17_发票会员": 1,
+    "S10_APP功能": 1
+  },
+  "query_ids": [
+    "F1-04",
+    "S6-06",
+    "S4-06",
+    "S7-07",
+    "S8-06",
+    "S9-07",
+    "S2-05",
+    "S14-04",
+    "S16-04",
+    "S12-01",
+    "S15-05",
+    "S5-04",
+    "S13-05",
+    "F3-02",
+    "S11-01",
+    "S17-02",
+    "S10-02",
+    "S16-01",
+    "S7-02",
+    "S13-02"
+  ],
+  "constraints": {
+    "evaluation_scope": "static-v1",
+    "expected_route": "KB",
+    "requires_tool": false,
+    "max_samples_per_intent": 2
+  },
+  "human_review_status": "approved",
+  "reviewed_at": "2026-06-15",
+  "review_note": "Validated JSON structure, 6/8/6 difficulty split, intent labels, expected routes, evidence document IDs, and static non-tool scope."
+}

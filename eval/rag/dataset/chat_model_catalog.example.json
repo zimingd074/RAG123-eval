@@ -1,0 +1,50 @@
+{
+  "snapshot_date": "YYYY-MM-DD",
+  "region": "cn-beijing",
+  "currency": "CNY",
+  "official_source": "https://bailian.console.aliyun.com/cn-beijing#/model-market",
+  "models": {
+    "qwen3-max": {
+      "provider_model": "qwen3-max",
+      "actual_version": null,
+      "context_limit": null,
+      "input_per_million": null,
+      "output_per_million": null
+    },
+    "qwen3.7-max": {
+      "provider_model": "qwen3.7-max",
+      "actual_version": null,
+      "context_limit": null,
+      "input_per_million": null,
+      "output_per_million": null
+    },
+    "qwen3.7-plus": {
+      "provider_model": "qwen3.7-plus",
+      "actual_version": null,
+      "context_limit": null,
+      "input_per_million": null,
+      "output_per_million": null
+    },
+    "qwen3.6-flash": {
+      "provider_model": "qwen3.6-flash",
+      "actual_version": null,
+      "context_limit": null,
+      "input_per_million": null,
+      "output_per_million": null
+    },
+    "deepseek-v4-pro": {
+      "provider_model": "deepseek-v4-pro",
+      "actual_version": null,
+      "context_limit": null,
+      "input_per_million": null,
+      "output_per_million": null
+    },
+    "deepseek-v4-flash": {
+      "provider_model": "deepseek-v4-flash",
+      "actual_version": null,
+      "context_limit": null,
+      "input_per_million": null,
+      "output_per_million": null
+    }
+  }
+}

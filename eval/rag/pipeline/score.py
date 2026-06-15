@@ -16,7 +16,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from eval.rag.metrics import behavior, intent, latency, retrieval
+from eval.rag.metrics import behavior, intent, latency, retrieval, rewrite
 from eval.common.schemas import EvalRecord, MetricResult
 from eval.rag.dataset.profiles import load_run_metadata
 from eval.rag.report.trace_analysis import analyze as analyze_traces
@@ -119,17 +119,19 @@ def score(
         )
 
     results: list[MetricResult] = []
-    print("[1/4] intent ...")
+    print("[1/5] intent ...")
     results += intent.compute(records)
-    print("[2/4] retrieval ...")
+    print("[2/5] retrieval ...")
     results += retrieval.compute(records)
-    print("[3/4] behavior ...")
+    print("[3/5] rewrite ...")
+    results += rewrite.compute(records)
+    print("[4/5] behavior ...")
     results += behavior.compute(records)
-    print("[4/4] latency ...")
+    print("[5/5] latency ...")
     results += latency.compute(records)
 
     if not skip_ragas:
-        print("[5/5] ragas (LLM-as-judge) ...")
+        print("[6/6] ragas (LLM-as-judge) ...")
         try:
             from eval.rag.metrics import ragas_judge
 

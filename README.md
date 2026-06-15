@@ -219,6 +219,38 @@ python -m eval rag report --theme magazine      # 电子杂志风
 
 ---
 
+## 双模型选型评测
+
+1. 在 ragent 启动环境设置 `RAGENT_EVAL_ENABLED=true`，并配置百炼 API Key。
+2. 复制 `eval/rag/dataset/chat_model_catalog.example.json`，按执行当天百炼北京地域页面填写版本、上下文限制和人民币输入/输出单价。
+3. 人工复核 `eval_set_chat_models20_20260615.jsonl` 的意图、参考答案和证据文档后，将 manifest 的 `human_review_status` 改为 `approved`。
+4. 先执行第一阶段并生成改写复核模板：
+
+```bash
+python -m eval rag chat-model-benchmark \
+  --prices eval/rag/dataset/chat_model_catalog.json \
+  --output eval/reports/chat_models_selection
+```
+
+5. 第一阶段会自动计算改写指标：
+
+   - `rewrite_semantic_preservation`：受保护条件双向精确率/召回率与字符二元组相似度的加权分。
+   - `rewrite_condition_recall`：原问题中的型号、数值、时间、否定、范围、比较和疑问目标保留率。
+   - `silent_condition_change_rate`：改写新增、删除或改变关键条件的样本比例。
+
+   指标完全基于运行轨迹离线计算，不调用额外模型。需要人工仲裁时，可填写
+   `eval/reports/chat_models_selection/rewrite_review.json` 覆盖自动结果，再续跑：
+
+```bash
+python -m eval rag chat-model-benchmark \
+  --prices eval/rag/dataset/chat_model_catalog.json \
+  --output eval/reports/chat_models_selection \
+  --rewrite-review eval/reports/chat_models_selection/rewrite_review.json \
+  --resume
+```
+
+续跑会完成 Top 2 前置模型与 6 个回答模型的冻结上下文比较，以及 Top 3 组合的三轮决赛。
+
 ## 技术栈
 
 Python 3.11 · RAGAS 0.2+ · gpt-5.4-mini (judge) · 16:9 HTML 报告 · 不依赖 LangChain/LlamaIndex

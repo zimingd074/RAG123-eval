@@ -37,6 +37,8 @@ def cmd_run(args: argparse.Namespace) -> int:
             state_dir=args.state_dir,
             embedding_model=args.embedding_model,
             dimension=args.dimension,
+            routing_model=args.routing_model,
+            answer_model=args.answer_model,
         )
         return 0 if out_path.name else 1
     except RuntimeError as e:
@@ -212,6 +214,8 @@ def cmd_all(args: argparse.Namespace) -> int:
             state_dir=args.state_dir,
             embedding_model=args.embedding_model,
             dimension=args.dimension,
+            routing_model=args.routing_model,
+            answer_model=args.answer_model,
         )
     except RuntimeError as e:
         print(f"错误：{e}", file=sys.stderr)
@@ -234,6 +238,17 @@ def cmd_all(args: argparse.Namespace) -> int:
 
 def cmd_embedding_benchmark(args: argparse.Namespace) -> int:
     from eval.rag.embedding_benchmark import run
+
+    try:
+        run(args)
+        return 0
+    except RuntimeError as exc:
+        print(f"错误：{exc}", file=sys.stderr)
+        return 2
+
+
+def cmd_chat_model_benchmark(args: argparse.Namespace) -> int:
+    from eval.rag.chat_model_benchmark import run
 
     try:
         run(args)
@@ -278,6 +293,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_run.add_argument("--embedding-model", default=None)
     p_run.add_argument("--dimension", type=int, default=None)
+    p_run.add_argument("--routing-model", default=None, help="前置改写/意图/歧义模型 ID")
+    p_run.add_argument("--answer-model", default=None, help="最终答案生成模型 ID")
     p_run.add_argument("--start", type=int, default=0, help="跳过前 N 条")
     p_run.add_argument("--sleep", type=float, default=0.3, help="每条之间等待秒数")
     p_run.add_argument("-w", "--workers", type=int, default=1, help="并行线程数（默认 1 顺序）")
@@ -349,6 +366,8 @@ def build_parser() -> argparse.ArgumentParser:
     p_all.add_argument("--state-dir", type=Path, default=None)
     p_all.add_argument("--embedding-model", default=None)
     p_all.add_argument("--dimension", type=int, default=None)
+    p_all.add_argument("--routing-model", default=None, help="前置改写/意图/歧义模型 ID")
+    p_all.add_argument("--answer-model", default=None, help="最终答案生成模型 ID")
     p_all.add_argument(
         "--strip-frontmatter",
         action="store_true",
@@ -375,6 +394,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_arguments(p_embedding)
     p_embedding.set_defaults(func=cmd_embedding_benchmark)
+
+    from eval.rag.chat_model_benchmark import add_arguments as add_chat_model_arguments
+
+    p_chat_models = rag_sub.add_parser(
+        "chat-model-benchmark",
+        help="两阶段评测前置模型与答案模型组合",
+    )
+    add_chat_model_arguments(p_chat_models)
+    p_chat_models.set_defaults(func=cmd_chat_model_benchmark)
 
     return parser
 

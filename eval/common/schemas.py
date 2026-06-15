@@ -114,10 +114,19 @@ class EvalRecord:
     scope_reason: str = ""
     annotation_rationale: str = ""
     requires_tool: bool = False
+    expected_answer_type: Optional[str] = None
     chat_trace_id: Optional[str] = None
     eval_trace_id: Optional[str] = None
     chat_trace: Optional[dict[str, Any]] = None
     eval_trace: Optional[dict[str, Any]] = None
+    routing_model_id: Optional[str] = None
+    answer_model_id: Optional[str] = None
+    generation_input_hash: Optional[str] = None
+    context_hash: Optional[str] = None
+    estimated_input_tokens: Optional[int] = None
+    estimated_output_tokens: Optional[int] = None
+    usage_estimated: bool = True
+    model_calls: list[dict[str, Any]] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> "EvalRecord":

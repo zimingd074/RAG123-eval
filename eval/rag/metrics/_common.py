@@ -46,8 +46,8 @@ def slice_mean(
         if v is None:
             continue
         overall_vals.append(v)
-        bucket_l1[r.intent_l1 or "?"].append(v)
-        bucket_l2[r.intent_l2 or "?"].append(v)
+        bucket_l1[getattr(r, "intent_l1", "") or "?"].append(v)
+        bucket_l2[getattr(r, "intent_l2", "") or "?"].append(v)
 
     def _mean(xs: list[float]) -> float | None:
         return sum(xs) / len(xs) if xs else None
