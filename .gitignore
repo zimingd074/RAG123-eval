@@ -11,3 +11,7 @@ datasets/
 models/
 checkpoints/
 README.md
+
+.env
+.env.*
+!.env.example
