@@ -1,0 +1,375 @@
+{
+  "created_at": "2026-06-15T00:22:29.144827+08:00",
+  "dataset": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_static_stratified60_20260614.jsonl",
+  "doc_map": "D:\\PycharmProjects\\ragenteval\\eval\\states\\qwen8b_1536_weak20\\doc_id_map.json",
+  "corpus": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\embedding_weak20_all_20260614\\corpus.json",
+  "sample_count": 60,
+  "chunk_count": 141,
+  "document_count": 116,
+  "mapped_chunk_count": 137,
+  "unmapped_chunk_count": 4,
+  "primary_scope": "gold_collection",
+  "latency_rounds": 3,
+  "execution_order": [
+    "qwen3-8b-1024"
+  ],
+  "arms": [
+    {
+      "arm_id": "qwen3-8b-1024",
+      "model": "Qwen/Qwen3-Embedding-8B",
+      "dimension": 1024,
+      "send_dimensions": true,
+      "query_prefix": "Instruct: Given a user question, retrieve relevant passages from a Chinese e-commerce knowledge base that answer the question.\nQuery: ",
+      "family": "qwen3",
+      "note": "",
+      "max_input_chars": null
+    }
+  ],
+  "summaries": {
+    "qwen3-8b-1024": {
+      "model": "Qwen/Qwen3-Embedding-8B",
+      "dimension": 1024,
+      "send_dimensions": true,
+      "query_prefix": "Instruct: Given a user question, retrieve relevant passages from a Chinese e-commerce knowledge base that answer the question.\nQuery: ",
+      "note": "",
+      "max_input_chars": null,
+      "hit@1": 0.8833333333333333,
+      "hit@3": 0.9833333333333333,
+      "hit@5": 0.9833333333333333,
+      "hit@10": 1.0,
+      "recall@5": 0.8569444444444444,
+      "recall@10": 0.9388888888888889,
+      "mrr@10": 0.9333333333333333,
+      "ndcg@10": 0.8740746910935627,
+      "by_scope": {
+        "global": {
+          "hit@1": 0.7833333333333333,
+          "hit@3": 0.9333333333333333,
+          "hit@5": 0.9666666666666667,
+          "hit@10": 0.9833333333333333,
+          "recall@5": 0.7847222222222222,
+          "recall@10": 0.9125,
+          "mrr@10": 0.8631944444444444,
+          "ndcg@10": 0.807171865270739
+        },
+        "gold_collection": {
+          "hit@1": 0.8833333333333333,
+          "hit@3": 0.9833333333333333,
+          "hit@5": 0.9833333333333333,
+          "hit@10": 1.0,
+          "recall@5": 0.8569444444444444,
+          "recall@10": 0.9388888888888889,
+          "mrr@10": 0.9333333333333333,
+          "ndcg@10": 0.8740746910935627
+        }
+      },
+      "by_intent": {
+        "F1_故障报告": {
+          "sample_count": 3,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.9714568043383812
+        },
+        "F3_投诉吐槽": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.9197207891481876
+        },
+        "S10_APP功能": {
+          "sample_count": 4,
+          "hit@1": 0.75,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.875,
+          "ndcg@10": 0.8859428272880063
+        },
+        "S11_固件升级": {
+          "sample_count": 3,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 1.0
+        },
+        "S12_生态联动": {
+          "sample_count": 4,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.625,
+          "recall@10": 0.8125,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.7753077365882879
+        },
+        "S13_保养维护": {
+          "sample_count": 5,
+          "hit@1": 0.8,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.9,
+          "ndcg@10": 0.9386852807234541
+        },
+        "S14_售后政策": {
+          "sample_count": 4,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.9799301972870469
+        },
+        "S15_退换货": {
+          "sample_count": 4,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.9425164236707355
+        },
+        "S16_物流配送": {
+          "sample_count": 3,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 1.0
+        },
+        "S17_发票会员": {
+          "sample_count": 3,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 1.0
+        },
+        "S2_参数咨询": {
+          "sample_count": 6,
+          "hit@1": 0.6666666666666666,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.8333333333333334,
+          "recall@10": 1.0,
+          "mrr@10": 0.8333333333333334,
+          "ndcg@10": 0.8312442360593288
+        },
+        "S3_对比选购": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.8772153153380493
+        },
+        "S4_价格活动": {
+          "sample_count": 2,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 1.0
+        },
+        "S5_库存到货": {
+          "sample_count": 1,
+          "hit@1": 0.0,
+          "hit@3": 0.0,
+          "hit@5": 0.0,
+          "hit@10": 1.0,
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "ndcg@10": 0.4227898344066503
+        },
+        "S6_配件兼容": {
+          "sample_count": 4,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "recall@10": 0.7916666666666666,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.7705640387084473
+        },
+        "S7_适用场景": {
+          "sample_count": 4,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.5833333333333333,
+          "recall@10": 0.8541666666666666,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.7764029913041288
+        },
+        "S8_操作指引": {
+          "sample_count": 4,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.875,
+          "recall@10": 0.875,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.9032867981913646
+        },
+        "S9_配网连接": {
+          "sample_count": 4,
+          "hit@1": 0.5,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.6041666666666666,
+          "recall@10": 0.75,
+          "mrr@10": 0.7083333333333334,
+          "ndcg@10": 0.623422310395104
+        }
+      },
+      "by_difficulty": {
+        "easy": {
+          "sample_count": 11,
+          "hit@1": 0.9090909090909091,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.9242424242424242,
+          "recall@10": 0.9242424242424242,
+          "mrr@10": 0.9545454545454546,
+          "ndcg@10": 0.9173428087516978
+        },
+        "hard": {
+          "sample_count": 30,
+          "hit@1": 0.8666666666666667,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.8527777777777777,
+          "recall@10": 0.9305555555555556,
+          "mrr@10": 0.9277777777777777,
+          "ndcg@10": 0.8582457371740811
+        },
+        "medium": {
+          "sample_count": 19,
+          "hit@1": 0.8947368421052632,
+          "hit@3": 0.9473684210526315,
+          "hit@5": 0.9473684210526315,
+          "hit@10": 1.0,
+          "recall@5": 0.8245614035087719,
+          "recall@10": 0.9605263157894737,
+          "mrr@10": 0.9298245614035089,
+          "ndcg@10": 0.8740178133748763
+        }
+      },
+      "document_embedding": {
+        "request_count": 0,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "prompt_tokens": 0,
+        "total_tokens": 0,
+        "p50_ms": null,
+        "p95_ms": null,
+        "throughput_items_per_second": null,
+        "estimated_cost": null,
+        "cache_hit": true
+      },
+      "query_embedding": {
+        "request_count": 180,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "prompt_tokens": 6870,
+        "total_tokens": 6870,
+        "p50_ms": 151.83684999647085,
+        "p95_ms": 4073.6557400188744,
+        "throughput_items_per_second": 0.8946525022992966,
+        "estimated_cost": null,
+        "cache_hit": false
+      },
+      "query_cost_per_10k": null,
+      "storage_plan": {
+        "storage": "vector(1024)",
+        "hnsw": true,
+        "operator_class": "vector_cosine_ops"
+      },
+      "pgvector_validation": null
+    }
+  },
+  "bootstrap_mrr10_vs_best": {
+    "best_arm": "qwen3-8b-1024",
+    "iterations": 10000,
+    "deltas": {
+      "qwen3-8b-1024": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0
+      }
+    }
+  },
+  "quality_gate": {
+    "thresholds": {
+      "hit@5": 0.97,
+      "recall@5": 0.85,
+      "max_hit5_loss": 0.01,
+      "max_mrr10_loss": 0.02,
+      "max_intent_slice_loss": 0.05
+    },
+    "decisions": {
+      "qwen3-8b-1024": {
+        "passed": true,
+        "reasons": [],
+        "intent_hit5_regression": {
+          "S13_保养维护": 0.0,
+          "S2_参数咨询": 0.0
+        }
+      }
+    }
+  },
+  "recommendation": {
+    "selected_arm": "qwen3-8b-1024",
+    "reason": "Pricing was unavailable; selected by query P95 then dimension among arms passing all quality gates.",
+    "eligible_arms": [
+      "qwen3-8b-1024"
+    ]
+  },
+  "database_index_info": {
+    "available": false,
+    "reason": "--pg-container not provided"
+  }
+}

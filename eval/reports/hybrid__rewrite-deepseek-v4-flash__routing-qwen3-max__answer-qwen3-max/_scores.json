@@ -1,0 +1,2549 @@
+{
+  "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_hybrid_20260616\\runs\\hybrid__rewrite-deepseek-v4-flash__routing-qwen3-max__answer-qwen3-max.jsonl",
+  "n_records": 20,
+  "status": {
+    "success": 20
+  },
+  "run_metadata": {
+    "dataset_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_chat_models20_20260615.jsonl",
+    "dataset_sha256": "98f903c79966d8d9b977cafcd623eb6e63b9e3cb89833cae2f353157c3a5c37c",
+    "profile": "static-v1",
+    "original_sample_count": 20,
+    "profile_sample_count": 20,
+    "selected_sample_count": 20,
+    "excluded_sample_count": 0,
+    "excluded_sample_ids": [],
+    "excluded_samples": [],
+    "filter_intent": null,
+    "start": 0,
+    "limit": null,
+    "doc_map_path": "D:\\PycharmProjects\\ragenteval\\eval\\states\\qwen8b_1536_weak20\\doc_id_map.json",
+    "state_dir": "D:\\PycharmProjects\\ragenteval\\eval\\states\\qwen8b_1536_weak20",
+    "embedding_model": "qwen-emb-8b",
+    "embedding_dimension": 1536,
+    "rewrite_model": "deepseek-v4-flash",
+    "routing_model": "qwen3-max",
+    "answer_model": "qwen3-max",
+    "require_same_trace": true,
+    "hnsw_ef_search": 200,
+    "experiment": {
+      "embedding_model": "qwen-emb-8b",
+      "dimension": 1536,
+      "ragent_base_url": "http://localhost:19092/api/ragent"
+    }
+  },
+  "sanity_warnings": [],
+  "trace_analysis": {
+    "stages": [
+      {
+        "stage": "retrieval-scope-resolve",
+        "count": 20,
+        "p50_ms": 0.0,
+        "p95_ms": 5.0,
+        "candidate_mean": null,
+        "candidate_max": null
+      },
+      {
+        "stage": "vector-intent-search",
+        "count": 15,
+        "p50_ms": 249.0,
+        "p95_ms": 5003.0,
+        "candidate_mean": 16.0,
+        "candidate_max": 30.0
+      },
+      {
+        "stage": "vector-global-search",
+        "count": 5,
+        "p50_ms": 171.0,
+        "p95_ms": 5005.0,
+        "candidate_mean": 70.4,
+        "candidate_max": 88.0
+      },
+      {
+        "stage": "keyword-pg-search",
+        "count": 20,
+        "p50_ms": 1.0,
+        "p95_ms": 5.0,
+        "candidate_mean": 0.15,
+        "candidate_max": 3.0
+      },
+      {
+        "stage": "rrf-fusion",
+        "count": 20,
+        "p50_ms": 0.0,
+        "p95_ms": 1.0,
+        "candidate_mean": 29.75,
+        "candidate_max": 88.0
+      },
+      {
+        "stage": "chunk-deduplication",
+        "count": 20,
+        "p50_ms": 0.0,
+        "p95_ms": 1.0,
+        "candidate_mean": 29.65,
+        "candidate_max": 88.0
+      },
+      {
+        "stage": "rerank",
+        "count": 20,
+        "p50_ms": 232.0,
+        "p95_ms": 328.0,
+        "candidate_mean": 12.3,
+        "candidate_max": 15.0
+      },
+      {
+        "stage": "final-topk",
+        "count": 20,
+        "p50_ms": 0.0,
+        "p95_ms": 1.0,
+        "candidate_mean": 5.5,
+        "candidate_max": 10.0
+      }
+    ],
+    "retrieval_latency": {
+      "count": 20,
+      "p50_ms": 558.0,
+      "p95_ms": 5048.0
+    },
+    "slowest": {
+      "query_id": "S16-01",
+      "node": "user-first-packet",
+      "duration_ms": 14180.0
+    },
+    "bottlenecks": [
+      {
+        "query_id": "S14-04",
+        "retrieval_ms": 3748.0,
+        "bottleneck_stage": "vector-global-search",
+        "stage_ms": 3452.0
+      },
+      {
+        "query_id": "F3-02",
+        "retrieval_ms": 3665.0,
+        "bottleneck_stage": "vector-intent-search",
+        "stage_ms": 3435.0
+      },
+      {
+        "query_id": "S17-02",
+        "retrieval_ms": 5048.0,
+        "bottleneck_stage": "vector-global-search",
+        "stage_ms": 5005.0
+      },
+      {
+        "query_id": "S16-01",
+        "retrieval_ms": 5034.0,
+        "bottleneck_stage": "vector-intent-search",
+        "stage_ms": 5003.0
+      }
+    ],
+    "rerank_count": 20,
+    "rerank_fallback_rate": 0.0,
+    "rerank_timeout_rate": 0.0,
+    "ranking_changes": [
+      {
+        "query_id": "F1-04",
+        "chunkId": "2066142923866750978",
+        "rrfRank": 2,
+        "rerankRank": 1,
+        "rerankScore": 0.61654824
+      },
+      {
+        "query_id": "F1-04",
+        "chunkId": "2066142923866750979",
+        "rrfRank": 1,
+        "rerankRank": 2,
+        "rerankScore": 0.5373047
+      },
+      {
+        "query_id": "F1-04",
+        "chunkId": "2066142951570128897",
+        "rrfRank": 3,
+        "rerankRank": 3,
+        "rerankScore": 0.49608514
+      },
+      {
+        "query_id": "F1-04",
+        "chunkId": "2066142948734779394",
+        "rrfRank": 8,
+        "rerankRank": 4,
+        "rerankScore": 0.33465594
+      },
+      {
+        "query_id": "F1-04",
+        "chunkId": "2066142921408888833",
+        "rrfRank": 9,
+        "rerankRank": 5,
+        "rerankScore": 0.3086725
+      },
+      {
+        "query_id": "S6-06",
+        "chunkId": "2066142912235946021",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.9033877
+      },
+      {
+        "query_id": "S6-06",
+        "chunkId": "2066142912235945995",
+        "rrfRank": 3,
+        "rerankRank": 2,
+        "rerankScore": 0.7917539
+      },
+      {
+        "query_id": "S6-06",
+        "chunkId": "2066142912235946002",
+        "rrfRank": 2,
+        "rerankRank": 3,
+        "rerankScore": 0.7292072
+      },
+      {
+        "query_id": "S6-06",
+        "chunkId": "2066142912235946007",
+        "rrfRank": 4,
+        "rerankRank": 4,
+        "rerankScore": 0.6854554
+      },
+      {
+        "query_id": "S6-06",
+        "chunkId": "2066142939754774529",
+        "rrfRank": 9,
+        "rerankRank": 5,
+        "rerankScore": 0.3887367
+      },
+      {
+        "query_id": "S4-06",
+        "chunkId": "2066142932234387457",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.8410822
+      },
+      {
+        "query_id": "S4-06",
+        "chunkId": "2066142931605241857",
+        "rrfRank": 4,
+        "rerankRank": 2,
+        "rerankScore": 0.4788955
+      },
+      {
+        "query_id": "S4-06",
+        "chunkId": "2066142950597050369",
+        "rrfRank": 2,
+        "rerankRank": 3,
+        "rerankScore": 0.45570245
+      },
+      {
+        "query_id": "S4-06",
+        "chunkId": "2066142941126311937",
+        "rrfRank": 3,
+        "rerankRank": 4,
+        "rerankScore": 0.30567133
+      },
+      {
+        "query_id": "S4-06",
+        "chunkId": "2066142922134503425",
+        "rrfRank": 8,
+        "rerankRank": 5,
+        "rerankScore": 0.2654165
+      },
+      {
+        "query_id": "S7-07",
+        "chunkId": "2066142947325493249",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.8699947
+      },
+      {
+        "query_id": "S7-07",
+        "chunkId": "2066148386570227713",
+        "rrfRank": 10,
+        "rerankRank": 2,
+        "rerankScore": 0.39107323
+      },
+      {
+        "query_id": "S7-07",
+        "chunkId": "2066142947208052737",
+        "rrfRank": 3,
+        "rerankRank": 3,
+        "rerankScore": 0.3826776
+      },
+      {
+        "query_id": "S7-07",
+        "chunkId": "2066142912235945988",
+        "rrfRank": 5,
+        "rerankRank": 4,
+        "rerankScore": 0.32349414
+      },
+      {
+        "query_id": "S7-07",
+        "chunkId": "2066148407134900225",
+        "rrfRank": 9,
+        "rerankRank": 5,
+        "rerankScore": 0.3185547
+      },
+      {
+        "query_id": "S8-06",
+        "chunkId": "2066142921408888833",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.5257504
+      },
+      {
+        "query_id": "S8-06",
+        "chunkId": "2066148525640765440",
+        "rrfRank": 2,
+        "rerankRank": 2,
+        "rerankScore": 0.4267258
+      },
+      {
+        "query_id": "S8-06",
+        "chunkId": "2066142917885673473",
+        "rrfRank": 5,
+        "rerankRank": 3,
+        "rerankScore": 0.33832577
+      },
+      {
+        "query_id": "S8-06",
+        "chunkId": "2066142948734779394",
+        "rrfRank": 4,
+        "rerankRank": 4,
+        "rerankScore": 0.3155237
+      },
+      {
+        "query_id": "S8-06",
+        "chunkId": "2066142948734779395",
+        "rrfRank": 3,
+        "rerankRank": 5,
+        "rerankScore": 0.26913306
+      },
+      {
+        "query_id": "S9-07",
+        "chunkId": "2066142951020675075",
+        "rrfRank": 4,
+        "rerankRank": 1,
+        "rerankScore": 0.7771748
+      },
+      {
+        "query_id": "S9-07",
+        "chunkId": "2066142942313299971",
+        "rrfRank": 2,
+        "rerankRank": 2,
+        "rerankScore": 0.63950145
+      },
+      {
+        "query_id": "S9-07",
+        "chunkId": "2066142951423328257",
+        "rrfRank": 5,
+        "rerankRank": 3,
+        "rerankScore": 0.5773848
+      },
+      {
+        "query_id": "S9-07",
+        "chunkId": "2066142923862556673",
+        "rrfRank": 6,
+        "rerankRank": 4,
+        "rerankScore": 0.50502074
+      },
+      {
+        "query_id": "S9-07",
+        "chunkId": "2066142932960002049",
+        "rrfRank": 1,
+        "rerankRank": 5,
+        "rerankScore": 0.49115402
+      },
+      {
+        "query_id": "S2-05",
+        "chunkId": "2066142933966635009",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.9683806
+      },
+      {
+        "query_id": "S2-05",
+        "chunkId": "2066142934000189441",
+        "rrfRank": 2,
+        "rerankRank": 2,
+        "rerankScore": 0.61075824
+      },
+      {
+        "query_id": "S2-05",
+        "chunkId": "2066142947208052737",
+        "rrfRank": 4,
+        "rerankRank": 3,
+        "rerankScore": 0.55769163
+      },
+      {
+        "query_id": "S2-05",
+        "chunkId": "2066142912235946005",
+        "rrfRank": 3,
+        "rerankRank": 4,
+        "rerankScore": 0.29045665
+      },
+      {
+        "query_id": "S2-05",
+        "chunkId": "2066148364298473474",
+        "rrfRank": 6,
+        "rerankRank": 5,
+        "rerankScore": 0.2542162
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142941604462593",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.8593081
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142915926933506",
+        "rrfRank": 3,
+        "rerankRank": 2,
+        "rerankScore": 0.48346514
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142943189909506",
+        "rrfRank": 12,
+        "rerankRank": 3,
+        "rerankScore": 0.33124655
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142950597050369",
+        "rrfRank": 5,
+        "rerankRank": 4,
+        "rerankScore": 0.31696513
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142941126311937",
+        "rrfRank": 15,
+        "rerankRank": 5,
+        "rerankScore": 0.31568205
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142932234387457",
+        "rrfRank": 4,
+        "rerankRank": 6,
+        "rerankScore": 0.3106669
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142932645429249",
+        "rrfRank": 13,
+        "rerankRank": 7,
+        "rerankScore": 0.30694932
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142922927226881",
+        "rrfRank": 2,
+        "rerankRank": 8,
+        "rerankScore": 0.30629018
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142916400889858",
+        "rrfRank": 8,
+        "rerankRank": 9,
+        "rerankScore": 0.30612037
+      },
+      {
+        "query_id": "S14-04",
+        "chunkId": "2066142932884504577",
+        "rrfRank": 9,
+        "rerankRank": 10,
+        "rerankScore": 0.29459006
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142950320226305",
+        "rrfRank": 3,
+        "rerankRank": 1,
+        "rerankScore": 0.73176557
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142931148062721",
+        "rrfRank": 1,
+        "rerankRank": 2,
+        "rerankScore": 0.60896313
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142931605241857",
+        "rrfRank": 6,
+        "rerankRank": 3,
+        "rerankScore": 0.37553906
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142949720440833",
+        "rrfRank": 2,
+        "rerankRank": 4,
+        "rerankScore": 0.36601275
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142932234387457",
+        "rrfRank": 5,
+        "rerankRank": 5,
+        "rerankScore": 0.3423977
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142950597050369",
+        "rrfRank": 4,
+        "rerankRank": 6,
+        "rerankScore": 0.327787
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142922134503425",
+        "rrfRank": 14,
+        "rerankRank": 7,
+        "rerankScore": 0.30085254
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142941126311937",
+        "rrfRank": 7,
+        "rerankRank": 8,
+        "rerankScore": 0.30018142
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142949301010433",
+        "rrfRank": 11,
+        "rerankRank": 9,
+        "rerankScore": 0.26857835
+      },
+      {
+        "query_id": "S16-04",
+        "chunkId": "2066142943189909506",
+        "rrfRank": 13,
+        "rerankRank": 10,
+        "rerankScore": 0.21744089
+      },
+      {
+        "query_id": "S12-01",
+        "chunkId": "2066142917885673473",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.62498575
+      },
+      {
+        "query_id": "S12-01",
+        "chunkId": "2066148386570227713",
+        "rrfRank": 3,
+        "rerankRank": 2,
+        "rerankScore": 0.5898693
+      },
+      {
+        "query_id": "S12-01",
+        "chunkId": "2066142941067591681",
+        "rrfRank": 4,
+        "rerankRank": 3,
+        "rerankScore": 0.51734394
+      },
+      {
+        "query_id": "S12-01",
+        "chunkId": "2066148407134900225",
+        "rrfRank": 2,
+        "rerankRank": 4,
+        "rerankScore": 0.5059178
+      },
+      {
+        "query_id": "S12-01",
+        "chunkId": "2066148418077839362",
+        "rrfRank": 5,
+        "rerankRank": 5,
+        "rerankScore": 0.41652945
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142941126311937",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.7513665
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142950597050369",
+        "rrfRank": 3,
+        "rerankRank": 2,
+        "rerankScore": 0.3370908
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142931605241857",
+        "rrfRank": 2,
+        "rerankRank": 3,
+        "rerankScore": 0.32790598
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142932234387457",
+        "rrfRank": 6,
+        "rerankRank": 4,
+        "rerankScore": 0.31775475
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142922134503425",
+        "rrfRank": 15,
+        "rerankRank": 5,
+        "rerankScore": 0.31155732
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142950320226305",
+        "rrfRank": 4,
+        "rerankRank": 6,
+        "rerankScore": 0.27891847
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142922927226881",
+        "rrfRank": 9,
+        "rerankRank": 7,
+        "rerankScore": 0.27749377
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142931148062721",
+        "rrfRank": 5,
+        "rerankRank": 8,
+        "rerankScore": 0.27461147
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142949720440833",
+        "rrfRank": 7,
+        "rerankRank": 9,
+        "rerankScore": 0.27126193
+      },
+      {
+        "query_id": "S15-05",
+        "chunkId": "2066142942082613249",
+        "rrfRank": 8,
+        "rerankRank": 10,
+        "rerankScore": 0.26269084
+      },
+      {
+        "query_id": "S5-04",
+        "chunkId": "2066142935141040130",
+        "rrfRank": 5,
+        "rerankRank": 1,
+        "rerankScore": 0.40590626
+      },
+      {
+        "query_id": "S5-04",
+        "chunkId": "2066148449723863042",
+        "rrfRank": 4,
+        "rerankRank": 2,
+        "rerankScore": 0.4008226
+      },
+      {
+        "query_id": "S5-04",
+        "chunkId": "2066142915926933506",
+        "rrfRank": 1,
+        "rerankRank": 3,
+        "rerankScore": 0.39561445
+      },
+      {
+        "query_id": "S5-04",
+        "chunkId": "2066142944926351362",
+        "rrfRank": 8,
+        "rerankRank": 4,
+        "rerankScore": 0.34388635
+      },
+      {
+        "query_id": "S5-04",
+        "chunkId": "2066142916400889858",
+        "rrfRank": 3,
+        "rerankRank": 5,
+        "rerankScore": 0.33259106
+      },
+      {
+        "query_id": "S13-05",
+        "chunkId": "2066142948734779394",
+        "rrfRank": 2,
+        "rerankRank": 1,
+        "rerankScore": 0.45691234
+      },
+      {
+        "query_id": "S13-05",
+        "chunkId": "2066142948734779395",
+        "rrfRank": 1,
+        "rerankRank": 2,
+        "rerankScore": 0.437154
+      },
+      {
+        "query_id": "S13-05",
+        "chunkId": "2066148525640765440",
+        "rrfRank": 6,
+        "rerankRank": 3,
+        "rerankScore": 0.3679065
+      },
+      {
+        "query_id": "S13-05",
+        "chunkId": "2066142923866750979",
+        "rrfRank": 3,
+        "rerankRank": 4,
+        "rerankScore": 0.35453704
+      },
+      {
+        "query_id": "S13-05",
+        "chunkId": "2066142923866750978",
+        "rrfRank": 5,
+        "rerankRank": 5,
+        "rerankScore": 0.34320366
+      },
+      {
+        "query_id": "F3-02",
+        "chunkId": "2066142950320226305",
+        "rrfRank": 2,
+        "rerankRank": 1,
+        "rerankScore": 0.42408466
+      },
+      {
+        "query_id": "F3-02",
+        "chunkId": "2066142931148062721",
+        "rrfRank": 1,
+        "rerankRank": 2,
+        "rerankScore": 0.37662524
+      },
+      {
+        "query_id": "F3-02",
+        "chunkId": "2066142949720440833",
+        "rrfRank": 4,
+        "rerankRank": 3,
+        "rerankScore": 0.30790025
+      },
+      {
+        "query_id": "F3-02",
+        "chunkId": "2066142932234387457",
+        "rrfRank": 6,
+        "rerankRank": 4,
+        "rerankScore": 0.2525972
+      },
+      {
+        "query_id": "F3-02",
+        "chunkId": "2066142950597050369",
+        "rrfRank": 3,
+        "rerankRank": 5,
+        "rerankScore": 0.23069021
+      },
+      {
+        "query_id": "S11-01",
+        "chunkId": "2066148537011523585",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.4464782
+      },
+      {
+        "query_id": "S11-01",
+        "chunkId": "2066142919475314690",
+        "rrfRank": 2,
+        "rerankRank": 2,
+        "rerankScore": 0.29829812
+      },
+      {
+        "query_id": "S11-01",
+        "chunkId": "2066142940618801154",
+        "rrfRank": 3,
+        "rerankRank": 3,
+        "rerankScore": 0.26585904
+      },
+      {
+        "query_id": "S11-01",
+        "chunkId": "2066142919475314691",
+        "rrfRank": 4,
+        "rerankRank": 4,
+        "rerankScore": 0.26119313
+      },
+      {
+        "query_id": "S11-01",
+        "chunkId": "2066142940618801155",
+        "rrfRank": 6,
+        "rerankRank": 5,
+        "rerankScore": 0.23568062
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142950320226305",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.6382086
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142938521649153",
+        "rrfRank": 2,
+        "rerankRank": 2,
+        "rerankScore": 0.61129445
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142922134503425",
+        "rrfRank": 3,
+        "rerankRank": 3,
+        "rerankScore": 0.27340996
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142949720440833",
+        "rrfRank": 5,
+        "rerankRank": 4,
+        "rerankScore": 0.26868722
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142931148062721",
+        "rrfRank": 4,
+        "rerankRank": 5,
+        "rerankScore": 0.24444757
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142931605241857",
+        "rrfRank": 6,
+        "rerankRank": 6,
+        "rerankScore": 0.24383529
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142932234387457",
+        "rrfRank": 9,
+        "rerankRank": 7,
+        "rerankScore": 0.23450094
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142949301010433",
+        "rrfRank": 10,
+        "rerankRank": 8,
+        "rerankScore": 0.22551264
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142941126311937",
+        "rrfRank": 7,
+        "rerankRank": 9,
+        "rerankScore": 0.22418016
+      },
+      {
+        "query_id": "S10-02",
+        "chunkId": "2066142942082613249",
+        "rrfRank": 15,
+        "rerankRank": 10,
+        "rerankScore": 0.22269368
+      },
+      {
+        "query_id": "S7-02",
+        "chunkId": "2066142912235946005",
+        "rrfRank": 4,
+        "rerankRank": 1,
+        "rerankScore": 0.27822676
+      },
+      {
+        "query_id": "S7-02",
+        "chunkId": "2066142934000189441",
+        "rrfRank": 2,
+        "rerankRank": 2,
+        "rerankScore": 0.27239716
+      },
+      {
+        "query_id": "S7-02",
+        "chunkId": "2066142944225902593",
+        "rrfRank": 3,
+        "rerankRank": 3,
+        "rerankScore": 0.24965367
+      },
+      {
+        "query_id": "S7-02",
+        "chunkId": "2066142915587194881",
+        "rrfRank": 6,
+        "rerankRank": 4,
+        "rerankScore": 0.22880322
+      },
+      {
+        "query_id": "S7-02",
+        "chunkId": "2066142947325493249",
+        "rrfRank": 5,
+        "rerankRank": 5,
+        "rerankScore": 0.22583675
+      },
+      {
+        "query_id": "S13-02",
+        "chunkId": "2066142948734779394",
+        "rrfRank": 1,
+        "rerankRank": 1,
+        "rerankScore": 0.3710346
+      },
+      {
+        "query_id": "S13-02",
+        "chunkId": "2066148525640765440",
+        "rrfRank": 6,
+        "rerankRank": 2,
+        "rerankScore": 0.3449949
+      },
+      {
+        "query_id": "S13-02",
+        "chunkId": "2066142948734779395",
+        "rrfRank": 2,
+        "rerankRank": 3,
+        "rerankScore": 0.31722227
+      },
+      {
+        "query_id": "S13-02",
+        "chunkId": "2066142923866750979",
+        "rrfRank": 3,
+        "rerankRank": 4,
+        "rerankScore": 0.28617695
+      },
+      {
+        "query_id": "S13-02",
+        "chunkId": "2066142921408888833",
+        "rrfRank": 7,
+        "rerankRank": 5,
+        "rerankScore": 0.2793816
+      }
+    ]
+  },
+  "metrics": [
+    {
+      "name": "intent_top1",
+      "overall": 0.5,
+      "by_intent_l1": {
+        "FEEDBACK": 0.5,
+        "SUPPORT": 0.5
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.5,
+        "S8_操作指引": 0.0,
+        "S9_配网连接": 1.0,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 0.0,
+        "S16_物流配送": 0.0,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 0.0,
+        "S5_库存到货": 1.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 0.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 0.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 0.0,
+        "S9-07": 1.0,
+        "S2-05": 1.0,
+        "S14-04": 0.0,
+        "S16-04": 0.0,
+        "S12-01": 1.0,
+        "S15-05": 0.0,
+        "S5-04": 1.0,
+        "S13-05": 1.0,
+        "F3-02": 0.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 0.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "hit@1",
+      "overall": 0.65,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.6111111111111112
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.5,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 0.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 1.0,
+        "S9-07": 0.0,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 0.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall@1",
+      "overall": 0.3708333333333333,
+      "by_intent_l1": {
+        "FEEDBACK": 0.5,
+        "SUPPORT": 0.35648148148148145
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.5,
+        "S6_配件兼容": 0.3333333333333333,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.125,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.25,
+        "S12_生态联动": 0.3333333333333333,
+        "S15_退换货": 0.5,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 0.75,
+        "F3_投诉吐槽": 0.5,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 0.0
+      },
+      "per_sample": {
+        "F1-04": 0.5,
+        "S6-06": 0.3333333333333333,
+        "S4-06": 1.0,
+        "S7-07": 0.25,
+        "S8-06": 0.5,
+        "S9-07": 0.0,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 0.5,
+        "S12-01": 0.3333333333333333,
+        "S15-05": 0.5,
+        "S5-04": 0.0,
+        "S13-05": 0.5,
+        "F3-02": 0.5,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 0.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall_all_expected@1",
+      "overall": 0.3708333333333333,
+      "by_intent_l1": {
+        "FEEDBACK": 0.5,
+        "SUPPORT": 0.35648148148148145
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.5,
+        "S6_配件兼容": 0.3333333333333333,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.125,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.25,
+        "S12_生态联动": 0.3333333333333333,
+        "S15_退换货": 0.5,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 0.75,
+        "F3_投诉吐槽": 0.5,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 0.0
+      },
+      "per_sample": {
+        "F1-04": 0.5,
+        "S6-06": 0.3333333333333333,
+        "S4-06": 1.0,
+        "S7-07": 0.25,
+        "S8-06": 0.5,
+        "S9-07": 0.0,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 0.5,
+        "S12-01": 0.3333333333333333,
+        "S15-05": 0.5,
+        "S5-04": 0.0,
+        "S13-05": 0.5,
+        "F3-02": 0.5,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 0.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "nice_hit@1",
+      "overall": null,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {
+        "F1-04": null,
+        "S6-06": null,
+        "S4-06": null,
+        "S7-07": null,
+        "S8-06": null,
+        "S9-07": null,
+        "S2-05": null,
+        "S14-04": null,
+        "S16-04": null,
+        "S12-01": null,
+        "S15-05": null,
+        "S5-04": null,
+        "S13-05": null,
+        "F3-02": null,
+        "S11-01": null,
+        "S17-02": null,
+        "S10-02": null,
+        "S16-01": null,
+        "S7-02": null,
+        "S13-02": null
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "hit@3",
+      "overall": 0.7,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.6666666666666666
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.5,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 1.0,
+        "S9-07": 0.0,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall@3",
+      "overall": 0.575,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.5277777777777778
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 0.3333333333333333,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.25,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.6666666666666666,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 0.3333333333333333,
+        "S4-06": 1.0,
+        "S7-07": 0.5,
+        "S8-06": 0.5,
+        "S9-07": 0.0,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 0.6666666666666666,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall_all_expected@3",
+      "overall": 0.575,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.5277777777777778
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 0.3333333333333333,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.25,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.6666666666666666,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 0.3333333333333333,
+        "S4-06": 1.0,
+        "S7-07": 0.5,
+        "S8-06": 0.5,
+        "S9-07": 0.0,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 0.6666666666666666,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "nice_hit@3",
+      "overall": null,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {
+        "F1-04": null,
+        "S6-06": null,
+        "S4-06": null,
+        "S7-07": null,
+        "S8-06": null,
+        "S9-07": null,
+        "S2-05": null,
+        "S14-04": null,
+        "S16-04": null,
+        "S12-01": null,
+        "S15-05": null,
+        "S5-04": null,
+        "S13-05": null,
+        "F3-02": null,
+        "S11-01": null,
+        "S17-02": null,
+        "S10-02": null,
+        "S16-01": null,
+        "S7-02": null,
+        "S13-02": null
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "hit@5",
+      "overall": 0.75,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.7222222222222222
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.5,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 1.0,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 1.0,
+        "S9-07": 1.0,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall@5",
+      "overall": 0.625,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.5833333333333334
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.25,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.3333333333333333,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.6666666666666666,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 0.5,
+        "S8-06": 0.5,
+        "S9-07": 0.3333333333333333,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 0.6666666666666666,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall_all_expected@5",
+      "overall": 0.625,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.5833333333333334
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.25,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.3333333333333333,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.6666666666666666,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 0.5,
+        "S8-06": 0.5,
+        "S9-07": 0.3333333333333333,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 0.6666666666666666,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "nice_hit@5",
+      "overall": null,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {
+        "F1-04": null,
+        "S6-06": null,
+        "S4-06": null,
+        "S7-07": null,
+        "S8-06": null,
+        "S9-07": null,
+        "S2-05": null,
+        "S14-04": null,
+        "S16-04": null,
+        "S12-01": null,
+        "S15-05": null,
+        "S5-04": null,
+        "S13-05": null,
+        "F3-02": null,
+        "S11-01": null,
+        "S17-02": null,
+        "S10-02": null,
+        "S16-01": null,
+        "S7-02": null,
+        "S13-02": null
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "hit@10",
+      "overall": 0.75,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.7222222222222222
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.5,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 1.0,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 1.0,
+        "S9-07": 1.0,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall@10",
+      "overall": 0.625,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.5833333333333334
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.25,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.3333333333333333,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.6666666666666666,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 0.5,
+        "S8-06": 0.5,
+        "S9-07": 0.3333333333333333,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 0.6666666666666666,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "recall_all_expected@10",
+      "overall": 0.625,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.5833333333333334
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.25,
+        "S8_操作指引": 0.5,
+        "S9_配网连接": 0.3333333333333333,
+        "S2_参数咨询": 0.5,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.6666666666666666,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 0.5,
+        "S8-06": 0.5,
+        "S9-07": 0.3333333333333333,
+        "S2-05": 0.5,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 0.6666666666666666,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 1.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "nice_hit@10",
+      "overall": null,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {
+        "F1-04": null,
+        "S6-06": null,
+        "S4-06": null,
+        "S7-07": null,
+        "S8-06": null,
+        "S9-07": null,
+        "S2-05": null,
+        "S14-04": null,
+        "S16-04": null,
+        "S12-01": null,
+        "S15-05": null,
+        "S5-04": null,
+        "S13-05": null,
+        "F3-02": null,
+        "S11-01": null,
+        "S17-02": null,
+        "S10-02": null,
+        "S16-01": null,
+        "S7-02": null,
+        "S13-02": null
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "mrr@10",
+      "overall": 0.6849999999999999,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.6499999999999999
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.5,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 0.2,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 0.5
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 1.0,
+        "S9-07": 0.2,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 0.5,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 1.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "rewrite_parse_rate",
+      "overall": 1.0,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 1.0
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 1.0,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 1.0,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 1.0,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 1.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 1.0,
+        "S17_发票会员": 1.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 1.0,
+        "S9-07": 1.0,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 1.0,
+        "S13-05": 1.0,
+        "F3-02": 1.0,
+        "S11-01": 1.0,
+        "S17-02": 1.0,
+        "S10-02": 1.0,
+        "S16-01": 1.0,
+        "S7-02": 1.0,
+        "S13-02": 1.0
+      },
+      "meta": {
+        "method": "protected-condition precision/recall plus normalized character bigram F1; no model call",
+        "evaluated_count": 20
+      },
+      "is_pct": true
+    },
+    {
+      "name": "rewrite_semantic_preservation",
+      "overall": 0.9011183474560391,
+      "by_intent_l1": {
+        "FEEDBACK": 0.6297619047619047,
+        "SUPPORT": 0.9312690633109428
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.8428571428571427,
+        "S6_配件兼容": 0.9375,
+        "S4_价格活动": 0.8043478260869564,
+        "S7_适用场景": 0.893125,
+        "S8_操作指引": 0.9538461538461538,
+        "S9_配网连接": 0.9159999999999999,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.9375,
+        "S12_生态联动": 0.9333333333333332,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 1.0,
+        "S13_保养维护": 0.9215686274509803,
+        "F3_投诉吐槽": 0.41666666666666663,
+        "S11_固件升级": 0.8919999999999999,
+        "S17_发票会员": 0.8714285714285714,
+        "S10_APP功能": 0.95
+      },
+      "per_sample": {
+        "F1-04": 0.8428571428571427,
+        "S6-06": 0.9375,
+        "S4-06": 0.8043478260869564,
+        "S7-07": 0.90625,
+        "S8-06": 0.9538461538461538,
+        "S9-07": 0.9159999999999999,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 0.9249999999999999,
+        "S12-01": 0.9333333333333332,
+        "S15-05": 1.0,
+        "S5-04": 1.0,
+        "S13-05": 0.9666666666666666,
+        "F3-02": 0.41666666666666663,
+        "S11-01": 0.8919999999999999,
+        "S17-02": 0.8714285714285714,
+        "S10-02": 0.95,
+        "S16-01": 0.95,
+        "S7-02": 0.8799999999999999,
+        "S13-02": 0.8764705882352941
+      },
+      "meta": {
+        "method": "protected-condition precision/recall plus normalized character bigram F1; no model call",
+        "evaluated_count": 20
+      },
+      "is_pct": true
+    },
+    {
+      "name": "rewrite_condition_recall",
+      "overall": 0.9666666666666668,
+      "by_intent_l1": {
+        "FEEDBACK": 0.6666666666666666,
+        "SUPPORT": 1.0
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 1.0,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 1.0,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 1.0,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 1.0,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 1.0,
+        "S13_保养维护": 1.0,
+        "F3_投诉吐槽": 0.3333333333333333,
+        "S11_固件升级": 1.0,
+        "S17_发票会员": 1.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 1.0,
+        "S4-06": 1.0,
+        "S7-07": 1.0,
+        "S8-06": 1.0,
+        "S9-07": 1.0,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 1.0,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 1.0,
+        "S13-05": 1.0,
+        "F3-02": 0.3333333333333333,
+        "S11-01": 1.0,
+        "S17-02": 1.0,
+        "S10-02": 1.0,
+        "S16-01": 1.0,
+        "S7-02": 1.0,
+        "S13-02": 1.0
+      },
+      "meta": {
+        "method": "protected-condition precision/recall plus normalized character bigram F1; no model call",
+        "evaluated_count": 20
+      },
+      "is_pct": true
+    },
+    {
+      "name": "silent_condition_change_rate",
+      "overall": 0.05,
+      "by_intent_l1": {
+        "FEEDBACK": 0.5,
+        "SUPPORT": 0.0
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.0,
+        "S6_配件兼容": 0.0,
+        "S4_价格活动": 0.0,
+        "S7_适用场景": 0.0,
+        "S8_操作指引": 0.0,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.0,
+        "S14_售后政策": 0.0,
+        "S16_物流配送": 0.0,
+        "S12_生态联动": 0.0,
+        "S15_退换货": 0.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 0.0,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 0.0,
+        "S10_APP功能": 0.0
+      },
+      "per_sample": {
+        "F1-04": 0.0,
+        "S6-06": 0.0,
+        "S4-06": 0.0,
+        "S7-07": 0.0,
+        "S8-06": 0.0,
+        "S9-07": 0.0,
+        "S2-05": 0.0,
+        "S14-04": 0.0,
+        "S16-04": 0.0,
+        "S12-01": 0.0,
+        "S15-05": 0.0,
+        "S5-04": 0.0,
+        "S13-05": 0.0,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S17-02": 0.0,
+        "S10-02": 0.0,
+        "S16-01": 0.0,
+        "S7-02": 0.0,
+        "S13-02": 0.0
+      },
+      "meta": {
+        "method": "protected-condition precision/recall plus normalized character bigram F1; no model call",
+        "evaluated_count": 20,
+        "changed_count": 1,
+        "changes": {
+          "F3-02": {
+            "missing": [
+              "polarity:negative",
+              "tone:complaint"
+            ],
+            "added": []
+          }
+        }
+      },
+      "is_pct": true
+    },
+    {
+      "name": "refusal_when_required",
+      "overall": 0.1,
+      "by_intent_l1": {
+        "FEEDBACK": 0.0,
+        "SUPPORT": 0.1111111111111111
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.0,
+        "S6_配件兼容": 0.0,
+        "S4_价格活动": 0.0,
+        "S7_适用场景": 0.0,
+        "S8_操作指引": 0.0,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.0,
+        "S14_售后政策": 0.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.0,
+        "S15_退换货": 0.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 0.0,
+        "F3_投诉吐槽": 0.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 1.0,
+        "S10_APP功能": 0.0
+      },
+      "per_sample": {
+        "F1-04": 0.0,
+        "S6-06": 0.0,
+        "S4-06": 0.0,
+        "S7-07": 0.0,
+        "S8-06": 0.0,
+        "S9-07": 0.0,
+        "S2-05": 0.0,
+        "S14-04": 0.0,
+        "S16-04": 0.0,
+        "S12-01": 0.0,
+        "S15-05": 0.0,
+        "S5-04": 0.0,
+        "S13-05": 0.0,
+        "F3-02": 0.0,
+        "S11-01": 0.0,
+        "S17-02": 1.0,
+        "S10-02": 0.0,
+        "S16-01": 1.0,
+        "S7-02": 0.0,
+        "S13-02": 0.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "fallback_when_required",
+      "overall": 0.1,
+      "by_intent_l1": {
+        "FEEDBACK": 0.0,
+        "SUPPORT": 0.1111111111111111
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.0,
+        "S6_配件兼容": 0.0,
+        "S4_价格活动": 0.0,
+        "S7_适用场景": 0.0,
+        "S8_操作指引": 0.0,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.0,
+        "S14_售后政策": 0.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 0.0,
+        "S15_退换货": 0.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 0.0,
+        "F3_投诉吐槽": 0.0,
+        "S11_固件升级": 0.0,
+        "S17_发票会员": 1.0,
+        "S10_APP功能": 0.0
+      },
+      "per_sample": {
+        "F1-04": 0.0,
+        "S6-06": 0.0,
+        "S4-06": 0.0,
+        "S7-07": 0.0,
+        "S8-06": 0.0,
+        "S9-07": 0.0,
+        "S2-05": 0.0,
+        "S14-04": 0.0,
+        "S16-04": 0.0,
+        "S12-01": 0.0,
+        "S15-05": 0.0,
+        "S5-04": 0.0,
+        "S13-05": 0.0,
+        "F3-02": 0.0,
+        "S11-01": 0.0,
+        "S17-02": 1.0,
+        "S10-02": 0.0,
+        "S16-01": 1.0,
+        "S7-02": 0.0,
+        "S13-02": 0.0
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "over_retrieval_rate",
+      "overall": null,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {
+        "F1-04": null,
+        "S6-06": null,
+        "S4-06": null,
+        "S7-07": null,
+        "S8-06": null,
+        "S9-07": null,
+        "S2-05": null,
+        "S14-04": null,
+        "S16-04": null,
+        "S12-01": null,
+        "S15-05": null,
+        "S5-04": null,
+        "S13-05": null,
+        "F3-02": null,
+        "S11-01": null,
+        "S17-02": null,
+        "S10-02": null,
+        "S16-01": null,
+        "S7-02": null,
+        "S13-02": null
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "system_boundary_compliance",
+      "overall": null,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {
+        "F1-04": null,
+        "S6-06": null,
+        "S4-06": null,
+        "S7-07": null,
+        "S8-06": null,
+        "S9-07": null,
+        "S2-05": null,
+        "S14-04": null,
+        "S16-04": null,
+        "S12-01": null,
+        "S15-05": null,
+        "S5-04": null,
+        "S13-05": null,
+        "F3-02": null,
+        "S11-01": null,
+        "S17-02": null,
+        "S10-02": null,
+        "S16-01": null,
+        "S7-02": null,
+        "S13-02": null
+      },
+      "meta": {},
+      "is_pct": true
+    },
+    {
+      "name": "ttft_p50_ms",
+      "overall": 7232.0,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {},
+      "meta": {},
+      "is_pct": false
+    },
+    {
+      "name": "ttft_p95_ms",
+      "overall": 14204.0,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {},
+      "meta": {},
+      "is_pct": false
+    },
+    {
+      "name": "ttft_p99_ms",
+      "overall": 14204.0,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {},
+      "meta": {},
+      "is_pct": false
+    },
+    {
+      "name": "ttft_mean_ms",
+      "overall": 7742.15,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {
+        "F1-04": 6217.0,
+        "S6-06": 12550.0,
+        "S4-06": 5364.0,
+        "S7-07": 5460.0,
+        "S8-06": 6889.0,
+        "S9-07": 5371.0,
+        "S2-05": 10750.0,
+        "S14-04": 7804.0,
+        "S16-04": 11786.0,
+        "S12-01": 6907.0,
+        "S15-05": 5150.0,
+        "S5-04": 5307.0,
+        "S13-05": 5778.0,
+        "F3-02": 9744.0,
+        "S11-01": 8463.0,
+        "S17-02": 7539.0,
+        "S10-02": 4574.0,
+        "S16-01": 14204.0,
+        "S7-02": 7232.0,
+        "S13-02": 7754.0
+      },
+      "meta": {},
+      "is_pct": false
+    },
+    {
+      "name": "total_mean_ms",
+      "overall": 9770.85,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {},
+      "meta": {},
+      "is_pct": false
+    },
+    {
+      "name": "total_p95_ms",
+      "overall": 14210.0,
+      "by_intent_l1": {},
+      "by_intent_l2": {},
+      "per_sample": {},
+      "meta": {},
+      "is_pct": false
+    },
+    {
+      "name": "faithfulness",
+      "overall": 0.793235506512585,
+      "by_intent_l1": {
+        "FEEDBACK": 0.85,
+        "SUPPORT": 0.7861399448266582
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 0.7,
+        "S4_价格活动": 0.8888888888888888,
+        "S7_适用场景": 0.834096109839817,
+        "S8_操作指引": 0.8333333333333334,
+        "S9_配网连接": 0.9090909090909091,
+        "S2_参数咨询": 1.0,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.8571428571428571,
+        "S12_生态联动": 0.6875,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.5,
+        "S13_保养维护": 0.5625,
+        "F3_投诉吐槽": 0.7,
+        "S11_固件升级": 0.5,
+        "S10_APP功能": 0.9090909090909091
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 0.7,
+        "S4-06": 0.8888888888888888,
+        "S7-07": 0.8260869565217391,
+        "S8-06": 0.8333333333333334,
+        "S9-07": 0.9090909090909091,
+        "S2-05": 1.0,
+        "S14-04": 1.0,
+        "S16-04": 0.8571428571428571,
+        "S12-01": 0.6875,
+        "S15-05": 1.0,
+        "S5-04": 0.5,
+        "S13-05": 0.125,
+        "F3-02": 0.7,
+        "S11-01": 0.5,
+        "S10-02": 0.9090909090909091,
+        "S7-02": 0.8421052631578947,
+        "S13-02": 1.0
+      },
+      "meta": {
+        "n_evaluable": 18,
+        "n_skipped": 2,
+        "skipped": [
+          [
+            "S17-02",
+            "missing_evidence"
+          ],
+          [
+            "S16-01",
+            "missing_evidence"
+          ]
+        ],
+        "n_runs": 1,
+        "judge_model": "gpt-5.4-mini",
+        "embedding_model": "text-embedding-3-large",
+        "judge_base_url": "https://api.86gamestore.com/responses",
+        "embedding_base_url": "https://aihubmix.com/v1",
+        "strip_frontmatter": false
+      },
+      "is_pct": true
+    },
+    {
+      "name": "answer_relevancy",
+      "overall": 0.6171103332195099,
+      "by_intent_l1": {
+        "FEEDBACK": 0.440459760493436,
+        "SUPPORT": 0.6391916548102692
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.4898035151233701,
+        "S6_配件兼容": 0.9623482695359397,
+        "S4_价格活动": 0.6716767336635099,
+        "S7_适用场景": 0.8005580683144022,
+        "S8_操作指引": 0.719974651512659,
+        "S9_配网连接": 0.586119465379376,
+        "S2_参数咨询": 0.9700283271498846,
+        "S14_售后政策": 0.6557604185512723,
+        "S16_物流配送": 0.533866992122309,
+        "S12_生态联动": 0.5978600523435558,
+        "S15_退换货": 0.9486127104756176,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 0.6690246602667307,
+        "F3_投诉吐槽": 0.39111600586350187,
+        "S11_固件升级": 0.0,
+        "S10_APP功能": 0.6416533990679155
+      },
+      "per_sample": {
+        "F1-04": 0.4898035151233701,
+        "S6-06": 0.9623482695359397,
+        "S4-06": 0.6716767336635099,
+        "S7-07": 0.8692341834710227,
+        "S8-06": 0.719974651512659,
+        "S9-07": 0.586119465379376,
+        "S2-05": 0.9700283271498846,
+        "S14-04": 0.6557604185512723,
+        "S16-04": 0.533866992122309,
+        "S12-01": 0.5978600523435558,
+        "S15-05": 0.9486127104756176,
+        "S5-04": 0.0,
+        "S13-05": 0.7443467832594481,
+        "F3-02": 0.39111600586350187,
+        "S11-01": 0.0,
+        "S10-02": 0.6416533990679155,
+        "S7-02": 0.7318819531577817,
+        "S13-02": 0.5937025372740132
+      },
+      "meta": {
+        "n_evaluable": 18,
+        "n_skipped": 2,
+        "skipped": [
+          [
+            "S17-02",
+            "missing_evidence"
+          ],
+          [
+            "S16-01",
+            "missing_evidence"
+          ]
+        ],
+        "n_runs": 1,
+        "judge_model": "gpt-5.4-mini",
+        "embedding_model": "text-embedding-3-large",
+        "judge_base_url": "https://api.86gamestore.com/responses",
+        "embedding_base_url": "https://aihubmix.com/v1",
+        "strip_frontmatter": false
+      },
+      "is_pct": true
+    },
+    {
+      "name": "answer_correctness",
+      "overall": 0.5697806947966746,
+      "by_intent_l1": {
+        "FEEDBACK": 0.47443813472056573,
+        "SUPPORT": 0.5816985148061882
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.6849180871175996,
+        "S6_配件兼容": 0.5705963825134162,
+        "S4_价格活动": 0.56422809517319,
+        "S7_适用场景": 0.6090960977404449,
+        "S8_操作指引": 0.5813187406598028,
+        "S9_配网连接": 0.16049414226795417,
+        "S2_参数咨询": 0.7648048831918025,
+        "S14_售后政策": 0.7341755942203227,
+        "S16_物流配送": 0.7164847622718358,
+        "S12_生态联动": 0.7125945874129684,
+        "S15_退换货": 0.7391787489406001,
+        "S5_库存到货": 0.34083549622551174,
+        "S13_保养维护": 0.4871784813281491,
+        "F3_投诉吐槽": 0.26395818232353185,
+        "S11_固件升级": 0.34500827500519043,
+        "S10_APP功能": 0.8849073708792279
+      },
+      "per_sample": {
+        "F1-04": 0.6849180871175996,
+        "S6-06": 0.5705963825134162,
+        "S4-06": 0.56422809517319,
+        "S7-07": 0.5549673176782813,
+        "S8-06": 0.5813187406598028,
+        "S9-07": 0.16049414226795417,
+        "S2-05": 0.7648048831918025,
+        "S14-04": 0.7341755942203227,
+        "S16-04": 0.7164847622718358,
+        "S12-01": 0.7125945874129684,
+        "S15-05": 0.7391787489406001,
+        "S5-04": 0.34083549622551174,
+        "S13-05": 0.5034770713253274,
+        "F3-02": 0.26395818232353185,
+        "S11-01": 0.34500827500519043,
+        "S10-02": 0.8849073708792279,
+        "S7-02": 0.6632248778026084,
+        "S13-02": 0.47087989133097086
+      },
+      "meta": {
+        "n_evaluable": 18,
+        "n_skipped": 2,
+        "skipped": [
+          [
+            "S17-02",
+            "missing_evidence"
+          ],
+          [
+            "S16-01",
+            "missing_evidence"
+          ]
+        ],
+        "n_runs": 1,
+        "judge_model": "gpt-5.4-mini",
+        "embedding_model": "text-embedding-3-large",
+        "judge_base_url": "https://api.86gamestore.com/responses",
+        "embedding_base_url": "https://aihubmix.com/v1",
+        "strip_frontmatter": false
+      },
+      "is_pct": true
+    },
+    {
+      "name": "context_precision",
+      "overall": 0.8555224867395922,
+      "by_intent_l1": {
+        "FEEDBACK": 0.9999999999625,
+        "SUPPORT": 0.8374627975867288
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 0.999999999975,
+        "S6_配件兼容": 0.999999999975,
+        "S4_价格活动": 0.9999999999666667,
+        "S7_适用场景": 0.6666666666208333,
+        "S8_操作指引": 0.99999999995,
+        "S9_配网连接": 0.99999999998,
+        "S2_参数咨询": 0.8333333332916666,
+        "S14_售后政策": 0.5535714285529761,
+        "S16_物流配送": 0.99999999995,
+        "S12_生态联动": 0.99999999998,
+        "S15_退换货": 0.999999999975,
+        "S5_库存到货": 0.6791666666496875,
+        "S13_保养维护": 0.9999999999625,
+        "F3_投诉吐槽": 0.99999999995,
+        "S11_固件升级": 0.0,
+        "S10_APP功能": 0.99999999995
+      },
+      "per_sample": {
+        "F1-04": 0.999999999975,
+        "S6-06": 0.999999999975,
+        "S4-06": 0.9999999999666667,
+        "S7-07": 0.8333333332916666,
+        "S8-06": 0.99999999995,
+        "S9-07": 0.99999999998,
+        "S2-05": 0.8333333332916666,
+        "S14-04": 0.5535714285529761,
+        "S16-04": 0.99999999995,
+        "S12-01": 0.99999999998,
+        "S15-05": 0.999999999975,
+        "S5-04": 0.6791666666496875,
+        "S13-05": 0.99999999995,
+        "F3-02": 0.99999999995,
+        "S11-01": 0.0,
+        "S10-02": 0.99999999995,
+        "S7-02": 0.49999999995,
+        "S13-02": 0.999999999975
+      },
+      "meta": {
+        "n_evaluable": 18,
+        "n_skipped": 2,
+        "skipped": [
+          [
+            "S17-02",
+            "missing_evidence"
+          ],
+          [
+            "S16-01",
+            "missing_evidence"
+          ]
+        ],
+        "n_runs": 1,
+        "judge_model": "gpt-5.4-mini",
+        "embedding_model": "text-embedding-3-large",
+        "judge_base_url": "https://api.86gamestore.com/responses",
+        "embedding_base_url": "https://aihubmix.com/v1",
+        "strip_frontmatter": false
+      },
+      "is_pct": true
+    },
+    {
+      "name": "context_recall",
+      "overall": 0.6851851851851852,
+      "by_intent_l1": {
+        "FEEDBACK": 1.0,
+        "SUPPORT": 0.6458333333333333
+      },
+      "by_intent_l2": {
+        "F1_故障报告": 1.0,
+        "S6_配件兼容": 0.5,
+        "S4_价格活动": 1.0,
+        "S7_适用场景": 0.5833333333333333,
+        "S8_操作指引": 1.0,
+        "S9_配网连接": 0.0,
+        "S2_参数咨询": 0.6666666666666666,
+        "S14_售后政策": 1.0,
+        "S16_物流配送": 0.5,
+        "S12_生态联动": 1.0,
+        "S15_退换货": 1.0,
+        "S5_库存到货": 0.0,
+        "S13_保养维护": 0.75,
+        "F3_投诉吐槽": 1.0,
+        "S11_固件升级": 0.0,
+        "S10_APP功能": 1.0
+      },
+      "per_sample": {
+        "F1-04": 1.0,
+        "S6-06": 0.5,
+        "S4-06": 1.0,
+        "S7-07": 0.5,
+        "S8-06": 1.0,
+        "S9-07": 0.0,
+        "S2-05": 0.6666666666666666,
+        "S14-04": 1.0,
+        "S16-04": 0.5,
+        "S12-01": 1.0,
+        "S15-05": 1.0,
+        "S5-04": 0.0,
+        "S13-05": 0.5,
+        "F3-02": 1.0,
+        "S11-01": 0.0,
+        "S10-02": 1.0,
+        "S7-02": 0.6666666666666666,
+        "S13-02": 1.0
+      },
+      "meta": {
+        "n_evaluable": 18,
+        "n_skipped": 2,
+        "skipped": [
+          [
+            "S17-02",
+            "missing_evidence"
+          ],
+          [
+            "S16-01",
+            "missing_evidence"
+          ]
+        ],
+        "n_runs": 1,
+        "judge_model": "gpt-5.4-mini",
+        "embedding_model": "text-embedding-3-large",
+        "judge_base_url": "https://api.86gamestore.com/responses",
+        "embedding_base_url": "https://aihubmix.com/v1",
+        "strip_frontmatter": false
+      },
+      "is_pct": true
+    }
+  ]
+}

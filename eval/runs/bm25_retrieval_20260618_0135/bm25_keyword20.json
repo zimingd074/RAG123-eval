@@ -1,0 +1,1063 @@
+{
+  "summary": {
+    "label": "bm25_keyword20",
+    "hnsw_ef_search": 200,
+    "rrf_k": 20,
+    "keyword_multiplier": 2,
+    "ordinary_fts_conditional": false,
+    "sample_count": 20,
+    "error_count": 0,
+    "hit5": 1.0,
+    "recall5": 0.8833333333333334,
+    "mrr10": 0.9666666666666666,
+    "wall_p50_ms": 393.1983999999602,
+    "wall_p95_ms": 519.7933999999123,
+    "retrieval_p50_ms": 347.0,
+    "retrieval_p95_ms": 478.0,
+    "vector_p50_ms": 101.0,
+    "vector_p95_ms": 136.0,
+    "vector_search_p50_ms": 17.0,
+    "vector_search_p95_ms": 30.0,
+    "vector_candidate_mean": 25.6,
+    "vector_candidate_max": 92.0,
+    "keyword_p95_ms": 15.0,
+    "keyword_candidate_mean": 10.5,
+    "keyword_candidate_max": 20.0,
+    "ordinary_fts_call_count": 20
+  },
+  "samples": [
+    {
+      "query_id": "S6-04",
+      "query": "T7 的滤芯能用在 G10S Pro 上吗？",
+      "expected_doc_ids": [
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_VAC_004",
+        "PROD_VAC_001",
+        "MANUAL_VAC_003",
+        "PROD_VAC_005"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_VAC_004",
+        "PROD_VAC_001",
+        "MANUAL_VAC_003",
+        "PROD_VAC_005"
+      ],
+      "trace_id": "2067455186435063808",
+      "intent_leaf_ids": [
+        "S6_配件兼容"
+      ],
+      "error": null,
+      "wall_ms": 382.94250000001284,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        338.0
+      ],
+      "vector_ms": [
+        100.0
+      ],
+      "vector_search_ms": [
+        20.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        9.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S6-05",
+      "query": "我有小米 13 的 67W 充电器，给小米 14 Pro 用会慢吗？",
+      "expected_doc_ids": [
+        "PROD_PHONE_001",
+        "PROD_PHONE_004",
+        "MANUAL_PHONE_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PHONE_001",
+        "PROD_PHONE_004",
+        "PROD_PHONE_003",
+        "PROD_PHONE_002"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_PHONE_001",
+        "PROD_PHONE_004",
+        "PROD_PHONE_003",
+        "PROD_PHONE_002"
+      ],
+      "trace_id": "2067455189132001280",
+      "intent_leaf_ids": [
+        "S6_配件兼容"
+      ],
+      "error": null,
+      "wall_ms": 463.7346000000093,
+      "hit5": 1.0,
+      "recall5": 0.6666666666666666,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        427.0
+      ],
+      "vector_ms": [
+        136.0
+      ],
+      "vector_search_ms": [
+        30.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        15.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S9-03",
+      "query": "我家是 5G WiFi，扫地机连不上",
+      "expected_doc_ids": [
+        "NET_GUIDE_002",
+        "FAQ_NET_001"
+      ],
+      "retrieved_doc_ids": [
+        "NET_GUIDE_002",
+        "NET_GUIDE_001",
+        "MANUAL_VAC_001",
+        "FAQ_NET_001",
+        "CODE_VAC_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "NET_GUIDE_002",
+        "NET_GUIDE_001",
+        "MANUAL_VAC_001",
+        "FAQ_NET_001",
+        "CODE_VAC_001"
+      ],
+      "trace_id": "2067455192311283712",
+      "intent_leaf_ids": [
+        "S9_配网连接"
+      ],
+      "error": null,
+      "wall_ms": 397.1397999999908,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        339.0
+      ],
+      "vector_ms": [
+        101.0
+      ],
+      "vector_search_ms": [
+        9.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        15.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S11-01",
+      "query": "我的小米手表 S3 怎么升级系统？",
+      "expected_doc_ids": [
+        "CODE_FW_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_FW_001",
+        "MANUAL_WATCH_001",
+        "MANUAL_PHONE_001",
+        "CODE_FW_002"
+      ],
+      "retrieved_doc_ids_raw": [
+        "CODE_FW_001",
+        "MANUAL_WATCH_001",
+        "MANUAL_PHONE_001",
+        "CODE_FW_002"
+      ],
+      "trace_id": "2067455195075330048",
+      "intent_leaf_ids": [
+        "S11_固件升级"
+      ],
+      "error": null,
+      "wall_ms": 372.10770000001503,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        325.0
+      ],
+      "vector_ms": [
+        84.0
+      ],
+      "vector_search_ms": [
+        11.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        9.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S2-06",
+      "query": "小米手表 S2 防水吗？能游泳戴吗？",
+      "expected_doc_ids": [
+        "PROD_WATCH_002",
+        "MANUAL_WATCH_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_003",
+        "PROD_WATCH_001",
+        "PROD_WATCH_005"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_003",
+        "PROD_WATCH_001",
+        "PROD_WATCH_005"
+      ],
+      "trace_id": "2067455197814210560",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 377.93879999998126,
+      "hit5": 1.0,
+      "recall5": 0.5,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        335.0
+      ],
+      "vector_ms": [
+        89.0
+      ],
+      "vector_search_ms": [
+        17.0
+      ],
+      "vector_candidates": [
+        30.0
+      ],
+      "keyword_ms": [
+        8.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S3-08",
+      "query": "小米手表 S2 和苹果手表哪个好？",
+      "expected_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_001",
+        "PROD_WATCH_003"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_001",
+        "PROD_WATCH_003"
+      ],
+      "trace_id": "2067455200452427776",
+      "intent_leaf_ids": [
+        "S3_对比选购"
+      ],
+      "error": null,
+      "wall_ms": 369.73150000005717,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        340.0
+      ],
+      "vector_ms": [
+        105.0
+      ],
+      "vector_search_ms": [
+        17.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        7.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S8-08",
+      "query": "小米手表 S2 怎么自定义表盘？",
+      "expected_doc_ids": [
+        "MANUAL_WATCH_001",
+        "PROD_WATCH_002"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_WATCH_001",
+        "PROD_WATCH_002",
+        "PROD_WATCH_003",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_004"
+      ],
+      "retrieved_doc_ids_raw": [
+        "MANUAL_WATCH_001",
+        "PROD_WATCH_002",
+        "PROD_WATCH_003",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_004"
+      ],
+      "trace_id": "2067455203203891200",
+      "intent_leaf_ids": [
+        "S8_操作指引"
+      ],
+      "error": null,
+      "wall_ms": 393.1983999999602,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        367.0
+      ],
+      "vector_ms": [
+        95.0
+      ],
+      "vector_search_ms": [
+        17.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        8.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "F1-04",
+      "query": "扫地机扫一会就停，提示故障 E5",
+      "expected_doc_ids": [
+        "CODE_VAC_001",
+        "FAQ_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_VAC_001",
+        "POLICY_WAR_003",
+        "FAQ_VAC_001",
+        "POLICY_WAR_002"
+      ],
+      "retrieved_doc_ids_raw": [
+        "CODE_VAC_001",
+        "POLICY_WAR_003",
+        "FAQ_VAC_001",
+        "POLICY_WAR_002"
+      ],
+      "trace_id": "2067455206060212224",
+      "intent_leaf_ids": [
+        "F1_故障报告"
+      ],
+      "error": null,
+      "wall_ms": 419.0866999999798,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        381.0
+      ],
+      "vector_ms": [
+        115.0
+      ],
+      "vector_search_ms": [
+        19.0
+      ],
+      "vector_candidates": [
+        30.0
+      ],
+      "keyword_ms": [
+        11.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S2-02",
+      "query": "Redmi K70 电池容量多大，支持多少瓦快充？",
+      "expected_doc_ids": [
+        "PROD_PHONE_006"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PHONE_006",
+        "GUIDE_PHONE_004",
+        "GUIDE_PHONE_002",
+        "GUIDE_PHONE_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_PHONE_006",
+        "GUIDE_PHONE_004",
+        "GUIDE_PHONE_002",
+        "GUIDE_PHONE_001"
+      ],
+      "trace_id": "2067455208950087680",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 367.0733000000155,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        334.0
+      ],
+      "vector_ms": [
+        92.0
+      ],
+      "vector_search_ms": [
+        16.0
+      ],
+      "vector_candidates": [
+        30.0
+      ],
+      "keyword_ms": [
+        11.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S2-05",
+      "query": "小米智能门锁 E10 支持几种开锁方式？",
+      "expected_doc_ids": [
+        "PROD_LOCK_001",
+        "MANUAL_LOCK_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_LOCK_001",
+        "MANUAL_LOCK_001",
+        "PROD_LOCK_002",
+        "GUIDE_HOME_001",
+        "MANUAL_LOCK_002"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_LOCK_001",
+        "MANUAL_LOCK_001",
+        "PROD_LOCK_002",
+        "GUIDE_HOME_001",
+        "MANUAL_LOCK_002"
+      ],
+      "trace_id": "2067455211739299840",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 384.7911999999951,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        342.0
+      ],
+      "vector_ms": [
+        90.0
+      ],
+      "vector_search_ms": [
+        10.0
+      ],
+      "vector_candidates": [
+        30.0
+      ],
+      "keyword_ms": [
+        9.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S6-02",
+      "query": "石头 T7 的滤芯型号是什么？",
+      "expected_doc_ids": [
+        "PROD_VAC_001",
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_VAC_001",
+        "MANUAL_VAC_003",
+        "GUIDE_VAC_001",
+        "PROD_VAC_002"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_VAC_001",
+        "MANUAL_VAC_003",
+        "GUIDE_VAC_001",
+        "PROD_VAC_002"
+      ],
+      "trace_id": "2067455214398488576",
+      "intent_leaf_ids": [
+        "S6_配件兼容"
+      ],
+      "error": null,
+      "wall_ms": 375.24789999997665,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        347.0
+      ],
+      "vector_ms": [
+        106.0
+      ],
+      "vector_search_ms": [
+        18.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        8.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S14-01",
+      "query": "小米 14 Pro 保修期多久？",
+      "expected_doc_ids": [
+        "POLICY_WAR_001",
+        "POLICY_WAR_002"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_001",
+        "POLICY_WAR_004",
+        "POLICY_WAR_005",
+        "POLICY_RET_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_001",
+        "POLICY_WAR_004",
+        "POLICY_WAR_005",
+        "POLICY_RET_001"
+      ],
+      "trace_id": "2067455217217060864",
+      "intent_leaf_ids": [
+        "S14_售后政策"
+      ],
+      "error": null,
+      "wall_ms": 417.0866000000615,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        374.0
+      ],
+      "vector_ms": [
+        119.0
+      ],
+      "vector_search_ms": [
+        8.0
+      ],
+      "vector_candidates": [
+        10.0
+      ],
+      "keyword_ms": [
+        5.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S6-06",
+      "query": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "expected_doc_ids": [
+        "PROD_BUDS_002",
+        "PROD_BUDS_003",
+        "MANUAL_BUDS_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_BUDS_002",
+        "PROD_BUDS_001",
+        "PROD_BUDS_004",
+        "GUIDE_BUDS_001",
+        "PROD_BUDS_003"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_BUDS_002",
+        "PROD_BUDS_001",
+        "PROD_BUDS_004",
+        "GUIDE_BUDS_001",
+        "PROD_BUDS_003"
+      ],
+      "trace_id": "2067455220081770496",
+      "intent_leaf_ids": [
+        "S6_配件兼容"
+      ],
+      "error": null,
+      "wall_ms": 367.2745000000077,
+      "hit5": 1.0,
+      "recall5": 0.6666666666666666,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        341.0
+      ],
+      "vector_ms": [
+        92.0
+      ],
+      "vector_search_ms": [
+        18.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        6.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S9-01",
+      "query": "扫地机怎么连 WiFi？",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "MANUAL_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "NET_GUIDE_001",
+        "MANUAL_VAC_001",
+        "NET_GUIDE_002",
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids_raw": [
+        "NET_GUIDE_001",
+        "MANUAL_VAC_001",
+        "NET_GUIDE_002",
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_003"
+      ],
+      "trace_id": "2067455222837428224",
+      "intent_leaf_ids": [
+        "S9_配网连接"
+      ],
+      "error": null,
+      "wall_ms": 378.08510000002116,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        319.0
+      ],
+      "vector_ms": [
+        89.0
+      ],
+      "vector_search_ms": [
+        13.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        6.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "F3-03",
+      "query": "这手机用了 3 个月就卡",
+      "expected_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_003"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_PHONE_001",
+        "MANUAL_PHONE_001",
+        "POLICY_WAR_002",
+        "GUIDE_PHONE_001",
+        "POLICY_WAR_004",
+        "CODE_FW_001",
+        "POLICY_RET_001",
+        "GUIDE_PHONE_002",
+        "FAQ_NET_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "CODE_PHONE_001",
+        "MANUAL_PHONE_001",
+        "POLICY_WAR_002",
+        "GUIDE_PHONE_001",
+        "POLICY_WAR_004",
+        "CODE_FW_001",
+        "POLICY_RET_001",
+        "GUIDE_PHONE_002",
+        "FAQ_NET_001"
+      ],
+      "trace_id": "2067455225458868224",
+      "intent_leaf_ids": [
+        "F3_投诉吐槽"
+      ],
+      "error": null,
+      "wall_ms": 411.9067000000314,
+      "hit5": 1.0,
+      "recall5": 0.5,
+      "mrr10": 0.3333333333333333,
+      "retrieval_ms": [
+        376.0
+      ],
+      "vector_ms": [
+        101.0
+      ],
+      "vector_search_ms": [
+        26.0
+      ],
+      "vector_candidates": [
+        92.0
+      ],
+      "keyword_ms": [
+        7.0
+      ],
+      "keyword_candidates": [
+        20.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S15-01",
+      "query": "可以 7 天无理由退货吗？",
+      "expected_doc_ids": [
+        "POLICY_RET_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_RET_001",
+        "POLICY_RET_003",
+        "POLICY_RET_002",
+        "POLICY_RET_004",
+        "POLICY_WAR_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "POLICY_RET_001",
+        "POLICY_RET_003",
+        "POLICY_RET_002",
+        "POLICY_RET_004",
+        "POLICY_WAR_001"
+      ],
+      "trace_id": "2067455228424241152",
+      "intent_leaf_ids": [
+        "S15_退换货"
+      ],
+      "error": null,
+      "wall_ms": 430.69679999996424,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        393.0
+      ],
+      "vector_ms": [
+        76.0
+      ],
+      "vector_search_ms": [
+        7.0
+      ],
+      "vector_candidates": [
+        10.0
+      ],
+      "keyword_ms": [
+        4.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S2-03",
+      "query": "米家空气净化器 4 Pro 适合多大面积？",
+      "expected_doc_ids": [
+        "PROD_AIR_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_AIR_003",
+        "PROD_AIR_002",
+        "GUIDE_AIR_001",
+        "GUIDE_AIR_002",
+        "PROD_AIR_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_AIR_003",
+        "PROD_AIR_002",
+        "GUIDE_AIR_001",
+        "GUIDE_AIR_002",
+        "PROD_AIR_001"
+      ],
+      "trace_id": "2067455231368642560",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 519.7933999999123,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        478.0
+      ],
+      "vector_ms": [
+        113.0
+      ],
+      "vector_search_ms": [
+        17.0
+      ],
+      "vector_candidates": [
+        30.0
+      ],
+      "keyword_ms": [
+        5.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S2-08",
+      "query": "石头 G10 在地毯上吸力会下降吗？",
+      "expected_doc_ids": [
+        "PROD_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_VAC_003",
+        "MANUAL_VAC_001",
+        "GUIDE_VAC_001",
+        "PROD_VAC_004",
+        "GUIDE_VAC_002"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_VAC_003",
+        "MANUAL_VAC_001",
+        "GUIDE_VAC_001",
+        "PROD_VAC_004",
+        "GUIDE_VAC_002"
+      ],
+      "trace_id": "2067455234682142720",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 344.36989999994694,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        319.0
+      ],
+      "vector_ms": [
+        87.0
+      ],
+      "vector_search_ms": [
+        18.0
+      ],
+      "vector_candidates": [
+        30.0
+      ],
+      "keyword_ms": [
+        9.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S4-07",
+      "query": "小米平板 6 Pro 现在参考价是多少，活动价会变吗？",
+      "expected_doc_ids": [
+        "PROD_PAD_003",
+        "POLICY_RET_004"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PAD_003",
+        "PROD_PAD_002",
+        "PROD_PAD_001",
+        "POLICY_RET_004",
+        "POLICY_RET_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "PROD_PAD_003",
+        "PROD_PAD_002",
+        "PROD_PAD_001",
+        "POLICY_RET_004",
+        "POLICY_RET_001"
+      ],
+      "trace_id": "2067455237374885888",
+      "intent_leaf_ids": [
+        "S4_价格活动"
+      ],
+      "error": null,
+      "wall_ms": 424.36129999998684,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        375.0
+      ],
+      "vector_ms": [
+        136.0
+      ],
+      "vector_search_ms": [
+        22.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        6.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S12-05",
+      "query": "想做个离家模式，关灯关空调启动扫地机",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "AUTO_GUIDE_001",
+        "MANUAL_VAC_001",
+        "GUIDE_VAC_002",
+        "MANUAL_VAC_003",
+        "GUIDE_VAC_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "AUTO_GUIDE_001",
+        "MANUAL_VAC_001",
+        "GUIDE_VAC_002",
+        "MANUAL_VAC_003",
+        "GUIDE_VAC_001"
+      ],
+      "trace_id": "2067455240298315776",
+      "intent_leaf_ids": [
+        "S12_生态联动"
+      ],
+      "error": null,
+      "wall_ms": 410.7987999999523,
+      "hit5": 1.0,
+      "recall5": 0.3333333333333333,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        370.0
+      ],
+      "vector_ms": [
+        102.0
+      ],
+      "vector_search_ms": [
+        21.0
+      ],
+      "vector_candidates": [
+        20.0
+      ],
+      "keyword_ms": [
+        6.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    }
+  ]
+}

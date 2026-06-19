@@ -1,0 +1,14 @@
+{
+  "dataset_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_static_weak20_20260612.jsonl",
+  "dataset_sha256": "b828394a87022b0e20c3c720a672aeb27a34a71f5ee3973c6102ed98a9c9e8d8",
+  "profile": "static-v1",
+  "original_sample_count": 20,
+  "profile_sample_count": 20,
+  "selected_sample_count": 20,
+  "excluded_sample_count": 0,
+  "excluded_sample_ids": [],
+  "excluded_samples": [],
+  "filter_intent": null,
+  "start": 0,
+  "limit": null
+}

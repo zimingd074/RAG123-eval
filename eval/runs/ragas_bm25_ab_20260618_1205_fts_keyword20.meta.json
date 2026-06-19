@@ -1,0 +1,22 @@
+{
+  "dataset_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_static_keyword20_bm25_20260618.jsonl",
+  "dataset_sha256": "b533173a4dd258e3ae09759a339e040506c46d9ba46a0f418de71ee92155d2ef",
+  "profile": "static-v1",
+  "original_sample_count": 20,
+  "profile_sample_count": 20,
+  "selected_sample_count": 20,
+  "excluded_sample_count": 0,
+  "excluded_sample_ids": [],
+  "excluded_samples": [],
+  "filter_intent": null,
+  "start": 0,
+  "limit": null,
+  "doc_map_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\doc_id_map.json",
+  "state_dir": null,
+  "embedding_model": null,
+  "embedding_dimension": null,
+  "routing_model": null,
+  "answer_model": null,
+  "require_same_trace": false,
+  "experiment": {}
+}

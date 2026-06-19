@@ -1,0 +1,11 @@
+{
+  "benchmark": "chat-models",
+  "mode": "frozen-answer-replay",
+  "dataset_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_chat_models20_20260615.jsonl",
+  "dataset_sha256": "98f903c79966d8d9b977cafcd623eb6e63b9e3cb89833cae2f353157c3a5c37c",
+  "routing_model": "qwen3.7-max",
+  "answer_model": "deepseek-v4-flash",
+  "source_run": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__qwen3.7-max.jsonl",
+  "selected_sample_count": 20,
+  "profile": "static-v1"
+}

@@ -1,0 +1,305 @@
+{
+  "created_at": "2026-06-14T19:28:38.923578+08:00",
+  "dataset": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_static_weak20_20260613_groundtruth_fixed.jsonl",
+  "doc_map": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\doc_id_map.json",
+  "corpus": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\embedding_weak20_all_20260614\\corpus.json",
+  "sample_count": 20,
+  "chunk_count": 141,
+  "document_count": 116,
+  "mapped_chunk_count": 137,
+  "unmapped_chunk_count": 4,
+  "primary_scope": "gold_collection",
+  "latency_rounds": 3,
+  "execution_order": [
+    "bge-large-zh-1024"
+  ],
+  "arms": [
+    {
+      "arm_id": "bge-large-zh-1024",
+      "model": "BAAI/bge-large-zh-v1.5",
+      "dimension": 1024,
+      "send_dimensions": false,
+      "query_prefix": "为这个句子生成表示以用于检索相关文章：",
+      "family": "bge",
+      "note": "SiliconFlow rejects long project chunks for this model; documents are truncated conservatively.",
+      "max_input_chars": 512
+    }
+  ],
+  "summaries": {
+    "bge-large-zh-1024": {
+      "model": "BAAI/bge-large-zh-v1.5",
+      "dimension": 1024,
+      "send_dimensions": false,
+      "query_prefix": "为这个句子生成表示以用于检索相关文章：",
+      "note": "SiliconFlow rejects long project chunks for this model; documents are truncated conservatively.",
+      "max_input_chars": 512,
+      "hit@1": 0.55,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "hit@10": 1.0,
+      "recall@5": 0.7625,
+      "recall@10": 0.8833333333333334,
+      "mrr@10": 0.7583333333333333,
+      "ndcg@10": 0.7211166755022613,
+      "by_scope": {
+        "global": {
+          "hit@1": 0.4,
+          "hit@3": 0.95,
+          "hit@5": 0.95,
+          "hit@10": 0.95,
+          "recall@5": 0.675,
+          "recall@10": 0.7625,
+          "mrr@10": 0.65,
+          "ndcg@10": 0.6115109185059092
+        },
+        "gold_collection": {
+          "hit@1": 0.55,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.7625,
+          "recall@10": 0.8833333333333334,
+          "mrr@10": 0.7583333333333333,
+          "ndcg@10": 0.7211166755022613
+        }
+      },
+      "by_intent": {
+        "F1_故障报告": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.3333333333333333,
+          "recall@10": 0.6666666666666666,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.6257049680303419
+        },
+        "F3_投诉吐槽": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 1.0
+        },
+        "S10_APP功能": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 1.0
+        },
+        "S12_生态联动": {
+          "sample_count": 4,
+          "hit@1": 0.75,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.5416666666666666,
+          "recall@10": 0.8125,
+          "mrr@10": 0.875,
+          "ndcg@10": 0.7145573214975678
+        },
+        "S13_保养维护": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.9197207891481876
+        },
+        "S2_参数咨询": {
+          "sample_count": 3,
+          "hit@1": 0.3333333333333333,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.6666666666666666,
+          "ndcg@10": 0.7539531690476383
+        },
+        "S3_对比选购": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 0.9197207891481876
+        },
+        "S4_价格活动": {
+          "sample_count": 1,
+          "hit@1": 0.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "ndcg@10": 0.6309297535714575
+        },
+        "S5_库存到货": {
+          "sample_count": 1,
+          "hit@1": 0.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.3333333333333333,
+          "ndcg@10": 0.3065735963827292
+        },
+        "S6_配件兼容": {
+          "sample_count": 1,
+          "hit@1": 1.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "ndcg@10": 1.0
+        },
+        "S7_适用场景": {
+          "sample_count": 2,
+          "hit@1": 0.5,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.625,
+          "recall@10": 0.625,
+          "mrr@10": 0.75,
+          "ndcg@10": 0.5206504898996172
+        },
+        "S9_配网连接": {
+          "sample_count": 3,
+          "hit@1": 0.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.6666666666666666,
+          "recall@10": 1.0,
+          "mrr@10": 0.4444444444444444,
+          "ndcg@10": 0.6194312802773012
+        }
+      },
+      "by_difficulty": {
+        "easy": {
+          "sample_count": 1,
+          "hit@1": 0.0,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "ndcg@10": 0.6182885020492784
+        },
+        "hard": {
+          "sample_count": 12,
+          "hit@1": 0.5,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.7291666666666666,
+          "recall@10": 0.9097222222222222,
+          "mrr@10": 0.75,
+          "ndcg@10": 0.6974571755935667
+        },
+        "medium": {
+          "sample_count": 7,
+          "hit@1": 0.7142857142857143,
+          "hit@3": 1.0,
+          "hit@5": 1.0,
+          "hit@10": 1.0,
+          "recall@5": 0.7857142857142857,
+          "recall@10": 0.8214285714285714,
+          "mrr@10": 0.8333333333333333,
+          "ndcg@10": 0.7763655572675929
+        }
+      },
+      "document_embedding": {
+        "request_count": 141,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "prompt_tokens": 49523,
+        "total_tokens": 49523,
+        "p50_ms": 105.22989998571575,
+        "p95_ms": 141.16629998898134,
+        "throughput_items_per_second": 9.049076685442287,
+        "estimated_cost": null,
+        "cache_hit": false
+      },
+      "query_embedding": {
+        "request_count": 60,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "prompt_tokens": 2112,
+        "total_tokens": 2112,
+        "p50_ms": 101.50845001044217,
+        "p95_ms": 139.4124149970594,
+        "throughput_items_per_second": 9.291161638433413,
+        "estimated_cost": null,
+        "cache_hit": false
+      },
+      "query_cost_per_10k": null,
+      "storage_plan": {
+        "storage": "vector(1024)",
+        "hnsw": true,
+        "operator_class": "vector_cosine_ops"
+      },
+      "pgvector_validation": null
+    }
+  },
+  "bootstrap_mrr10_vs_best": {
+    "best_arm": "bge-large-zh-1024",
+    "iterations": 10000,
+    "deltas": {
+      "bge-large-zh-1024": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0
+      }
+    }
+  },
+  "quality_gate": {
+    "thresholds": {
+      "hit@5": 0.97,
+      "recall@5": 0.85,
+      "max_hit5_loss": 0.01,
+      "max_mrr10_loss": 0.02,
+      "max_intent_slice_loss": 0.05
+    },
+    "decisions": {
+      "bge-large-zh-1024": {
+        "passed": false,
+        "reasons": [
+          "Recall@5 < 85%"
+        ],
+        "intent_hit5_regression": {}
+      }
+    }
+  },
+  "recommendation": {
+    "selected_arm": null,
+    "reason": "No arm passed all configured quality gates."
+  },
+  "database_index_info": {
+    "available": false,
+    "reason": "--pg-container not provided"
+  }
+}

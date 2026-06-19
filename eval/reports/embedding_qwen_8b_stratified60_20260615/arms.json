@@ -1,0 +1,12 @@
+{
+    "arms":  [
+                 {
+                     "query_prefix":  "Instruct: Given a user question, retrieve relevant passages from a Chinese e-commerce knowledge base that answer the question.\nQuery: ",
+                     "arm_id":  "qwen3-8b-1024",
+                     "family":  "qwen3",
+                     "dimension":  1024,
+                     "model":  "Qwen/Qwen3-Embedding-8B",
+                     "send_dimensions":  true
+                 }
+             ]
+}

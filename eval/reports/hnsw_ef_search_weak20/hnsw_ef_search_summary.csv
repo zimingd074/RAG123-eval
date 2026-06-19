@@ -1,0 +1,5 @@
+﻿"ef_search","round","sample_count","error_count","hit5","recall5","mrr10","vector_search_p95_ms","retrieval_p95_ms","wall_p95_ms","missed_cases","result_json"
+"40","1","20","0","0.95","0.616667","0.668333","44","2159","2426.4","F3-03;S5-04;F1-05;S9-07;S7-05;S12-06;S13-09;S4-05;S7-07;S9-05;S12-05;S12-04;S9-02;S12-03","D:\PycharmProjects\ragenteval\eval\reports\hnsw_ef_search_weak20\ef40_r1.json"
+"120","1","20","0","0.95","0.616667","0.668333","59","2212","2481.9","F3-03;S5-04;F1-05;S9-07;S7-05;S12-06;S13-09;S4-05;S7-07;S9-05;S12-05;S12-04;S9-02;S12-03","D:\PycharmProjects\ragenteval\eval\reports\hnsw_ef_search_weak20\ef120_r1.json"
+"200","1","20","0","0.95","0.616667","0.668333","47","1343","1636.1","F3-03;S5-04;F1-05;S9-07;S7-05;S12-06;S13-09;S4-05;S7-07;S9-05;S12-05;S12-04;S9-02;S12-03","D:\PycharmProjects\ragenteval\eval\reports\hnsw_ef_search_weak20\ef200_r1.json"
+"400","1","20","0","0.95","0.616667","0.668333","65","1342","1619.83","F3-03;S5-04;F1-05;S9-07;S7-05;S12-06;S13-09;S4-05;S7-07;S9-05;S12-05;S12-04;S9-02;S12-03","D:\PycharmProjects\ragenteval\eval\reports\hnsw_ef_search_weak20\ef400_r1.json"

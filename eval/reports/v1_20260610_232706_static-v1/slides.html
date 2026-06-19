@@ -1,0 +1,4625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>比特严选 RAG 客服助手 · 测评汇报 · 瑞士风</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@300;400;500;600&family=Noto+Sans+SC:wght@200;300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ============ 主题色: 🇨🇭 瑞士国际主义 (Swiss International Style) ============
+       特点: 高级灰白 + 近黑 + 克莱因蓝 IKB 高亮，纯无衬线，网格化排版。
+       工程师/产品发布会/数据分享类报告默认主题。 */
+    --paper:#fafaf8;          /* 主底色: 高级灰白 */
+    --paper-rgb:250,250,248;
+    --paper-tint:#f0f0ee;     /* 浅灰底 */
+    --ink:#0a0a0a;            /* 文字主色: 近黑 */
+    --ink-rgb:10,10,10;
+    --ink-tint:#1a1a1a;
+    --accent:#002FA7;         /* 高亮色: 克莱因蓝 IKB */
+    --accent-rgb:0,47,167;
+
+    /* ============ 字体: 全无衬线（瑞士风核心） ============
+       原 --serif-* 故意指向 sans，避免 magazine 模板里的 .display/.display-zh 误用衬线。 */
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --sans:"Inter","Helvetica Neue","Helvetica","Arial",system-ui,-apple-system,sans-serif;
+    --sans-zh:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --serif-en:var(--sans);
+    --serif-body-en:var(--sans);
+    --serif-zh:var(--sans-zh);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden;background:var(--ink);color:var(--paper);font-family:var(--sans-zh);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+  /* ============ WebGL 双背景 ============ */
+  canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;transition:opacity 1.2s ease}
+  canvas#bg-light{opacity:0}
+  canvas#bg-dark{opacity:1}
+  body.light-bg canvas#bg-light{opacity:1}
+  body.light-bg canvas#bg-dark{opacity:0}
+  body.low-power canvas.bg{display:none!important}
+
+  /* ============ Deck 容器 + 翻页 ============ */
+  /* width: NSLIDES * 100vw，会在 JS 里动态矫正 */
+  #deck{position:fixed;inset:0;width:10000vw;height:100vh;display:flex;flex-wrap:nowrap;transition:transform .9s cubic-bezier(.77,0,.175,1);z-index:10;will-change:transform}
+  .slide{width:100vw;height:100vh;flex:0 0 100vw;position:relative;padding:6vh 6vw 10vh 6vw;display:flex;flex-direction:column;overflow:hidden}
+  .slide.light{color:var(--ink);background:var(--paper)}
+  .slide.dark{color:var(--paper);background:var(--ink)}
+
+  /* 默认页：遮罩较厚，保证文字可读 */
+  .slide::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;transition:background .7s ease}
+  .slide.light::before{background:rgba(var(--paper-rgb),.78);backdrop-filter:blur(3px)}
+  .slide.dark::before{background:rgba(var(--ink-rgb),.78);backdrop-filter:blur(3px)}
+  /* Hero 页：遮罩大幅降低，让 WebGL 背景明显透出 */
+  .slide.hero.light::before{background:rgba(var(--paper-rgb),.16);backdrop-filter:none}
+  .slide.hero.dark::before{background:rgba(var(--ink-rgb),.12);backdrop-filter:none}
+  /* Hero 页顶底微弱渐隐，保证 chrome/foot 区域可读 */
+  .slide.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+  .slide.hero.light::after{background:linear-gradient(180deg,rgba(var(--paper-rgb),.28) 0%,rgba(var(--paper-rgb),0) 14%,rgba(var(--paper-rgb),0) 86%,rgba(var(--paper-rgb),.28) 100%)}
+  .slide.hero.dark::after{background:linear-gradient(180deg,rgba(var(--ink-rgb),.32) 0%,rgba(var(--ink-rgb),0) 14%,rgba(var(--ink-rgb),0) 86%,rgba(var(--ink-rgb),.32) 100%)}
+
+  /* ============ Magazine chrome：顶部 meta + 底部 foot ============ */
+  .chrome{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.7}
+  .chrome .left,.chrome .right{display:flex;gap:2.4em;align-items:center}
+  .chrome .sep{width:40px;height:1px;background:currentColor;opacity:.4}
+  .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.55}
+  .foot .title{font-family:var(--serif-zh);font-weight:400;letter-spacing:.05em;text-transform:none;opacity:.75;font-size:13px}
+
+  .tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;padding:6px 14px;border:1px solid currentColor;opacity:.85}
+  .rule{width:100%;height:1px;background:currentColor;opacity:.25;margin:3vh 0}
+  .rule.v{width:1px;height:100%;margin:0}
+
+  /* ============ 字体规则（瑞士风：全无衬线） ============
+     · 主字体（Inter / Noto Sans SC）：大标题、正文、列表
+     · 等宽（IBM Plex Mono）：kicker、meta 小标签、foot 右侧
+     · --serif-* 已在 :root 中重定向到 sans，保留是为了兼容 magazine 模板下生成的 class
+  */
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.6;margin-bottom:2.6vh}
+  .display{font-family:var(--serif-en);font-weight:700;font-size:11vw;line-height:.92;letter-spacing:-.025em}
+  .display-zh{font-family:var(--serif-zh);font-weight:700;font-size:7.8vw;line-height:1.04;letter-spacing:-.005em}
+  .h1-zh{font-family:var(--serif-zh);font-weight:700;font-size:4.6vw;line-height:1.12;letter-spacing:-.005em}
+  .h2-zh{font-family:var(--serif-zh);font-weight:600;font-size:3.2vw;line-height:1.2;letter-spacing:0}
+  .h3-zh{font-family:var(--serif-zh);font-weight:500;font-size:1.9vw;line-height:1.35}
+  .body-zh{font-family:var(--sans-zh);font-weight:400;font-size:max(15px,1.22vw);line-height:1.75;opacity:.82;letter-spacing:.01em}
+  .body-serif{font-family:var(--serif-zh);font-weight:400;font-size:max(15px,1.3vw);line-height:1.65;opacity:.88}
+  .lead{font-family:var(--serif-zh);font-weight:400;font-size:1.9vw;line-height:1.4;opacity:.85}
+  .meta{font-family:var(--mono);font-size:max(11px,.88vw);letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+  .big-num{font-family:var(--serif-en);font-weight:800;font-size:10vw;line-height:.85;letter-spacing:-.03em;font-feature-settings:"tnum"}
+  .mid-num{font-family:var(--serif-en);font-weight:700;font-size:5.5vw;line-height:.88;letter-spacing:-.02em;font-feature-settings:"tnum"}
+  .ghost{font-family:var(--serif-en);font-weight:900;font-size:34vw;line-height:.8;opacity:.06;letter-spacing:-.04em;position:absolute;font-feature-settings:"tnum"}
+  em{font-style:italic;font-family:var(--serif-en)}
+  .en{font-family:var(--serif-en);font-style:italic;font-weight:500}
+
+  /* ============ 布局工具 ============ */
+  .col{display:flex;flex-direction:column;gap:2.4vh}
+  .row{display:flex;align-items:center;gap:3vw}
+  .grid-6{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:4vw 6vw;flex:1;align-content:center;padding:2vh 0}
+  .grid-9{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:3vh 4vw;flex:1;align-content:center}
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:4vh 6vw;flex:1;align-content:center}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:4vw;flex:1;align-content:center}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:4vw;flex:1;align-items:center}
+  .split-55{display:grid;grid-template-columns:55fr 45fr;gap:5vw;flex:1;align-items:stretch}
+  .fill{flex:1}
+  .center{align-items:center;justify-content:center;text-align:center}
+  .bottom-left{position:absolute;left:6vw;bottom:9vh;max-width:50vw}
+  .bottom-right{position:absolute;right:6vw;bottom:9vh;max-width:50vw;text-align:right}
+  .top-right{position:absolute;right:6vw;top:6vh;text-align:right}
+
+  /* ============ Stat（数字矩阵） ============ */
+  .stat{display:flex;flex-direction:column;gap:1vh;align-items:flex-start}
+  .stat .n{font-family:var(--serif-en);font-weight:800;font-size:8vw;line-height:.88;letter-spacing:-.03em;font-feature-settings:"tnum"}
+  .stat .l{font-family:var(--sans-zh);font-size:max(13px,1.05vw);opacity:.7;margin-top:1vh;font-weight:400;line-height:1.5}
+  .stat .m{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;opacity:.5;margin-bottom:.2vh}
+
+  /* ============ Callout（引用框） ============ */
+  .callout{padding:3vh 2.4vw;border-left:3px solid currentColor;position:relative;font-family:var(--serif-zh);font-size:max(15px,1.2vw);line-height:1.55;opacity:.92}
+  .slide.light .callout{background:rgba(var(--ink-rgb),.05)}
+  .slide.dark .callout{background:rgba(var(--paper-rgb),.06)}
+  .callout .cite{display:block;margin-top:1.6vh;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+  .callout .q-big{font-family:var(--serif-zh);font-weight:600;font-size:max(17px,1.6vw);line-height:1.42}
+
+  /* ============ Platform（平台卡） ============ */
+  .plat{display:flex;flex-direction:column;justify-content:flex-end;padding:2vh 0;border-top:1px solid currentColor;border-color:rgba(127,127,127,.35)}
+  .plat .name{font-family:var(--serif-zh);font-weight:700;font-size:1.8vw;margin-bottom:.6vh}
+  .plat .nb{font-family:var(--serif-en);font-weight:700;font-size:3.2vw;letter-spacing:-.02em;line-height:1;font-feature-settings:"tnum"}
+  .plat .sub{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;margin-top:.6vh}
+  .plat .fill{font-family:var(--sans-zh);font-weight:300;font-size:2.4vw;opacity:.28;letter-spacing:-.01em;line-height:1}
+
+  /* ============ Rowline（表格行） ============ */
+  .rowline{display:grid;grid-template-columns:1fr 2fr 1fr;gap:2vw;padding:2.2vh 0;border-top:1px solid currentColor;align-items:center;border-color:rgba(127,127,127,.25)}
+  .rowline:last-child{border-bottom:1px solid currentColor;border-color:rgba(127,127,127,.25)}
+  .rowline .k{font-family:var(--serif-zh);font-weight:700;font-size:1.7vw}
+  .rowline .v{font-family:var(--sans-zh);font-weight:400;font-size:max(14px,1.2vw);opacity:.85;line-height:1.55}
+  .rowline .m{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.6;justify-self:end}
+
+  /* ============ Pillar（支柱卡片） ============ */
+  .pillar{display:flex;flex-direction:column;gap:1.8vh}
+  .pillar .ic{font-family:var(--serif-en);font-style:italic;font-size:2.6vw;opacity:.45;font-weight:400}
+  .pillar .ic svg{width:2.8vw;height:2.8vw;stroke-width:1.2;opacity:.7}
+  .pillar .t{font-family:var(--serif-zh);font-weight:700;font-size:2.4vw;line-height:1.1}
+  .pillar .d{font-family:var(--sans-zh);font-weight:400;font-size:max(14px,1.1vw);opacity:.76;line-height:1.6}
+
+  /* ============ Signature / Highlight ============ */
+  .sign{font-family:var(--serif-en);font-style:italic;font-weight:500;font-size:2vw;opacity:.7}
+  .hi{position:relative;display:inline}
+  .slide.dark .hi::after{content:"";position:absolute;left:-.1em;right:-.1em;bottom:-.05em;height:.28em;background:rgba(var(--paper-rgb),.15);z-index:-1}
+  .slide.light .hi::after{content:"";position:absolute;left:-.1em;right:-.1em;bottom:-.05em;height:.28em;background:rgba(var(--ink-rgb),.08);z-index:-1}
+
+  /* ============ Icons（Lucide via CDN） ============ */
+  .ico{width:1em;height:1em;display:inline-block;vertical-align:-.12em;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  .ico-lg,.ico-md,.ico-sm{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+  .ico-lg{width:2.6vw;height:2.6vw;stroke-width:1.2;display:inline-block}
+  .ico-md{width:1.8vw;height:1.8vw;stroke-width:1.3;display:inline-block;vertical-align:-.4em}
+  .ico-sm{width:1.1vw;height:1.1vw;stroke-width:1.4;display:inline-block;vertical-align:-.15em;opacity:.7}
+
+  /* ============ 图片占位（虚线框，提示设计师位置） ============ */
+  .img-slot{border:1.5px dashed rgba(127,127,127,.4);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1vh;padding:2vh 2vw;font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;opacity:.55;position:relative;aspect-ratio:16/9;width:100%;max-height:56vh;margin-inline:auto;box-sizing:border-box}
+  .img-slot::before{content:"";position:absolute;inset:8px;border:1px solid currentColor;opacity:.2}
+  .img-slot .plus{font-size:2vw;font-weight:300;opacity:.5;letter-spacing:0}
+  .img-slot .label{position:relative;z-index:2;text-align:center}
+  .img-slot.r-4x3{aspect-ratio:4/3}
+  .img-slot.r-3x2{aspect-ratio:3/2}
+  .img-slot.r-1x1{aspect-ratio:1/1}
+
+  /* ============ 图片实填框（关键：固定高度 + 只裁底部） ============
+     重要约束：高度用内联 height:Nvh 精确控制，不要用 aspect-ratio（会撑破布局）
+     object-position:top center 保证严禁裁剪顶部和左右，只裁剪底部
+  */
+  .frame-img{overflow:hidden;position:relative;background:rgba(0,0,0,.04);box-sizing:border-box;width:100%;border-radius:4px}
+  .slide.dark .frame-img{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12)}
+  .frame-img > img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .frame-img.fit-contain > img{object-fit:contain;object-position:center center}
+  .frame-img.r-16x9{aspect-ratio:16/9;max-height:64vh}
+  .frame-img.r-16x10{aspect-ratio:16/10;max-height:56vh}
+  .frame-img.r-4x3{aspect-ratio:4/3;max-height:56vh}
+  .frame-img.r-3x2{aspect-ratio:3/2;max-height:46vh}
+  .frame-img.r-3x4{aspect-ratio:3/4;max-height:60vh}
+  .frame-img.r-1x1{aspect-ratio:1/1;max-height:50vh}
+  .frame-img.h-16{height:16vh}
+  .frame-img.h-18{height:18vh}
+  .frame-img.h-22{height:22vh}
+  .frame-img.h-26{height:26vh}
+  .frame-img.h-28{height:28vh}
+  .frame-cap{display:flex;justify-content:space-between;align-items:baseline;gap:1vw;margin-top:.8vh;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;opacity:.72}
+  .frame-cap .pf{font-family:var(--serif-zh);font-weight:600;font-size:max(13px,1vw);letter-spacing:.04em;text-transform:none;opacity:.94}
+  .frame-cap .nb{font-family:var(--serif-en);font-style:italic;font-size:max(15px,1.2vw);letter-spacing:.02em;text-transform:none;opacity:.88}
+  .frame-cap .idx{font-family:var(--mono);opacity:.5}
+  figure.tile{display:flex;flex-direction:column;margin:0;min-width:0}
+  figure.tile > .frame-img{flex:0 0 auto}
+
+  /* ============ 导航 ============ */
+  #nav{position:fixed;left:50%;bottom:2.6vh;transform:translateX(-50%);z-index:30;display:flex;gap:10px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  #nav .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:all .3s ease;border:0;padding:0}
+  #nav .dot:hover{background:rgba(255,255,255,.5);transform:scale(1.15)}
+  #nav .dot.active{background:rgba(255,255,255,.95);width:22px;border-radius:999px}
+  body.light-bg #nav{background:rgba(255,255,255,.25)}
+  body.light-bg #nav .dot{background:rgba(var(--ink-rgb),.25)}
+  body.light-bg #nav .dot.active{background:rgba(var(--ink-rgb),.9)}
+  #hint{position:fixed;bottom:3vh;right:3vw;z-index:30;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.4;mix-blend-mode:difference;color:#aaa}
+  body.low-power #hint{opacity:.72;color:var(--paper);mix-blend-mode:normal}
+  body.light-bg.low-power #hint{color:var(--ink)}
+
+  /* ============================================================
+     ============ LAYOUTS API · 面向 agent 的类（v2）============
+     所有 layouts.md 中的骨架都基于下面这套命名。
+     如果你在 layouts.md 里看到某个类，它必须在下面有定义。
+     ============================================================ */
+
+  /* ---------- .frame：每页主内容容器 ---------- */
+  .frame{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  /* 可滚动 slide：内容溢出时允许 frame 内滚动，滚轮/触屏优先滚动内容 */
+  .slide.scrollable .frame{overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth}
+  .slide.scrollable .frame::-webkit-scrollbar{width:4px}
+  .slide.scrollable .frame::-webkit-scrollbar-track{background:transparent}
+  .slide.scrollable .frame::-webkit-scrollbar-thumb{background:rgba(127,127,127,.35);border-radius:2px}
+  .slide.dark.scrollable .frame::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2)}
+  /* 当 .frame 同时加了 grid 类时，grid 的 display:grid 覆盖 flex */
+  .frame.grid-2-7-5,
+  .frame.grid-2-6-6,
+  .frame.grid-2-8-4,
+  .frame.grid-3-3,
+  .frame.grid-6{display:grid}
+
+  /* ---------- 标题层级（API 名称，衬线为主） ---------- */
+  .h-hero{
+    font-family:var(--serif-zh);
+    font-weight:900;
+    font-size:10vw;
+    line-height:.96;
+    letter-spacing:-.02em;
+  }
+  .h-xl{
+    font-family:var(--serif-zh);
+    font-weight:700;
+    font-size:6.2vw;
+    line-height:1.08;
+    letter-spacing:-.01em;
+  }
+  .h-sub{
+    font-family:var(--serif-zh);
+    font-weight:500;
+    font-size:3.1vw;
+    line-height:1.25;
+    letter-spacing:0;
+    opacity:.7;
+  }
+  .h-md{
+    font-family:var(--serif-zh);
+    font-weight:600;
+    font-size:2.3vw;
+    line-height:1.3;
+  }
+  /* 英文标题专用（瑞士风：Inter 无衬线） */
+  .h-hero-en,.h-xl-en{font-family:var(--serif-en);letter-spacing:-.025em}
+
+  /* ---------- lead 引语 ---------- */
+  .lead{
+    font-family:var(--serif-zh);
+    font-weight:400;
+    font-size:1.75vw;
+    line-height:1.5;
+    opacity:.86;
+  }
+
+  /* ---------- meta-row 底部元数据 ---------- */
+  .meta-row{
+    display:flex;
+    gap:1.2em;
+    align-items:baseline;
+    flex-wrap:wrap;
+    font-family:var(--mono);
+    font-size:max(12px,.92vw);
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    opacity:.6;
+  }
+
+  /* ---------- stat-card（数据大字报用） ---------- */
+  .stat-card{
+    display:flex;
+    flex-direction:column;
+    gap:.8vh;
+    align-items:flex-start;
+    padding-top:1.6vh;
+    border-top:1px solid currentColor;
+    border-color:rgba(127,127,127,.3);
+  }
+  .stat-card .stat-label{
+    font-family:var(--mono);
+    font-size:max(10px,.78vw);
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    opacity:.55;
+  }
+  .stat-card .stat-nb{
+    font-family:var(--serif-en);
+    font-weight:800;
+    font-size:5.8vw;
+    line-height:.9;
+    letter-spacing:-.03em;
+    font-feature-settings:"tnum";
+    margin-top:.4vh;
+  }
+  .stat-card .stat-nb .stat-unit{
+    font-family:var(--serif-zh);
+    font-weight:500;
+    font-size:.38em;
+    letter-spacing:0;
+    opacity:.72;
+    margin-left:.14em;
+  }
+  .stat-card .stat-note{
+    font-family:var(--sans-zh);
+    font-weight:400;
+    font-size:max(13px,1.05vw);
+    line-height:1.5;
+    opacity:.72;
+    margin-top:.6vh;
+  }
+  /* 当 stat-card 用于 grid-4（2x2），数字适度放大；若页面有标题+引文在上方，可内联 style 覆盖为更小值 */
+  .grid-4 .stat-card .stat-nb{font-size:5vw}
+  /* 当只有 3 个，字也可以稍大 */
+  .grid-3 .stat-card .stat-nb{font-size:6.8vw}
+
+  /* ---------- pipeline（流水线） ---------- */
+  .pipeline-section{
+    margin-top:4.4vh;
+    padding-top:2.8vh;
+    border-top:1px dashed rgba(127,127,127,.32);
+  }
+  .pipeline-section:first-of-type{
+    border-top:0;
+    padding-top:0;
+    margin-top:3vh;
+  }
+  .pipeline-label{
+    font-family:var(--mono);
+    font-size:max(11px,.85vw);
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    opacity:.62;
+    margin-bottom:2.2vh;
+  }
+  .pipeline{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:1.2vw;
+  }
+  .pipeline[data-cols="3"]{grid-template-columns:repeat(3,1fr)}
+  .pipeline[data-cols="4"]{grid-template-columns:repeat(4,1fr)}
+  .pipeline[data-cols="6"]{grid-template-columns:repeat(6,1fr)}
+  .step{
+    display:flex;
+    flex-direction:column;
+    gap:.8vh;
+    padding-top:1.4vh;
+    border-top:1px solid currentColor;
+    border-color:rgba(127,127,127,.35);
+  }
+  .step-nb{
+    font-family:var(--serif-en);
+    font-style:italic;
+    font-weight:500;
+    font-size:1.15vw;
+    opacity:.45;
+  }
+  .step-title{
+    font-family:var(--sans-zh);
+    font-weight:700;
+    font-size:1.55vw;
+    letter-spacing:.01em;
+    line-height:1.2;
+  }
+  .step-desc{
+    font-family:var(--sans-zh);
+    font-weight:400;
+    font-size:max(12px,.95vw);
+    line-height:1.45;
+    opacity:.72;
+  }
+
+  /* ---------- 网格（layouts.md 所用） ---------- */
+  /* 这些类独立挂到任何容器上都能生效，不依赖 .frame 复合选择器 */
+  .grid-2-7-5{display:grid;grid-template-columns:7fr 5fr;gap:3vw 4vh;align-items:start}
+  .grid-2-6-6{display:grid;grid-template-columns:1fr 1fr;gap:3vw 4vh;align-items:start}
+  .grid-2-8-4{display:grid;grid-template-columns:8fr 4fr;gap:3vw 4vh;align-items:start}
+  .grid-3-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-auto-rows:minmax(0,1fr);
+    gap:2.4vh 2vw;
+  }
+  /* grid-6 已在旧样式里定义为 3x2，这里仅补 align */
+
+  /* ---------- 图片 frame-img（layouts.md 主命名） ---------- */
+  /* 在旧样式里已定义，这里补 img-cap 命名别名与增强 */
+  figure.frame-img{margin:0;display:flex;flex-direction:column;min-width:0}
+  .img-cap{
+    display:block;
+    margin-top:.8vh;
+    font-family:var(--mono);
+    font-size:max(10px,.8vw);
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    opacity:.6;
+  }
+  /* callout src 命名别名 */
+  .callout-src{
+    display:block;
+    margin-top:1.6vh;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    opacity:.6;
+  }
+
+  /* ---------- chrome & foot 补位（layouts.md 简单写法） ---------- */
+  .chrome{font-family:var(--mono);font-size:max(11px,.78vw);letter-spacing:.2em;text-transform:uppercase;opacity:.62}
+  .foot{font-family:var(--mono);font-size:max(11px,.78vw);letter-spacing:.18em;text-transform:uppercase;opacity:.5}
+
+  /* ============ 动效系统(Motion One 驱动) ============
+     所有 [data-anim] 元素默认隐藏,进入页面时由 JS 逐个揭示。
+     - cascade(默认):按 DOM 顺序 stagger 120ms 淡入 + y:16→0
+     - hero(hero 页自动):慢一点的 stagger 180ms
+     - quote(含 [data-anim="line"]):逐行 600ms 淡入
+     - directional(含 [data-anim="left|right"]):左→分隔线→右
+     - pipeline(data-animate="pipeline"):Space/→ 手动推进
+     Motion One 没加载成功时(CDN 断 + 本地丢),所有 [data-anim] 会兜底显示。
+  */
+  [data-anim]{opacity:1}
+  body.motion-ready [data-anim]{opacity:0}
+  body.motion-ready [data-anim="left"]{transform:translateX(-24px)}
+  body.motion-ready [data-anim="right"]{transform:translateX(24px)}
+  body.motion-ready [data-anim="line"]{opacity:0;transform:translateY(10px)}
+  body.motion-ready [data-animate="pipeline"] [data-anim]{opacity:.15}
+  body.low-power #deck{transition:none!important}
+  body.low-power *,
+  body.low-power *::before,
+  body.low-power *::after{animation:none!important;transition:none!important}
+  body.low-power.motion-ready [data-anim],
+  body.low-power [data-anim]{opacity:1!important;transform:none!important}
+
+  /* ---------- 响应式降级 ---------- */
+  @media (max-width:900px){
+    .display{font-size:16vw}
+    .display-zh{font-size:12vw}
+    .h1-zh{font-size:7vw}
+    .h-hero{font-size:14vw}
+    .h-xl{font-size:9vw}
+    .pipeline{grid-template-columns:repeat(2,1fr)}
+    .grid-2-7-5,.grid-2-6-6,.grid-2-8-4{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<script>
+  (function(){
+    const KEY = 'guizang-ppt-low-power';
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const stored = localStorage.getItem(KEY);
+    window.__lowPowerMode = stored === '1' || (stored === null && reduced);
+    function updateHint(){
+      const hint = document.getElementById('hint');
+      if(hint) hint.textContent = `← → 翻页 · B ${window.__lowPowerMode ? '动态' : '静态'} · ESC 索引`;
+    }
+    window.__setLowPowerMode = function(on, opts={}){
+      window.__lowPowerMode = !!on;
+      document.body.classList.toggle('low-power', window.__lowPowerMode);
+      if(opts.persist !== false) localStorage.setItem(KEY, window.__lowPowerMode ? '1' : '0');
+      if(window.__lowPowerMode && document.getAnimations){
+        document.getAnimations().forEach(a=>a.cancel());
+      }
+      updateHint();
+      dispatchEvent(new CustomEvent('ppt-low-power-change', {detail:{on:window.__lowPowerMode}}));
+      if(window.__playSlide) window.__playSlide(window.__currentSlideIndex || 0);
+    };
+    document.body.classList.toggle('low-power', window.__lowPowerMode);
+    addEventListener('DOMContentLoaded', updateHint, {once:true});
+  })();
+</script>
+
+<canvas id="bg-dark" class="bg"></canvas>
+<canvas id="bg-light" class="bg"></canvas>
+<div id="hint">← → 翻页 · B 静态 · ESC 索引</div>
+
+<div id="deck">
+
+<!-- ============================================================
+     SLIDES 插入区 · 在此处填充所有 <section class="slide ..."> 页面
+     每页模板参考 references/page-patterns.md
+     页面组件参考 references/components.md
+     ============================================================ -->
+
+
+<section class="slide hero dark">
+  <div class="chrome">
+    <div>RAG · 全链路评测 · v1</div>
+    <div>BitSelect / 2026</div>
+  </div>
+  <div class="frame" style="display:grid; gap:4vh; align-content:center; min-height:80vh">
+    <div class="kicker" data-anim>Bit Select · RAG 测评汇报</div>
+    <h1 class="h-hero" data-anim>比特严选</h1>
+    <h2 class="h-sub" data-anim>RAG 客服助手 · 真实链路评测</h2>
+    <p class="lead" style="max-width:62vw" data-anim>
+      意图 → 检索 → 生成 · 三段全链路的可量化评测；自建指标与 RAGAS 互为印证。
+    </p>
+    <div class="meta-row" data-anim>
+      <span>127 条样本</span><span>·</span>
+      <span>success 127</span><span>·</span>
+      <span>2026-06-11 21:03</span>
+    </div>
+  </div>
+  <div class="foot">
+    <div>v1_20260610_232706_static-v1.jsonl</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>核心 KPI · Headline</div>
+    <div>Act I · 01</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>四个上线决定项</div>
+    <h2 class="h-xl" data-anim>核心指标</h2>
+    <p class="lead" style="margin-top:2vh;max-width:62vw" data-anim>
+      意图 → 检索 → 答案事实性 → 答案忠实性。任何一环掉，结论就站不住。
+    </p>
+
+    <div class="grid-4" style="margin-top:5vh">
+      
+      <div class="stat-card" data-anim>
+        <div class="stat-label">意图 Top-1 准确率</div>
+        <div class="stat-nb">89.8<span class="stat-unit">%</span></div>
+        <div class="stat-note">上游闸门 · 错则全错</div>
+      </div>
+    
+      
+      <div class="stat-card" data-anim>
+        <div class="stat-label">检索 Hit@5</div>
+        <div class="stat-nb">96.3<span class="stat-unit">%</span></div>
+        <div class="stat-note">至少命中 1 条期望文档</div>
+      </div>
+    
+      
+      <div class="stat-card" data-anim>
+        <div class="stat-label">Answer Correctness</div>
+        <div class="stat-nb">—</div>
+        <div class="stat-note">回答与参考答案的语义+事实一致</div>
+      </div>
+    
+      
+      <div class="stat-card" data-anim>
+        <div class="stat-label">Faithfulness</div>
+        <div class="stat-nb">—</div>
+        <div class="stat-note">回答忠实于召回（幻觉检测）</div>
+      </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>Hero KPI · 4 / 127 样本</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark" style="padding-top:0;padding-bottom:0">
+  <style>
+    .kpi-wrap{
+      margin:auto 0;width:100%;
+    }
+    .kpi-wrap .chrome{
+      margin-bottom:24px;
+    }
+    .kpi-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      column-gap:60px;
+      row-gap:40px;
+      padding:0 80px;
+      position:relative;
+    }
+    .kpi-grid::before,.kpi-grid::after{
+      content:"";
+      position:absolute;top:0;bottom:0;
+      width:1px;
+      background:rgba(255,255,255,0.06);
+    }
+    .kpi-grid::before{left:calc(33.333% - 30px);}
+    .kpi-grid::after{left:calc(66.666% - 30px);}
+    .kpi-cell{
+      text-align:left;
+    }
+    .kpi-label{
+      font-family:var(--mono);
+      font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+      color:rgba(255,255,255,.4);
+    }
+    .kpi-value{
+      font-family:"Inter","DIN","Helvetica Neue",var(--sans);
+      font-size:56px;font-weight:800;line-height:1.0;
+      font-variant-numeric:tabular-nums;
+      font-feature-settings:"tnum";
+      color:#fff;margin-top:8px;
+    }
+    .kpi-unit{
+      font-size:.4em;font-weight:600;opacity:.7;vertical-align:baseline;
+    }
+    .kpi-desc{
+      font-family:var(--sans-zh);
+      font-size:13px;color:rgba(255,255,255,.55);line-height:1.4;
+      margin-top:6px;
+    }
+    .sec-title{
+      font-family:var(--serif-zh);
+      font-size:48px;font-weight:900;line-height:1.08;
+    }
+    .kpi-foot{
+      font-family:var(--mono);
+      font-size:max(11px,.78vw);letter-spacing:.18em;text-transform:uppercase;
+      opacity:.5;margin-top:32px;padding:0 80px;
+    }
+    .kpi-wrap .foot{
+      margin-top:4px;
+    }
+    @media(max-width:768px){
+      .kpi-grid{grid-template-columns:repeat(2,1fr);padding:0 40px}
+      .kpi-foot{padding:0 40px}
+      .kpi-grid::before,.kpi-grid::after{display:none}
+    }
+    @media(max-width:480px){
+      .kpi-grid{grid-template-columns:1fr;padding:0 24px}
+      .kpi-foot{padding:0 24px}
+    }
+  </style>
+  <div class="kpi-wrap">
+    <div class="chrome">
+      <div>次级 KPI · Detailed</div>
+      <div>Act I · 02</div>
+    </div>
+    <div class="kicker" data-anim style="margin-bottom:8px;font-size:13px">立体度 · 性能 · 行为</div>
+    <h2 class="sec-title" data-anim>次级指标</h2>
+    <div class="kpi-grid" style="margin-top:40px">
+      
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">Recall@5</div>
+        <div class="kpi-value">78.1<span class="kpi-unit">%</span></div>
+        <div class="kpi-desc">召回覆盖率 · 期望 ≥ 85%</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">MRR@10</div>
+        <div class="kpi-value">0.90</div>
+        <div class="kpi-desc">首个命中文档排名质量</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">Context Recall</div>
+        <div class="kpi-value">—</div>
+        <div class="kpi-desc">上下文覆盖参考答案</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">Context Precision</div>
+        <div class="kpi-value">—</div>
+        <div class="kpi-desc">上下文有用信息比例</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">Answer Relevancy</div>
+        <div class="kpi-value">—</div>
+        <div class="kpi-desc">回答与问题切题度</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">首字均值</div>
+        <div class="kpi-value">6070<span class="kpi-unit">ms</span></div>
+        <div class="kpi-desc">TTFT · 对话体感卡点</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">误拒率</div>
+        <div class="kpi-value">1.8<span class="kpi-unit">%</span></div>
+        <div class="kpi-desc">requires_rag 却 0 召回</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">误召回率</div>
+        <div class="kpi-value">11.1<span class="kpi-unit">%</span></div>
+        <div class="kpi-desc">!requires_rag 却走 RAG</div>
+      </div>
+    
+
+      <div class="kpi-cell" data-anim>
+        <div class="kpi-label">整流均值</div>
+        <div class="kpi-value">9711<span class="kpi-unit">ms</span></div>
+        <div class="kpi-desc">完整流式耗时 · 参考</div>
+      </div>
+    
+    </div>
+    <div class="kpi-foot">Detailed · 9 项次级指标</div>
+    <div class="foot">
+      <div></div>
+      <div>— · —</div>
+    </div>
+  </div>
+</section>
+
+
+<section class="slide hero light">
+  <div class="chrome">
+    <div>第二幕 · 检索切片</div>
+    <div>Act II</div>
+  </div>
+  <div class="frame" style="display:grid; gap:6vh; align-content:center; min-height:80vh">
+    <div class="kicker" data-anim>Act II</div>
+    <h1 class="h-hero" style="font-size:8.5vw" data-anim>检索分层</h1>
+    <p class="lead" style="max-width:55vw" data-anim>
+      按二级意图打开，看每条链路的真实表现。
+    </p>
+  </div>
+  <div class="foot">
+    <div>Act II · 入口</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>按二级意图分层 · 1/4</div>
+    <div>Act II · 03</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Intent Breakdown</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>每条链路的真实表现</h2>
+    <div style="margin-top:4vh">
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">C1_寒暄问候</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>—</b> · Recall@5 <b>—</b> · MRR <b>—</b><br>
+        <span style="opacity:.55">n = 5 · retrieval_n = 0</span>
+      </div>
+      <div class="m">4415 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">C2_越界提问</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>—</b> · Recall@5 <b>—</b> · MRR <b>—</b><br>
+        <span style="opacity:.55">n = 5 · retrieval_n = 0</span>
+      </div>
+      <div class="m">5454 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">F1_故障报告</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>80.0%</b> · Recall@5 <b>60.0%</b> · MRR <b>0.800</b><br>
+        <span style="opacity:.55">n = 5 · retrieval_n = 5</span>
+      </div>
+      <div class="m">5423 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">F2_功能建议</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>—</b> · Recall@5 <b>—</b> · MRR <b>—</b><br>
+        <span style="opacity:.55">n = 5 · retrieval_n = 0</span>
+      </div>
+      <div class="m">5448 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">F3_投诉吐槽</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>0.0%</b> · Recall@5 <b>0.0%</b> · MRR <b>0.000</b><br>
+        <span style="opacity:.55">n = 5 · retrieval_n = 2</span>
+      </div>
+      <div class="m">4411 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S10_APP功能</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>100.0%</b> · MRR <b>0.786</b><br>
+        <span style="opacity:.55">n = 7 · retrieval_n = 7</span>
+      </div>
+      <div class="m">5732 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>意图名 · Hit/Recall/MRR · 首字均值</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>按二级意图分层 · 2/4</div>
+    <div>Act II · 03</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Intent Breakdown</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>每条链路的真实表现</h2>
+    <div style="margin-top:4vh">
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S11_固件升级</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>90.0%</b> · MRR <b>0.900</b><br>
+        <span style="opacity:.55">n = 5 · retrieval_n = 5</span>
+      </div>
+      <div class="m">5602 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S12_生态联动</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>70.8%</b> · MRR <b>1.000</b><br>
+        <span style="opacity:.55">n = 6 · retrieval_n = 6</span>
+      </div>
+      <div class="m">7837 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S13_保养维护</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>68.5%</b> · MRR <b>0.944</b><br>
+        <span style="opacity:.55">n = 9 · retrieval_n = 9</span>
+      </div>
+      <div class="m">6165 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S14_售后政策</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>100.0%</b> · MRR <b>1.000</b><br>
+        <span style="opacity:.55">n = 8 · retrieval_n = 8</span>
+      </div>
+      <div class="m">6562 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S15_退换货</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>100.0%</b> · MRR <b>1.000</b><br>
+        <span style="opacity:.55">n = 7 · retrieval_n = 7</span>
+      </div>
+      <div class="m">5663 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S16_物流配送</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>100.0%</b> · MRR <b>0.917</b><br>
+        <span style="opacity:.55">n = 6 · retrieval_n = 6</span>
+      </div>
+      <div class="m">5395 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>意图名 · Hit/Recall/MRR · 首字均值</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>按二级意图分层 · 3/4</div>
+    <div>Act II · 03</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Intent Breakdown</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>每条链路的真实表现</h2>
+    <div style="margin-top:4vh">
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S17_发票会员</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>100.0%</b> · MRR <b>1.000</b><br>
+        <span style="opacity:.55">n = 6 · retrieval_n = 6</span>
+      </div>
+      <div class="m">7966 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S2_参数咨询</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>77.3%</b> · MRR <b>0.909</b><br>
+        <span style="opacity:.55">n = 11 · retrieval_n = 11</span>
+      </div>
+      <div class="m">6785 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S3_对比选购</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>50.0%</b> · MRR <b>1.000</b><br>
+        <span style="opacity:.55">n = 1 · retrieval_n = 1</span>
+      </div>
+      <div class="m">4462 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S4_价格活动</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>75.0%</b> · Recall@5 <b>58.3%</b> · MRR <b>0.625</b><br>
+        <span style="opacity:.55">n = 4 · retrieval_n = 4</span>
+      </div>
+      <div class="m">6055 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S5_库存到货</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>83.3%</b> · MRR <b>0.733</b><br>
+        <span style="opacity:.55">n = 3 · retrieval_n = 3</span>
+      </div>
+      <div class="m">5367 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S6_配件兼容</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>60.7%</b> · MRR <b>1.000</b><br>
+        <span style="opacity:.55">n = 7 · retrieval_n = 7</span>
+      </div>
+      <div class="m">6488 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>意图名 · Hit/Recall/MRR · 首字均值</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>按二级意图分层 · 4/4</div>
+    <div>Act II · 03</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Intent Breakdown</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>每条链路的真实表现</h2>
+    <div style="margin-top:4vh">
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S7_适用场景</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>61.9%</b> · MRR <b>0.929</b><br>
+        <span style="opacity:.55">n = 7 · retrieval_n = 7</span>
+      </div>
+      <div class="m">6274 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S8_操作指引</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>81.2%</b> · MRR <b>1.000</b><br>
+        <span style="opacity:.55">n = 8 · retrieval_n = 8</span>
+      </div>
+      <div class="m">6164 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="padding:2.0vh 0">
+      <div class="k">S9_配网连接</div>
+      <div class="v" style="line-height:1.38">Hit@5 <b>100.0%</b> · Recall@5 <b>61.9%</b> · MRR <b>0.893</b><br>
+        <span style="opacity:.55">n = 7 · retrieval_n = 7</span>
+      </div>
+      <div class="m">6307 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>意图名 · Hit/Recall/MRR · 首字均值</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 1/15</div>
+    <div>Act II · 4</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-01 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米 14 Pro 的屏幕尺寸和刷新率是多少？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_PHONE_004<br>
+        <span style="opacity:.55">召回</span> PROD_PHONE_004, PROD_PHONE_003, PROD_PHONE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        ## 小米 14 Pro 的屏幕尺寸是多少
+
+小米 14 Pro 的屏幕尺寸是 **6.73 英寸**。
+
+## 小米 14 Pro 的刷新率是多少
+
+小米 14 Pro 的屏幕支持 **动态 1-1…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-03 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        米家空气净化器 4 Pro 适合多大面积？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_AIR_003<br>
+        <span style="opacity:.55">召回</span> PROD_AIR_003, PROD_AIR_002, GUIDE_AIR_001, GUIDE_AIR_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        米家空气净化器 4 Pro 的适用面积为 **35-60m²**，适合大客厅、开放式餐客厅或空气污染负荷较高的空间使用。
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-05 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米智能门锁 E10 支持几种开锁方式？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_LOCK_001, MANUAL_LOCK_001<br>
+        <span style="opacity:.55">召回</span> PROD_LOCK_001, PROD_LOCK_002, PROD_CAM_002, PROD_PHONE_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        小米智能门锁 E10 支持以下多种开锁方式：
+
+- **指纹开锁**：采用半导体指纹识别技术，识别灵敏且安全性高  
+- **密码开锁**：支持长期密码、临时密码、周期密码和虚位密码（可在真实密码前后…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-06 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米手表 S2 防水吗？能游泳戴吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_WATCH_002, MANUAL_WATCH_001<br>
+        <span style="opacity:.55">召回</span> PROD_WATCH_002, PROD_WATCH_005, PROD_WATCH_001, PROD_WATCH_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        ## 小米手表 S2 防水吗
+
+小米手表 S2 具备 **5 ATM 防水等级**，这意味着它可以在日常使用中抵御水溅、雨水，也适合在泳池或浅水环境中使用。不过需要注意的是，**不建议在热水淋浴、桑拿…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 2/15</div>
+    <div>Act II · 5</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-07 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米 14 充电 30 分钟能充多少？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_PHONE_003, CODE_PHONE_001<br>
+        <span style="opacity:.55">召回</span> PROD_PHONE_003, PROD_PHONE_004, PROD_PHONE_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        小米 14 支持 90W 有线秒充，根据官方数据，在理想条件下（使用原装充电器和线材、室温环境、电量从较低水平开始），**30 分钟内可充至约 100%**。
+
+不过实际充电速度会受到以下因素影响：…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-08 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        石头 G10 在地毯上吸力会下降吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_VAC_003<br>
+        <span style="opacity:.55">召回</span> PROD_VAC_003, GUIDE_VAC_001, PROD_VAC_004, PROD_VAC_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        不会，石头 G10 在地毯上吸力不仅不会下降，反而会自动增强。
+
+G10 支持**地毯增压**功能，当机器人检测到行进至地毯区域时，会自动提升吸力至更高档位（如强力或 MAX 档），以更有效地清理地毯…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-10 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米 Buds 4 的延迟多少 ms？打游戏够用吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_BUDS_003, MANUAL_BUDS_001<br>
+        <span style="opacity:.55">召回</span> PROD_BUDS_004, PROD_BUDS_003, PROD_BUDS_005, PROD_BUDS_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        ## 小米 Buds 4 的延迟多少 ms
+
+关于小米 Buds 4 的具体延迟数值（如多少毫秒），当前产品文档中**未明确提供**。文档仅在注意事项中提到：“高清音频、空间音频、双设备连接等能力需要…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S4-02 · S4_价格活动</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米 14 Pro 多少钱？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_PHONE_004, PRODUCT_MAPPING<br>
+        <span style="opacity:.55">召回</span> POLICY_VIP_001, POLICY_WAR_002, POLICY_RET_004, POLICY_LOG_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        目前知识库中未包含小米 14 Pro 的具体价格信息。建议您在比特严选平台的商品详情页查看实时售价，或联系客服获取最新价格和活动详情。
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 3/15</div>
+    <div>Act II · 6</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S4-06 · S4_价格活动</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        我买了一周降价了能补差价吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_RET_004<br>
+        <span style="opacity:.55">召回</span> POLICY_RET_004, POLICY_RET_002, POLICY_RET_001, POLICY_INV_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        可以补差价，但需满足以下条件：
+
+- **时间要求**：在订单支付成功后的 **7 个自然日内** 提出申请；
+- **商品一致性**：降价商品必须是 **同一商品、同一 SKU（包括规格、颜色、容量…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S5-02 · S5_库存到货</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        什么时候能发货？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_LOG_001<br>
+        <span style="opacity:.55">召回</span> POLICY_LOG_001, POLICY_LOG_002, POLICY_LOG_003, POLICY_RET_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        现货自营商品在支付成功且风控通过后，通常 **48 小时内发货**。  
+具体来说：
+
+- 每日 **18:00 前支付**的订单，一般会进入当天仓库处理波次；
+- **18:00 后支付**的订单，…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S6-01 · S6_配件兼容</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米 14 Pro 用什么充电器？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_PHONE_004, MANUAL_PHONE_001<br>
+        <span style="opacity:.55">召回</span> PROD_PHONE_004, PROD_PHONE_003, PROD_PHONE_001, PROD_PHONE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        小米 14 Pro 标配的是 **120W 电源适配器**，属于小米 120W 原装充电套装。  
+
+该机型兼容以下充电器：
+- **小米 120W 原装充电套装**（推荐使用，可实现满血快充）
+-…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S6-04 · S6_配件兼容</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        T7 的滤芯能用在 G10S Pro 上吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_VAC_001, PROD_VAC_004, MANUAL_VAC_003<br>
+        <span style="opacity:.55">召回</span> PROD_VAC_004, PROD_VAC_001, PROD_VAC_003, PROD_VAC_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        不能，T7 的滤芯不能用于 G10S Pro。
+
+根据产品兼容性说明，石头 T7 与 T7S 系列的主刷、滤网、拖布模组均不通用，而 G10S Pro 属于更高阶的系列，其滤网需使用 **G10S /…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 4/15</div>
+    <div>Act II · 7</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S6-05 · S6_配件兼容</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        我有小米 13 的 67W 充电器，给小米 14 Pro 用会慢吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_PHONE_001, PROD_PHONE_004, MANUAL_PHONE_001<br>
+        <span style="opacity:.55">召回</span> PROD_PHONE_001, PROD_PHONE_004, PROD_PHONE_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        会变慢。
+
+小米14 Pro 支持最高 **120W 有线快充**，但它需要配合原装或合规的高功率充电器才能达到这个速度。如果你使用的是小米 13 的 **67W 充电器**，由于充电器本身的输出功率…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S6-06 · S6_配件兼容</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_BUDS_002, PROD_BUDS_003, MANUAL_BUDS_001<br>
+        <span style="opacity:.55">召回</span> PROD_BUDS_002, PROD_BUDS_001, PROD_BUDS_003, PROD_BUDS_004
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        不适用。
+
+Redmi Buds 3 Pro 是入耳式耳机，配有硅胶耳塞套（耳帽），而小米 Buds 4 是**半入耳式**耳机，**没有耳塞套设计**。两者结构不同，耳塞套无法通用。
+
+此外，文档中…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S6-07 · S6_配件兼容</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机的边刷哪几个型号是通用的？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_VAC_003, PROD_VAC_001, PROD_VAC_002, PROD_VAC_004<br>
+        <span style="opacity:.55">召回</span> PROD_VAC_001, PROD_VAC_002, GUIDE_VAC_001, PROD_VAC_004
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        石头扫地机器人中，**T7、T7S 和 T7S Plus 的边刷是通用的**。
+
+这意味着如果你使用的是这三款机型中的任意一款，购买边刷时可以选择标有“T7 / T7S / T7S Plus 通用”的…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S7-02 · S7_适用场景</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        智能门锁停电了能用吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_LOCK_001, MANUAL_LOCK_001<br>
+        <span style="opacity:.55">召回</span> PROD_LOCK_002, PROD_LOCK_001, PROD_CAM_002, PROD_SOCKET_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        小米的两款智能门锁（**小米全自动智能门锁 Pro** 和 **小米智能门锁 E10**）在停电情况下**仍然可以正常使用**，原因如下：
+
+### 一、供电方式决定断电不影响基础功能
+两款门锁均采用…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 5/15</div>
+    <div>Act II · 8</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S7-05 · S7_适用场景</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        我家是长条户型，扫地机会乱跑吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> GUIDE_VAC_002, MANUAL_VAC_002<br>
+        <span style="opacity:.55">召回</span> GUIDE_VAC_002, GUIDE_VAC_003, PROD_VAC_001, PROD_VAC_004
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        目前知识库中没有专门针对“长条户型”的扫地机行为说明。不过，根据现有资料，扫地机器人是否“乱跑”主要取决于其导航和建图能力，而不是户型的形状。
+
+所有推荐机型（如石头 T7、T7S Plus、G10、…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S7-06 · S7_适用场景</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        出租屋能装智能门锁吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> GUIDE_HOME_002, PROD_LOCK_001, POLICY_RET_001<br>
+        <span style="opacity:.55">召回</span> GUIDE_HOME_002, PROD_LOCK_002, PROD_CAM_002, PROD_LOCK_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        出租屋**一般不建议擅自安装智能门锁**。
+
+根据《出租屋智能化改造指南》，涉及门锁的改造属于需要**事先获得房东明确同意**的项目，主要原因包括：
+
+- 安装智能门锁通常需要对原有门体进行开孔或更换…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S2-11 · S2_参数咨询</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        RedmiBook Pro 14 适合剪视频吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> PROD_BOOK_001, PROD_BOOK_003<br>
+        <span style="opacity:.55">召回</span> PROD_BOOK_003, PROD_BOOK_001, PROD_BOOK_002, PROD_PHONE_005
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        RedmiBook Pro 14 **适合轻度视频剪辑**，但不适合重度或专业级的视频处理任务。
+
+### 一、适合的场景
+- **轻度剪辑需求**：如日常 Vlog 剪辑、短视频制作、简单字幕添加和…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S5-06 · S5_库存到货</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        下单小爱音箱 Pro 后大概多久能送到？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_LOG_001<br>
+        <span style="opacity:.55">召回</span> POLICY_LOG_001, POLICY_LOG_002, POLICY_LOG_003, POLICY_WAR_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        如果订单页或库存工具确认小爱音箱 Pro 为比特严选自营现货，下单后的配送时效如下：
+
+- **发货时间**：支付成功且风控通过后，通常 **48 小时内发货**。每日 18:00 前支付的订单优先进…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 6/15</div>
+    <div>Act II · 9</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S7-07 · S7_适用场景</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        租房想低成本做智能家居，哪些设备适合带走？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> GUIDE_HOME_002, PROD_SPK_001, PROD_SOCKET_001, PROD_LIGHT_002<br>
+        <span style="opacity:.55">召回</span> GUIDE_HOME_002, GUIDE_HOME_001, PROD_SOCKET_001, PROD_SPK_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        在低成本智能家居方案中，适合带走、便于迁移的设备主要具备**插电即用、无需打孔或强电改造、退租可恢复原状**等特点。以下是几款特别适合出租屋或临时居住场景的推荐设备：
+
+### 一、米家智能插座 3（…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S8-02 · S8_操作指引</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        智能音箱怎么调音量？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_SPK_001<br>
+        <span style="opacity:.55">召回</span> MANUAL_SPK_001, APP_GUIDE_002, MANUAL_PHONE_001, MANUAL_PHONE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        你可以通过语音指令直接调整小爱音箱的音量。比如对它说：
+
+- “小爱同学，音量调到 30%”
+- “小爱同学，把音量调大一点”
+- “小爱同学，音量调小”
+
+此外，在播放音乐或内容时，也可以直接说“暂…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S8-04 · S8_操作指引</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        智能门锁怎么添加新指纹？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_LOCK_001, MANUAL_LOCK_002<br>
+        <span style="opacity:.55">召回</span> MANUAL_LOCK_001, MANUAL_LOCK_002, APP_GUIDE_002, AUTO_GUIDE_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        在小米智能门锁上添加新指纹，需通过米家 APP 操作，具体步骤如下：
+
+### 一、基础添加流程
+1. 打开米家 APP，进入已绑定的门锁设备页面  
+2. 点击「用户管理」，选择要添加指纹的家庭成员…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S8-05 · S8_操作指引</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        净化器怎么开睡眠模式？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_AIR_001<br>
+        <span style="opacity:.55">召回</span> MANUAL_AIR_001, AUTO_GUIDE_002, MANUAL_AIR_002, AUTO_GUIDE_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        你可以通过以下两种方式开启米家空气净化器的睡眠模式：
+
+- **机身操作**：在净化器的触控区或按键区直接切换至“睡眠”模式。  
+- **手机操作**：打开米家 APP，进入对应净化器的设备页面，选…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 7/15</div>
+    <div>Act II · 10</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S8-06 · S8_操作指引</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机怎么设置只扫客厅不扫卧室？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_VAC_002, APP_GUIDE_002<br>
+        <span style="opacity:.55">召回</span> MANUAL_VAC_002, MANUAL_VAC_001, AUTO_GUIDE_002, MANUAL_VAC_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        要让石头扫地机只扫客厅、不扫卧室，可以通过 **房间清扫 + 禁区设置** 的组合来实现。前提是已完成建图并正确命名了房间。
+
+### 一、确保地图和房间已正确设置
+1. 扫地机需已完成至少一次全屋建…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S8-07 · S8_操作指引</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        智能门锁怎么设置临时密码给保洁阿姨？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_LOCK_002, APP_GUIDE_002<br>
+        <span style="opacity:.55">召回</span> MANUAL_LOCK_002, MANUAL_LOCK_001, AUTO_GUIDE_001, APP_GUIDE_005
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        给保洁阿姨设置临时密码，推荐使用**周期密码**，这样既能限定她每周固定时间上门时可用，又避免长期权限带来的安全风险。
+
+具体操作步骤如下：
+
+### 一、创建周期密码
+1. 打开米家 APP，进入你…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S9-03 · S9_配网连接</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        我家是 5G WiFi，扫地机连不上
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> NET_GUIDE_002, FAQ_NET_001<br>
+        <span style="opacity:.55">召回</span> NET_GUIDE_002, NET_GUIDE_001, MANUAL_VAC_001, MANUAL_VAC_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        这是因为**大多数扫地机器人（包括石头 T7、T7S Plus、G10、G10S Pro 等）只支持 2.4GHz WiFi，不支持 5GHz WiFi**。当你用手机连接 5GHz 网络尝试配网时，…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S9-04 · S9_配网连接</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        换了路由器，所有设备都要重新配网吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> NET_GUIDE_003, APP_GUIDE_002<br>
+        <span style="opacity:.55">召回</span> NET_GUIDE_003, NET_GUIDE_001, NET_GUIDE_002, APP_GUIDE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        不一定所有设备都需要重新配网，关键看新旧路由器的 **2.4GHz WiFi 名称和密码是否完全一致**。
+
+如果新路由器设置的 2.4GHz WiFi 名称、密码和加密方式都与旧路由器相同，**部分…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 8/15</div>
+    <div>Act II · 11</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S9-06 · S9_配网连接</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机一直配网失败，重启也没用
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> NET_GUIDE_001, NET_GUIDE_002, FAQ_NET_001, FAQ_VAC_001<br>
+        <span style="opacity:.55">召回</span> NET_GUIDE_001, MANUAL_VAC_001, NET_GUIDE_002, NET_GUIDE_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        扫地机配网失败且重启无效，通常与网络环境或设备状态有关。根据现有指南，可按以下方向排查和解决：
+
+### 一、确认是否使用 2.4GHz WiFi  
+石头扫地机器人（T7、T7S Plus、G10、…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S9-07 · S9_配网连接</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        蓝牙连上了但 APP 显示离线
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> NET_GUIDE_001, FAQ_NET_001, APP_GUIDE_002<br>
+        <span style="opacity:.55">召回</span> NET_GUIDE_003, NET_GUIDE_002, MANUAL_VAC_002, APP_GUIDE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        这种情况通常不是蓝牙的问题，而是设备的 **WiFi 连接异常**导致的。
+
+米家类智能设备（如扫地机、插座、摄像头等）虽然配网时依赖手机蓝牙进行初始绑定，但**日常运行主要依靠 WiFi 与云端通信…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S10-03 · S10_APP功能</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        APP 里怎么查扫地机的清扫记录？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> APP_GUIDE_003, MANUAL_VAC_002<br>
+        <span style="opacity:.55">召回</span> MANUAL_VAC_001, MANUAL_VAC_002, APP_GUIDE_003, AUTO_GUIDE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        目前在提供的文档中，**没有明确说明如何在 APP 中查询石头扫地机的清扫记录**。
+
+不过，根据类似设备的数据查看逻辑（参考《比特APP 数据查看与导出》），你可以尝试以下通用路径：
+
+1. 打开…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S10-07 · S10_APP功能</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        我换手机了，旧设备数据怎么迁移？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> APP_GUIDE_004, APP_GUIDE_002<br>
+        <span style="opacity:.55">召回</span> MANUAL_PHONE_001, APP_GUIDE_004, APP_GUIDE_003, APP_GUIDE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        旧设备数据迁移主要分为**手机系统数据迁移**和**比特APP设备数据迁移**两类，具体操作如下：
+
+### 一、小米手机系统数据迁移（换新手机时）
+
+首次使用新小米手机时，建议按以下步骤迁移旧手机数…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 9/15</div>
+    <div>Act II · 12</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S11-02 · S11_固件升级</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机能升级固件吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> CODE_FW_001, MANUAL_VAC_001<br>
+        <span style="opacity:.55">召回</span> CODE_FW_002, CODE_FW_001, CODE_VAC_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        扫地机是支持固件升级的。
+
+根据现有资料，石头扫地机（如 T7、T7S Plus、G10、G10S Pro 等型号）可通过米家 APP 进行固件升级。升级过程中若遇到问题，会涉及如 `FW_DOWNL…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S12-03 · S12_生态联动</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        回家自动开灯开空调怎么设置？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> AUTO_GUIDE_001, APP_GUIDE_002<br>
+        <span style="opacity:.55">召回</span> AUTO_GUIDE_001, AUTO_GUIDE_002, MANUAL_AIR_001, MANUAL_SPK_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        要实现“回家自动开灯开空调”，可以通过米家 APP 的**自动化功能**，结合智能门锁作为触发条件来完成。以下是具体设置方法：
+
+### 一、前提准备
+- 确保以下设备已添加到**同一个米家家庭**中…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S12-04 · S12_生态联动</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        门锁开门后扫地机自动暂停能实现吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> AUTO_GUIDE_001, AUTO_GUIDE_002, PROD_LOCK_001, MANUAL_VAC_002<br>
+        <span style="opacity:.55">召回</span> AUTO_GUIDE_002, MANUAL_VAC_001, MANUAL_VAC_003, AUTO_GUIDE_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        目前在提供的文档中，**没有明确说明可以通过门锁开门来触发扫地机自动暂停**的功能。
+
+不过，我们可以从现有信息中分析实现的可能性：
+
+- **门锁可以作为自动化触发条件**：在《智能场景配置指南（回…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S12-05 · S12_生态联动</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        想做个离家模式，关灯关空调启动扫地机
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> AUTO_GUIDE_001, AUTO_GUIDE_002, MANUAL_VAC_002<br>
+        <span style="opacity:.55">召回</span> AUTO_GUIDE_001, MANUAL_VAC_001, MANUAL_VAC_003, MANUAL_VAC_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        要实现离家模式自动关灯、关空调并启动扫地机，可以通过米家 APP 的自动化功能来配置。以下是具体操作步骤：
+
+### 一、前提条件
+- 所有设备（灯具、空调、扫地机）已添加到**同一个米家家庭**中。…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 10/15</div>
+    <div>Act II · 13</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S12-06 · S12_生态联动</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        比特设备能接入苹果家庭吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> AUTO_GUIDE_002, APP_GUIDE_002<br>
+        <span style="opacity:.55">召回</span> APP_GUIDE_002, APP_GUIDE_004, APP_GUIDE_005, APP_GUIDE_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        目前提供的文档中未提及比特设备是否支持接入苹果家庭（Apple HomeKit）的相关信息。建议您查看设备说明书、产品包装上的兼容性标识，或在比特APP中对应设备的设置页面查看是否有“HomeKit”…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S13-01 · S13_保养维护</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        净化器滤芯多久换一次？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_AIR_002, FAQ_AIR_001<br>
+        <span style="opacity:.55">召回</span> MANUAL_AIR_002, MANUAL_AIR_001, MANUAL_VAC_003, MANUAL_PHONE_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        米家空气净化器的滤芯更换周期并非固定，而是根据使用环境和实际使用情况动态调整。以下是具体建议：
+
+### 一、通用判断依据
+- **APP寿命提醒**：通过米家 APP 查看滤芯剩余寿命，这是主要参考…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S13-05 · S13_保养维护</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机的水箱可以用洗洁精洗吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_VAC_003, MANUAL_VAC_001<br>
+        <span style="opacity:.55">召回</span> MANUAL_VAC_003, MANUAL_VAC_002, MANUAL_VAC_001, AUTO_GUIDE_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        不可以。根据保养规范，**不使用腐蚀性清洁剂清洗水箱、拖布和基站**，洗洁精属于清洁剂，可能会对水箱材质造成损害或残留影响使用。建议仅用清水冲洗水箱。
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S13-07 · S13_保养维护</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机用了半年吸力变弱了
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_VAC_003, FAQ_VAC_001, CODE_VAC_001<br>
+        <span style="opacity:.55">召回</span> MANUAL_VAC_003, MANUAL_VAC_001, MANUAL_VAC_002, MANUAL_PHONE_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        扫地机使用半年后吸力变弱，通常是由以下几个常见原因导致的：
+
+### 一、耗材堵塞或未及时清理
+- **尘盒积满**：长时间未清理会导致风道受阻，直接影响吸力。
+- **滤网堵塞或潮湿**：滤网上灰尘…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 11/15</div>
+    <div>Act II · 14</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S13-09 · S13_保养维护</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机刷头掉毛了还能用吗？要换吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_VAC_003, FAQ_VAC_001<br>
+        <span style="opacity:.55">召回</span> MANUAL_VAC_003, MANUAL_VAC_001, MANUAL_VAC_002, MANUAL_HEALTH_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        ## 扫地机刷头掉毛了还能用吗
+
+扫地机主刷掉毛后**短期内仍可继续使用**，但需要及时清理并密切观察状态。根据石头扫地机的维护手册：
+
+- 主刷（特别是T7型号使用的DuPont刷毛）在使用过程中出…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S14-01 · S14_售后政策</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        小米 14 Pro 保修期多久？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_WAR_001, POLICY_WAR_002<br>
+        <span style="opacity:.55">召回</span> POLICY_WAR_002, POLICY_WAR_001, POLICY_WAR_005, POLICY_WAR_004
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        小米 14 Pro 属于手机类商品，根据比特严选的保修政策，**主商品保修期为 12 个月**，主要附件（如充电器、数据线等）保修期为 **6 个月**。
+
+保修期从物流签收成功次日 0:00 起算。…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S14-03 · S14_售后政策</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        进水了能保修吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_WAR_002, POLICY_WAR_004<br>
+        <span style="opacity:.55">召回</span> POLICY_WAR_002, POLICY_WAR_004, POLICY_WAR_003, POLICY_WAR_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        进水了通常**不能免费保修**。
+
+根据现有政策，**进水、受潮、腐蚀等情况一般不属于免费保修范围**，即使商品本身具备一定的防水等级（比如5 ATM防水手表或标称生活防泼溅的手机），也不代表所有进水…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S14-05 · S14_售后政策</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        电池衰减算保修吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_WAR_002, POLICY_WAR_001<br>
+        <span style="opacity:.55">召回</span> POLICY_WAR_002, POLICY_WAR_003, POLICY_WAR_004, POLICY_WAR_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        电池衰减是否在保修范围内，要区分具体情况：
+
+**不属于保修的情况**：  
+电池作为消耗型部件，因正常使用导致的**自然衰减**（比如续航随使用时间下降、循环次数增加带来的容量减少）**不视为质量故…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 12/15</div>
+    <div>Act II · 15</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S14-06 · S14_售后政策</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        已经过保 3 个月了还能修吗？多少钱？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_WAR_004, POLICY_WAR_003<br>
+        <span style="opacity:.55">召回</span> POLICY_WAR_004, POLICY_WAR_003, POLICY_WAR_001, POLICY_WAR_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        ## 已经过保 3 个月了还能修吗
+
+可以提交过保维修申请。商品即使已经过保 3 个月、6 个月或更久，仍然可以申请付费维修，但是否能够实际修复以及具体的维修费用，需要在检测后才能确认。
+
+平台会根据…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S15-03 · S15_退换货</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        已经拆封了还能退吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_RET_003, POLICY_RET_001<br>
+        <span style="opacity:.55">召回</span> POLICY_RET_003, POLICY_RET_002, POLICY_RET_001, POLICY_RET_004
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        已经拆封了是否能退，主要看商品状态和退货原因：
+
+- **如果只是拆了外包装**，但商品本身、配件、赠品、说明书等都完整，且没有激活、绑定账号或产生使用痕迹，**一般可以申请7天无理由退货**，平台会…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S16-06 · S16_物流配送</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        签收时发现包装破损怎么办？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_LOG_003<br>
+        <span style="opacity:.55">召回</span> POLICY_LOG_003, POLICY_RET_002, POLICY_RET_003, POLICY_RET_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        签收时发现包装破损，应优先**当场拍照并拒收**。
+
+具体操作如下：
+
+- **立即检查外包装**：如发现明显破损、受潮、挤压、封箱胶异常或重量明显不符，不要签收。
+- **拍照留证**：拍摄外箱六面…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S17-01 · S17_发票会员</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        怎么开发票？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_INV_001<br>
+        <span style="opacity:.55">召回</span> POLICY_INV_001, POLICY_WAR_005, POLICY_RET_002, POLICY_LOG_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        开发票的流程如下：
+
+### 一、进入开票入口  
+在“我的订单 &gt; 订单详情”中点击“申请发票”，进入开票页面。
+
+### 二、填写并提交信息  
+- **个人发票**：填写个人姓名或“个人”。…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 13/15</div>
+    <div>Act II · 16</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S17-03 · S17_发票会员</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        可以开公司抬头的发票吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_INV_001<br>
+        <span style="opacity:.55">召回</span> POLICY_INV_001, POLICY_WAR_005, POLICY_VIP_002, POLICY_WAR_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        可以开具公司抬头的发票。
+
+在比特严选自营订单中，企业用户选择开具企业抬头发票时，需填写**完整的企业名称**和**纳税人识别号（或统一社会信用代码）**。系统会校验信息是否匹配，若企业名称与税号明显…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S17-04 · S17_发票会员</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        积分怎么用？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_VIP_002, POLICY_VIP_001<br>
+        <span style="opacity:.55">召回</span> POLICY_VIP_002, POLICY_VIP_001, POLICY_RET_004, POLICY_INV_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        积分可以在下单时按“100 积分抵 1 元”的比例抵扣部分订单金额。具体使用方法如下：
+
+- 在结算页选择“使用积分抵扣”，系统会根据订单自动计算可抵扣的上限。
+- 单笔订单最多能用积分抵扣商品实付金…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>S17-05 · S17_发票会员</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        我开错抬头了能改吗？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_INV_001<br>
+        <span style="opacity:.55">召回</span> POLICY_INV_001, POLICY_LOG_002, POLICY_LOG_003, POLICY_RET_002
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        发票开错抬头是可以修改的，但具体能否修改取决于发票是否已经开具以及时间等因素：
+
+- **发票开具前**：你可以在开票页面直接修改抬头信息，操作比较灵活。
+- **发票已开具后**：如果需要将个人抬头…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>F1-05 · F1_故障报告</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        手表充电时发烫得厉害
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> MANUAL_WATCH_001, POLICY_WAR_001, POLICY_WAR_002<br>
+        <span style="opacity:.55">召回</span> CODE_PHONE_001, CODE_FW_001, CODE_LOCK_001, CODE_VAC_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        手表充电时明显发烫，很可能是触发了**过热保护机制**。根据现有指引，建议你按以下步骤处理：
+
+### 一、立即降温
+- **停止使用高负载功能**：如运动记录、录音、常亮显示、全天血氧监测等。
+-…
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide dark">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 14/15</div>
+    <div>Act II · 17</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>F2-02 · F2_功能建议</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        扫地机能不能加个语音播报关闭功能
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> —<br>
+        <span style="opacity:.55">召回</span> —
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        这个问题当前暂未收录到知识库中。  
+
+建议你：  
+- 查看扫地机的说明书或配套 App 设置（通常在「声音设置」或「语音提示」选项里可以关闭）  
+- 如果是公司行政配发的设备，也可以联系行政部门…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>F2-03 · F2_功能建议</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        为啥不能在 APP 里直接看说明书？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> —<br>
+        <span style="opacity:.55">召回</span> —
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        这个问题当前暂未收录到知识库中。  
+
+不过一般来说，App 内是否集成说明书，通常取决于产品设计和用户体验的权衡。有些 App 会把帮助文档放在“我的-帮助中心”或设置里，有些则引导用户访问官网或联…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>F2-05 · F2_功能建议</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        你们家产品要是能接入米家就好了
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> —<br>
+        <span style="opacity:.55">召回</span> NET_GUIDE_001, MANUAL_LOCK_001, NET_GUIDE_002, NET_GUIDE_003
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        将产品接入米家，通常是指通过米家 APP 将智能设备添加到你的家庭账户中，以便进行远程控制、场景联动和状态查看。以下是通用的接入流程和注意事项：
+
+### 一、准备工作
+
+在开始配网前，请确保完成以下…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>F3-02 · F3_投诉吐槽</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        等了一周还没发货，太慢了！
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> POLICY_LOG_001, POLICY_LOG_003<br>
+        <span style="opacity:.55">召回</span> —
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        这个问题当前暂未收录到知识库中。  
+建议你联系相关业务部门或订单系统负责人，确认订单状态和发货延迟原因。如果是内部采购订单，也可以咨询行政部门协助跟进。
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>失败样例 · Miss Analysis · 15/15</div>
+    <div>Act II · 18</div>
+  </div>
+  <div class="frame" style="padding-top:4.5vh">
+    <div class="kicker" data-anim>失败样例一览</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>哪些被漏了</h2>
+    <div class="grid-4" style="margin-top:4vh;gap:3vh 3vw">
+      
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>F3-03 · F3_投诉吐槽</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        这手机用了 3 个月就卡
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> CODE_PHONE_001, POLICY_WAR_001, POLICY_WAR_002<br>
+        <span style="opacity:.55">召回</span> —
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        这个问题当前暂未收录到知识库中。  
+
+不过一般来说，手机用久了变卡可能和以下原因有关：后台应用太多、存储空间不足、系统版本老化或某些应用兼容性问题。建议你可以尝试清理缓存、关闭不必要的自启动应用，或…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>C1-03 · C1_寒暄问候</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        你是谁？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> —<br>
+        <span style="opacity:.55">召回</span> —
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        你好！我是企业内部知识助手「小码」，专门帮你解答公司内部相关的问题。
+
+我能协助的范围包括：
+- **人事**：比如请假、考勤、入职流程等  
+- **行政**：会议室预定、办公物资领用、门禁权限等…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>C2-02 · C2_越界提问</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        苹果 15 Pro 怎么样？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> —<br>
+        <span style="opacity:.55">召回</span> —
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        这个问题属于消费电子产品咨询，超出了我作为企业内部知识助手的服务范围。  
+
+我主要能帮你解答：  
+- 人事政策（如请假、考勤）  
+- 行政事务（如会议室预定、办公物资）  
+- IT 支持（如邮…
+      </div>
+    </div>
+    
+    <div class="stat-card" data-anim style="gap:.4vh;padding-top:1.2vh">
+      <div class="stat-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>C2-04 · C2_越界提问</span>
+      </div>
+      <div style="font-family:var(--serif-zh);font-weight:600;font-size:max(15px,1.25vw);line-height:1.32;margin-top:.6vh;letter-spacing:.005em">
+        你觉得华为和小米谁更好？
+      </div>
+      <div style="font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.04em;text-transform:none;opacity:.7;margin-top:1.2vh;line-height:1.55">
+        <span style="opacity:.55">期望</span> —<br>
+        <span style="opacity:.55">召回</span> PROD_PHONE_003, PROD_WATCH_004, PROD_PHONE_004, PROD_PHONE_001
+      </div>
+      <div style="font-family:var(--sans-zh);font-size:max(12px,.95vw);line-height:1.55;opacity:.7;margin-top:1.2vh">
+        &gt; 未检索到与问题相关的文档内容。
+      </div>
+    </div>
+    
+    </div>
+  </div>
+  <div class="foot">
+    <div>共 60 条失败样例 · 每页 4 张卡</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 1/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6086 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5717 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5820 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5775 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6197 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7834 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">9367 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-08</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6578 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 2/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-09</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5611 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-10</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">8799 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S3-08</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S3_对比选购</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4462 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S4-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S4_价格活动</span>
+        · Hit@5 <b>否</b>
+        · Recall@5 <b>0.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5604 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S4-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S4_价格活动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5873 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S4-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S4_价格活动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6818 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S5-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S5_库存到货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4533 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S5-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S5_库存到货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5851 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 3/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S6-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S6_配件兼容</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6172 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S6-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S6_配件兼容</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5631 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S6-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S6_配件兼容</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5471 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S6-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S6_配件兼容</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6096 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S6-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S6_配件兼容</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7058 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S6-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S6_配件兼容</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7911 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S6-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S6_配件兼容</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>75.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7078 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S7-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S7_适用场景</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5437 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 4/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S7-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S7_适用场景</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6272 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S7-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S7_适用场景</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5820 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S7-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S7_适用场景</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5819 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S7-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S7_适用场景</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6295 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S7-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S7_适用场景</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7592 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S2-11</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S2_参数咨询</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6853 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S4-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S4_价格活动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>33.3%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5924 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S5-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S5_库存到货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5718 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 5/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S7-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S7_适用场景</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6686 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5944 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6369 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5334 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6746 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6238 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6098 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6822 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 6/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S8-08</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S8_操作指引</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5763 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S9-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S9_配网连接</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5364 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S9-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S9_配网连接</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>33.3%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5496 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S9-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S9_配网连接</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6377 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S9-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S9_配网连接</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6598 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S9-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S9_配网连接</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5018 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S9-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S9_配网连接</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">9533 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S9-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S9_配网连接</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>33.3%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5766 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 7/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S10-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S10_APP功能</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5661 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S10-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S10_APP功能</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5927 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S10-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S10_APP功能</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6904 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S10-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S10_APP功能</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5608 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S10-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S10_APP功能</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5017 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S10-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S10_APP功能</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4872 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S10-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S10_APP功能</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6138 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S11-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S11_固件升级</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5762 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 8/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S11-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S11_固件升级</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6803 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S11-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S11_固件升级</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5398 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S11-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S11_固件升级</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4856 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S11-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S11_固件升级</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5189 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S12-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S12_生态联动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5775 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S12-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S12_生态联动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5542 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S12-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S12_生态联动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6751 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S12-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S12_生态联动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>75.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">8103 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 9/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S12-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S12_生态联动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6804 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S12-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S12_生态联动</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">14045 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7484 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5822 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5336 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5364 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7019 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5361 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 10/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>33.3%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6063 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-08</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>33.3%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5588 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S13-09</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S13_保养维护</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>50.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7450 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6525 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5804 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6342 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5379 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">11069 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 11/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6495 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5429 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S14-08</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S14_售后政策</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5457 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S15-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S15_退换货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4690 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S15-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S15_退换货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5893 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S15-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S15_退换货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6724 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S15-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S15_退换货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5930 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S15-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S15_退换货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5578 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 12/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S15-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S15_退换货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5541 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S15-07</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S15_退换货</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5288 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S16-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S16_物流配送</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5016 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S16-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S16_物流配送</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5597 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S16-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S16_物流配送</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4865 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S16-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S16_物流配送</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4985 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S16-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S16_物流配送</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5859 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S16-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S16_物流配送</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6050 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 13/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S17-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S17_发票会员</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6330 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S17-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S17_发票会员</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4919 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S17-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S17_发票会员</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">18583 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S17-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S17_发票会员</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6008 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S17-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S17_发票会员</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6285 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">S17-06</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">S17_发票会员</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5671 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F1-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F1_故障报告</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4984 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F1-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F1_故障报告</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5447 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 14/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F1-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F1_故障报告</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>66.7%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5203 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F1-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F1_故障报告</span>
+        · Hit@5 <b>是</b>
+        · Recall@5 <b>100.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5338 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F1-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F1_故障报告</span>
+        · Hit@5 <b>否</b>
+        · Recall@5 <b>0.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6142 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F2-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F2_功能建议</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4499 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F2-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F2_功能建议</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6996 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F2-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F2_功能建议</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6095 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F2-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F2_功能建议</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4966 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F2-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F2_功能建议</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4682 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 15/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F3-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F3_投诉吐槽</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4437 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F3-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F3_投诉吐槽</span>
+        · Hit@5 <b>否</b>
+        · Recall@5 <b>0.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4058 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F3-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F3_投诉吐槽</span>
+        · Hit@5 <b>否</b>
+        · Recall@5 <b>0.0%</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4322 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F3-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F3_投诉吐槽</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4915 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">F3-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">F3_投诉吐槽</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4321 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C1-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C1_寒暄问候</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4339 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C1-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C1_寒暄问候</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4565 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C1-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C1_寒暄问候</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4549 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide light">
+  <div class="chrome">
+    <div>样本明细 · Sample Detail · 16/16</div>
+    <div>Act III</div>
+  </div>
+  <div class="frame" style="padding-top:5vh">
+    <div class="kicker" data-anim>Per-Sample</div>
+    <h2 class="h-xl" style="font-size:4.2vw" data-anim>逐条对照</h2>
+    <div style="margin-top:6vh">
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C1-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C1_寒暄问候</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4582 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C1-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C1_寒暄问候</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4039 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C2-01</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C2_越界提问</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">5359 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C2-02</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C2_越界提问</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">6080 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C2-03</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C2_越界提问</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">4478 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C2-04</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C2_越界提问</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">7502 ms</div>
+    </div>
+    
+    <div class="rowline" data-anim style="grid-template-columns:1fr 2.5fr 1fr;padding:1.6vh 0">
+      <div class="k" style="font-size:1.2vw">C2-05</div>
+      <div class="v" style="line-height:1.45;font-size:max(13px,1.05vw)">
+        <span style="opacity:.6">C2_越界提问</span>
+        · Hit@5 <b>不计</b>
+        · Recall@5 <b>—</b>
+        · Faith. <b>—</b>
+        · Correct. <b>—</b>
+      </div>
+      <div class="m">3853 ms</div>
+    </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div>ID · Intent · 命中/正确/忠实 · 首字耗时</div>
+    <div>— · —</div>
+  </div>
+</section>
+
+
+<section class="slide hero dark">
+  <div class="chrome">
+    <div>收束 · Takeaway</div>
+    <div>Final</div>
+  </div>
+  <div class="frame" style="display:grid; gap:6vh; align-content:center; min-height:80vh">
+    <div class="kicker" data-anim>Takeaway</div>
+    <h1 class="h-hero" style="font-size:7.6vw;line-height:1.05" data-anim>
+      <span style="display:block">意图打住、检索打稳、生成打实。</span>
+    </h1>
+    <div class="grid-4" style="margin-top:2vh;gap:3vh 3vw">
+      <div class="stat-card" data-anim style="border-color:rgba(var(--paper-rgb),.25)">
+        <div class="stat-label">Intent</div>
+        <div class="stat-nb" style="font-size:4.6vw">90%</div>
+        <div class="stat-note">Top-1 准确率</div>
+      </div>
+      <div class="stat-card" data-anim style="border-color:rgba(var(--paper-rgb),.25)">
+        <div class="stat-label">Retrieve</div>
+        <div class="stat-nb" style="font-size:4.6vw">96%</div>
+        <div class="stat-note">Hit@5</div>
+      </div>
+      <div class="stat-card" data-anim style="border-color:rgba(var(--paper-rgb),.25)">
+        <div class="stat-label">Generate · Correct</div>
+        <div class="stat-nb" style="font-size:4.6vw">—</div>
+        <div class="stat-note">Answer Correctness</div>
+      </div>
+      <div class="stat-card" data-anim style="border-color:rgba(var(--paper-rgb),.25)">
+        <div class="stat-label">Generate · Faithful</div>
+        <div class="stat-nb" style="font-size:4.6vw">—</div>
+        <div class="stat-note">Faithfulness</div>
+      </div>
+    </div>
+    <p class="lead" style="max-width:60vw" data-anim>下一步：用更大评估集追跑、扩 ground_truth 字段、把 首字均值压进 6s。</p>
+  </div>
+  <div class="foot">
+    <div>— end —</div>
+    <div>BitSelect · RAG</div>
+  </div>
+</section>
+
+
+</div>
+
+<div id="nav"></div>
+
+<script>
+/* =============== WebGL 双背景 ===============
+   深色页：Holographic Dispersion（全息色散 · 钛金暗流）—— 彩虹微扰、鼠标径向涟漪
+   浅色页：Spiral Vortex（旋转涡流 · 银色珍珠）—— domain-warp 流动、无中心
+   修改风格请参考 references/webgl-backgrounds.md
+*/
+const VS = `attribute vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}`;
+
+const FS_DARK = `precision highp float;
+uniform vec2 u_resolution;uniform float u_time;uniform vec2 u_mouse;
+vec3 palette(float t,vec3 a,vec3 b,vec3 c,vec3 d){return a+b*cos(6.28318*(c*t+d));}
+void main(){
+  vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+  vec2 p=uv*2.0-1.0;p.x*=u_resolution.x/u_resolution.y;
+  vec2 m=u_mouse*2.0-1.0;m.x*=u_resolution.x/u_resolution.y;
+  float md=length(p-m);
+  float mr=sin(md*15.0-u_time*4.0)*exp(-md*3.0);p+=mr*0.08;
+  vec2 p0=p;
+  for(float i=1.0;i<4.0;i++){
+    p.x+=0.1/i*sin(i*3.0*p.y+u_time*0.4)+0.05;
+    p.y+=0.1/i*cos(i*2.0*p.x+u_time*0.3)-0.05;
+  }
+  float r=length(p);float ang=atan(p.y,p.x);
+  vec3 a=vec3(0.12,0.12,0.13);
+  vec3 b=vec3(0.03,0.04,0.05);
+  vec3 c=vec3(1.0,1.0,1.0);
+  vec3 d=vec3(0.1,0.2,0.4);
+  vec3 col=palette(r*1.5+p0.x*0.5+u_time*0.1,a,b,c,d);
+  float disp=sin(r*25.0-u_time*1.5+ang*2.0)*0.5+0.5;
+  col+=vec3(disp*0.015,disp*0.01,disp*0.02);
+  float hi=pow(sin(p.x*4.0+p.y*3.0+u_time)*0.5+0.5,8.0);
+  col+=hi*0.08;
+  vec3 base=vec3(0.05,0.05,0.06);
+  col=mix(base,col,0.85);
+  gl_FragColor=vec4(col,1.0);
+}`;
+
+const FS_LIGHT = `precision highp float;
+uniform vec2 u_resolution;uniform float u_time;uniform vec2 u_mouse;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){
+  vec2 i=floor(p),f=fract(p);
+  float a=hash(i),b=hash(i+vec2(1,0));
+  float c=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));
+  vec2 u=f*f*(3.0-2.0*f);
+  return mix(a,b,u.x)+(c-a)*u.y*(1.0-u.x)+(d-b)*u.x*u.y;
+}
+float fbm(vec2 p){
+  float v=0.0,a=0.5;
+  mat2 m=mat2(0.80,0.60,-0.60,0.80);
+  for(int i=0;i<5;i++){v+=a*noise(p);p=m*p*2.02;a*=0.5;}
+  return v;
+}
+void main(){
+  vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+  vec2 p=uv;p.x*=u_resolution.x/u_resolution.y;
+  vec2 m=u_mouse;m.x*=u_resolution.x/u_resolution.y;
+  vec2 md=p-m;float dl=length(md);
+  p+=normalize(md+vec2(0.0001))*exp(-dl*5.0)*0.03;
+  vec2 q=vec2(fbm(p*1.8+u_time*0.07),fbm(p*1.8+vec2(5.2,1.3)+u_time*0.06));
+  vec2 r=vec2(fbm(p*2.0+q*1.3+vec2(1.7,9.2)+u_time*0.05),
+              fbm(p*2.0+q*1.3+vec2(8.3,2.8)+u_time*0.04));
+  float f=fbm(p*2.2+r*1.5);
+  vec3 silverDark=vec3(0.86,0.85,0.84);
+  vec3 paper=vec3(0.955,0.945,0.925);
+  vec3 col=mix(silverDark,paper,f);
+  float ph=r.x*2.2+u_time*0.35;
+  col+=vec3(0.78,0.62,0.92)*sin(ph)*0.055;
+  col+=vec3(0.55,0.72,0.95)*sin(ph*0.8+2.0)*0.05;
+  float hl=smoothstep(0.48,0.92,f);
+  col+=hl*0.06;
+  gl_FragColor=vec4(col,1.0);
+}`;
+
+const mouse={x:0.5,y:0.5};
+addEventListener('mousemove',e=>{mouse.x=e.clientX/innerWidth;mouse.y=e.clientY/innerHeight});
+
+function bootGL(canvasId, fsSrc){
+  const canvas=document.getElementById(canvasId);
+  const gl=canvas.getContext('webgl',{alpha:false,antialias:true});
+  if(!gl) return ()=>false;
+  const mk=(t,s)=>{const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);return sh};
+  const prog=gl.createProgram();
+  gl.attachShader(prog,mk(gl.VERTEX_SHADER,VS));
+  gl.attachShader(prog,mk(gl.FRAGMENT_SHADER,fsSrc));
+  gl.linkProgram(prog);gl.useProgram(prog);
+  const buf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+  const pos=gl.getAttribLocation(prog,'position');
+  gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+  const lRes=gl.getUniformLocation(prog,'u_resolution');
+  const lT=gl.getUniformLocation(prog,'u_time');
+  const lM=gl.getUniformLocation(prog,'u_mouse');
+  const resize=()=>{
+    const d=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=innerWidth*d;canvas.height=innerHeight*d;
+    gl.viewport(0,0,canvas.width,canvas.height);
+  };
+  addEventListener('resize',resize);resize();
+  return (tSec)=>{
+    gl.uniform2f(lRes,canvas.width,canvas.height);
+    gl.uniform1f(lT,tSec);
+    gl.uniform2f(lM,mouse.x,1-mouse.y);
+    gl.drawArrays(gl.TRIANGLES,0,6);
+    return true;
+  };
+}
+let drawDark=null, drawLight=null, glRAF=0, glT0=Date.now();
+function startGL(){
+  if(window.__lowPowerMode || glRAF) return;
+  if(!drawDark) drawDark=bootGL('bg-dark',FS_DARK);
+  if(!drawLight) drawLight=bootGL('bg-light',FS_LIGHT);
+  glT0=Date.now();
+  function loop(){
+    if(window.__lowPowerMode){glRAF=0;return;}
+    const t=(Date.now()-glT0)/1000;
+    drawDark(t);drawLight(t);
+    glRAF=requestAnimationFrame(loop);
+  }
+  glRAF=requestAnimationFrame(loop);
+}
+function stopGL(){
+  if(glRAF) cancelAnimationFrame(glRAF);
+  glRAF=0;
+}
+startGL();
+addEventListener('ppt-low-power-change', e=>{e.detail.on ? stopGL() : startGL();});
+
+// =============== 导航（翻页 / 圆点 / 键盘 / 滚轮 / 触屏） ===============
+const deck=document.getElementById('deck');
+const slides=deck.querySelectorAll('.slide');
+const nav=document.getElementById('nav');
+let idx=0,total=slides.length,lock=false;
+
+// 关键：矫正 deck 宽度为 total * 100vw，否则翻页会错位
+deck.style.width=(total*100)+'vw';
+
+slides.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='dot';b.dataset.i=i;b.setAttribute('aria-label','Page '+(i+1));
+  b.onclick=()=>go(i);
+  nav.appendChild(b);
+});
+
+function go(n){
+  if(lock)return;
+  idx=Math.max(0,Math.min(total-1,n));
+  window.__currentSlideIndex = idx;
+  deck.style.transform=`translateX(${-idx*100}vw)`;
+  nav.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  /* 主题切换：优先读 data-theme，其次从 class（light/dark）推断 */
+  const el=slides[idx];
+  const th=el.dataset.theme || (el.classList.contains('light')?'light':(el.classList.contains('dark')?'dark':'dark'));
+  document.body.classList.toggle('light-bg',th==='light');
+  /* 动效：翻页过渡中段触发当前页的入场动画（由 motion-boot 注册） */
+  if(window.__playSlide) setTimeout(()=>window.__playSlide(idx), 450);
+  lock=true;setTimeout(()=>lock=false,700);
+}
+
+/* =============== ESC 索引视图 =============== */
+let overviewOn=false;
+const ov=document.createElement('div');
+ov.id='overview';
+ov.style.cssText='position:fixed;inset:0;z-index:100;background:rgba(var(--ink-rgb),.92);backdrop-filter:blur(12px);display:none;overflow-y:auto;padding:4vh 4vw';
+document.body.appendChild(ov);
+
+function buildOverview(){
+  ov.innerHTML='';
+  const grid=document.createElement('div');
+  grid.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:2vh 1.6vw;max-width:90vw;margin:0 auto';
+  slides.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.style.cssText='cursor:pointer;border-radius:6px;overflow:hidden;border:2px solid '+(i===idx?'rgba(var(--paper-rgb),.8)':'rgba(var(--paper-rgb),.15)')+';transition:border-color .2s';
+    card.onmouseenter=()=>card.style.borderColor='rgba(var(--paper-rgb),.6)';
+    card.onmouseleave=()=>card.style.borderColor=i===idx?'rgba(var(--paper-rgb),.8)':'rgba(var(--paper-rgb),.15)';
+    const wrap=document.createElement('div');
+    wrap.style.cssText='width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;pointer-events:none;background:'+(s.classList.contains('light')?'var(--paper)':'var(--ink)');
+    const clone=s.cloneNode(true);
+    clone.style.cssText='width:100vw;height:100vh;transform:scale('+(1/4.5)+');transform-origin:top left;position:absolute;top:0;left:0;pointer-events:none';
+    wrap.appendChild(clone);
+    const label=document.createElement('div');
+    label.style.cssText='padding:6px 10px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--paper);opacity:.7';
+    label.textContent=(i+1)+' / '+total;
+    card.appendChild(wrap);
+    card.appendChild(label);
+    card.onclick=()=>{toggleOverview();go(i)};
+    grid.appendChild(card);
+  });
+  ov.appendChild(grid);
+}
+
+function toggleOverview(){
+  overviewOn=!overviewOn;
+  if(overviewOn){buildOverview();ov.style.display='block';}
+  else{ov.style.display='none';}
+}
+
+addEventListener('keydown',e=>{
+  if(e.key==='Escape'){e.preventDefault();toggleOverview();return;}
+  if(e.key && e.key.toLowerCase()==='b' && !e.metaKey && !e.ctrlKey && !e.altKey){
+    e.preventDefault();
+    window.__setLowPowerMode(!window.__lowPowerMode);
+    return;
+  }
+  if(overviewOn)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '||e.key==='ArrowDown'){
+    if(window.__pipeAdvance && window.__pipeAdvance()) return;
+    go(idx+1);
+    return;
+  }
+  if(e.key==='ArrowLeft'||e.key==='PageUp'||e.key==='ArrowUp')go(idx-1);
+  if(e.key==='Home')go(0);
+  if(e.key==='End')go(total-1);
+});
+
+let wheelTO=null,wheelAcc=0;
+function _scrollableFrame(){
+  const s=slides[idx];
+  if(!s||!s.classList.contains('scrollable'))return null;
+  const f=s.querySelector('.frame');
+  if(!f||f.scrollHeight<=f.clientHeight+1)return null;
+  return f;
+}
+addEventListener('wheel',e=>{
+  const frame=_scrollableFrame();
+  if(frame){
+    const atTop=frame.scrollTop<=1;
+    const atBottom=frame.scrollTop+frame.clientHeight>=frame.scrollHeight-1;
+    if((e.deltaY>0&&!atBottom)||(e.deltaY<0&&!atTop)){wheelAcc=0;return;}
+    wheelAcc+=e.deltaY;
+    if(Math.abs(wheelAcc)>80){go(idx+(wheelAcc>0?1:-1));wheelAcc=0;}
+    clearTimeout(wheelTO);wheelTO=setTimeout(()=>wheelAcc=0,300);
+    return;
+  }
+  wheelAcc+=e.deltaY+e.deltaX;
+  if(Math.abs(wheelAcc)>50){
+    if(wheelAcc>0 && window.__pipeAdvance && window.__pipeAdvance()){
+      wheelAcc=0;
+    }else{
+      go(idx+(wheelAcc>0?1:-1));wheelAcc=0;
+    }
+  }
+  clearTimeout(wheelTO);wheelTO=setTimeout(()=>wheelAcc=0,150);
+},{passive:true});
+
+let tx=0,ty=0;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{
+  const dx=(e.changedTouches[0].clientX-tx);
+  const dy=(e.changedTouches[0].clientY-ty);
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){
+    if(dx<0 && window.__pipeAdvance && window.__pipeAdvance()) return;
+    go(idx+(dx<0?1:-1));
+  }
+  if(Math.abs(dy)>50&&Math.abs(dy)>Math.abs(dx)){
+    const frame=_scrollableFrame();
+    if(frame){
+      const atTop=frame.scrollTop<=1;
+      const atBottom=frame.scrollTop+frame.clientHeight>=frame.scrollHeight-1;
+      if((dy>0&&!atTop)||(dy<0&&!atBottom))return;
+    }
+    go(idx+(dy>0?-1:1));
+  }
+},{passive:true});
+
+go(0);
+</script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons();</script>
+
+<!-- ============ Motion One 动效引擎（本地优先,CDN 兜底） ============
+     加载策略:先 ./assets/motion.min.js(本地,离线可用),失败 fallback 到 jsDelivr CDN
+     加载完成后挂 window.__playSlide / window.__pipeAdvance,
+     导航脚本会在翻页中段调用 __playSlide(idx),键盘/滚轮/触屏会在翻页前调用 __pipeAdvance()
+     双双失败时会兜底把所有 [data-anim] 设为可见,不让动效破坏阅读
+-->
+<script type="module">
+let motion;
+try {
+  motion = await import('./assets/motion.min.js');
+} catch(e1) {
+  try {
+    motion = await import('https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm');
+  } catch(e2) {
+    console.warn('[motion] local + CDN both failed, disabling animations', e1, e2);
+    document.querySelectorAll('[data-anim]').forEach(el=>{el.style.opacity='1';el.style.transform='none'});
+    document.querySelectorAll('[data-animate="pipeline"] [data-anim]').forEach(el=>el.style.opacity='1');
+  }
+}
+
+if(motion){
+  const { animate, stagger } = motion;
+  document.body.classList.add('motion-ready');
+  const EASE = [.22, 1, .36, 1];
+  const slides = [...document.querySelectorAll('.slide')];
+  let pipeStep = -1;
+  let lastIdx = -1;
+
+  function resetAnims(slide){
+    slide.querySelectorAll('[data-anim]').forEach(el=>{
+      el.style.opacity='';
+      el.style.transform='';
+    });
+  }
+
+  function revealStatic(slide){
+    resetAnims(slide);
+    document.getAnimations?.().forEach(a=>a.cancel());
+    slide.querySelectorAll('[data-anim]').forEach(el=>{
+      el.style.opacity='1';
+      el.style.transform='none';
+    });
+  }
+
+  function playSlide(i){
+    const slide = slides[i];
+    if(!slide) return;
+    lastIdx = i;
+    const recipe = slide.dataset.animate || (slide.classList.contains('hero') ? 'hero' : 'cascade');
+
+    if(window.__lowPowerMode){
+      revealStatic(slide);
+      return;
+    }
+
+    if(recipe === 'pipeline'){
+      pipeStep = -1;
+      slide.querySelectorAll('[data-anim]').forEach(el=>{
+        el.style.opacity='0.15';
+        el.style.transform='none';
+      });
+      return;
+    }
+
+    resetAnims(slide);
+    const all = [...slide.querySelectorAll('[data-anim]')];
+    if(!all.length) return;
+
+    if(recipe === 'directional'){
+      const lefts  = all.filter(el=>el.dataset.anim==='left');
+      const divs   = all.filter(el=>el.dataset.anim==='divider');
+      const rights = all.filter(el=>el.dataset.anim==='right');
+      const others = all.filter(el=>!['left','right','divider'].includes(el.dataset.anim));
+      if(others.length) animate(others, {opacity:[0,1], y:[12,0]}, {duration:.6, delay:stagger(.1, {start:.15}), easing:EASE});
+      if(lefts.length)  animate(lefts,  {opacity:[0,1], x:[-24,0]}, {duration:.8, delay:.35, easing:EASE});
+      if(divs.length)   animate(divs,   {opacity:[0,.25]},          {duration:.5, delay:.9});
+      if(rights.length) animate(rights, {opacity:[0,1], x:[24,0]},  {duration:.8, delay:1.0, easing:EASE});
+      return;
+    }
+
+    if(recipe === 'quote'){
+      const lines = all.filter(el=>el.dataset.anim==='line');
+      const others = all.filter(el=>el.dataset.anim!=='line');
+      if(others.length) animate(others, {opacity:[0,1], y:[8,0]},    {duration:.6, delay:stagger(.12, {start:.2}), easing:EASE});
+      if(lines.length)  animate(lines,  {opacity:[.35,1], y:[10,0]}, {duration:.8, delay:stagger(.55, {start:.5}), easing:EASE});
+      return;
+    }
+
+    if(recipe === 'hero'){
+      animate(all, {opacity:[0,1], y:[14,0]}, {duration:.9, delay:stagger(.16, {start:.2}), easing:EASE});
+      return;
+    }
+
+    // default: cascade
+    animate(all, {opacity:[0,1], y:[16,0]}, {duration:.75, delay:stagger(.1, {start:.15}), easing:EASE});
+  }
+
+  function pipeAdvance(){
+    if(window.__lowPowerMode) return false;
+    const slide = slides[lastIdx];
+    if(!slide || slide.dataset.animate !== 'pipeline') return false;
+    const steps  = [...slide.querySelectorAll('[data-anim="step"]')];
+    const arrows = [...slide.querySelectorAll('[data-anim="arrow"]')];
+    if(pipeStep >= steps.length - 1) return false;
+    pipeStep++;
+    animate(steps[pipeStep], {opacity:[0.15,1], y:[8,0]}, {duration:.5, easing:EASE});
+    if(pipeStep > 0 && arrows[pipeStep-1]){
+      animate(arrows[pipeStep-1], {opacity:[0.15,.7]}, {duration:.3, delay:.15});
+    }
+    return true;
+  }
+
+  window.__playSlide = playSlide;
+  window.__pipeAdvance = pipeAdvance;
+
+  // 首屏:go(0) 已跑过(同步),没来得及触发动效 → 这里补一下
+  playSlide(0);
+}
+</script>
+</body>
+</html>

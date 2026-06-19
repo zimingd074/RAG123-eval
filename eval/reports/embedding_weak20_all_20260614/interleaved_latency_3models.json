@@ -1,0 +1,1842 @@
+{
+  "created_at": "2026-06-14T20:21:25+0800",
+  "rounds": 3,
+  "sample_count": 20,
+  "summary": {
+    "qwen3-0.6b-1024": {
+      "count": 60,
+      "error_count": 0,
+      "p50_ms": 95.6090999970911,
+      "p95_ms": 106.26782499457477,
+      "p99_ms": 326.0787929923373,
+      "mean_ms": 101.90964333257095,
+      "max_ms": 616.4220999926329,
+      "over_1s": 0,
+      "over_3s": 0
+    },
+    "qwen3-4b-1024": {
+      "count": 60,
+      "error_count": 0,
+      "p50_ms": 95.02475000044797,
+      "p95_ms": 164.9907950151825,
+      "p99_ms": 312.33593200624455,
+      "mean_ms": 105.53580999937064,
+      "max_ms": 315.3716000088025,
+      "over_1s": 0,
+      "over_3s": 0
+    },
+    "qwen3-8b-1024": {
+      "count": 60,
+      "error_count": 0,
+      "p50_ms": 254.96240000938997,
+      "p95_ms": 3515.367955023245,
+      "p99_ms": 5217.960341002323,
+      "mean_ms": 817.306796667981,
+      "max_ms": 5919.405499997083,
+      "over_1s": 17,
+      "over_3s": 4
+    }
+  },
+  "rows": [
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 310.226400004467,
+      "api_latency_ms": 305.5287000024691,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 84.76269998936914,
+      "api_latency_ms": 84.091199998511,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 88.84280000347644,
+      "api_latency_ms": 88.2885999744758,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 89.1002000134904,
+      "api_latency_ms": 88.56689999811351,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 125.68470000405796,
+      "api_latency_ms": 125.06809999467805,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 92.54370001144707,
+      "api_latency_ms": 91.92159998929128,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 549.9581999902148,
+      "api_latency_ms": 549.3662999942899,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 135.36640000529587,
+      "api_latency_ms": 134.74529999075457,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 2122.719600010896,
+      "api_latency_ms": 2122.2131999966223,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 91.13780001644045,
+      "api_latency_ms": 90.6068000185769,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 127.30349999037571,
+      "api_latency_ms": 126.49850000161678,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 166.95369998342358,
+      "api_latency_ms": 166.16079999948852,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 143.19209998939186,
+      "api_latency_ms": 142.6590000046417,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 159.5048000162933,
+      "api_latency_ms": 158.4337999811396,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 99.63939999579452,
+      "api_latency_ms": 98.70030000456609,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 100.7773999881465,
+      "api_latency_ms": 100.07830001995899,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 99.37350000836886,
+      "api_latency_ms": 98.56089999084361,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 101.21230001095682,
+      "api_latency_ms": 100.53349999361672,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 147.84469999722205,
+      "api_latency_ms": 147.16709998901933,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 85.88930001133122,
+      "api_latency_ms": 85.01919999253005,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 74.76150000002235,
+      "api_latency_ms": 74.18960001086816,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 91.78590000374243,
+      "api_latency_ms": 91.0812999936752,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 100.8365000016056,
+      "api_latency_ms": 100.0151000043843,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 99.21230000327341,
+      "api_latency_ms": 98.53729998576455,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 101.78269998868927,
+      "api_latency_ms": 101.23840000596829,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 807.94950001291,
+      "api_latency_ms": 807.3520000034478,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 2201.410499983467,
+      "api_latency_ms": 2200.850299996091,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 100.13690000050701,
+      "api_latency_ms": 99.52530000009574,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 100.85180000169203,
+      "api_latency_ms": 99.85369999776594,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 133.7575000070501,
+      "api_latency_ms": 133.16629998735152,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 80.47010001610033,
+      "api_latency_ms": 79.67470001312904,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 5919.405499997083,
+      "api_latency_ms": 5918.643899989547,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 87.64610000071116,
+      "api_latency_ms": 86.76449998165481,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 100.00009997747838,
+      "api_latency_ms": 99.29410001495853,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 100.33370001474395,
+      "api_latency_ms": 99.54689998994581,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 99.91449999506585,
+      "api_latency_ms": 99.4178999972064,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 100.85409999010153,
+      "api_latency_ms": 100.11189998476766,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 106.24389999429695,
+      "api_latency_ms": 105.47479998786002,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 95.45419999631122,
+      "api_latency_ms": 94.86950002610683,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 110.9330999897793,
+      "api_latency_ms": 110.13200000161305,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 145.4410000005737,
+      "api_latency_ms": 144.69040001858957,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 1412.7924999920651,
+      "api_latency_ms": 1412.2564000135753,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 161.51850001187995,
+      "api_latency_ms": 160.79930000705644,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 91.91570000257343,
+      "api_latency_ms": 91.3052000105381,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 82.9405999975279,
+      "api_latency_ms": 82.44130000821315,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 101.62289999425411,
+      "api_latency_ms": 101.10319999512285,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 100.22520000347868,
+      "api_latency_ms": 99.50750001007691,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 1226.0612999962177,
+      "api_latency_ms": 1225.356799986912,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 84.37490000505932,
+      "api_latency_ms": 83.69410000159405,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 96.46689999499358,
+      "api_latency_ms": 95.88390000863001,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 197.85150000825524,
+      "api_latency_ms": 197.19840001198463,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 101.76140000112355,
+      "api_latency_ms": 101.21680001611821,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 117.75899998610839,
+      "api_latency_ms": 116.99850001605228,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 124.3147999921348,
+      "api_latency_ms": 123.73630001093261,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 77.70339999115095,
+      "api_latency_ms": 77.1721999917645,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 83.90420000068843,
+      "api_latency_ms": 83.17389999865554,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 1919.7423000005074,
+      "api_latency_ms": 1919.2520000215154,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 89.9994999927003,
+      "api_latency_ms": 89.11770000122488,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 112.12279999745078,
+      "api_latency_ms": 111.62589999730699,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 1,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 87.29960001073778,
+      "api_latency_ms": 86.45010000327602,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 124.74520000978373,
+      "api_latency_ms": 124.1736999945715,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 1135.975299985148,
+      "api_latency_ms": 1135.3993999946397,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 91.87940001720563,
+      "api_latency_ms": 91.24489998794161,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 85.06820001639426,
+      "api_latency_ms": 84.46879999246448,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 519.3032999814022,
+      "api_latency_ms": 518.4943999920506,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 81.28659997601062,
+      "api_latency_ms": 80.59709999361075,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 113.67120000068098,
+      "api_latency_ms": 113.10940000112168,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 79.63110000127926,
+      "api_latency_ms": 78.92489997902885,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 93.37600000435486,
+      "api_latency_ms": 92.77409999049269,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 84.33939999667928,
+      "api_latency_ms": 83.59670001664199,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 94.59530000458471,
+      "api_latency_ms": 94.03790000942536,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 100.83250000025146,
+      "api_latency_ms": 99.88610001164488,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 101.00040002726018,
+      "api_latency_ms": 100.42989999055862,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 101.99560000910424,
+      "api_latency_ms": 101.19499999564141,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 287.2215999814216,
+      "api_latency_ms": 286.59149998566136,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 83.41389999259263,
+      "api_latency_ms": 82.4873999808915,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 4603.155100019649,
+      "api_latency_ms": 4602.531699987594,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 140.90980001492426,
+      "api_latency_ms": 140.06989999325015,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 100.74480000184849,
+      "api_latency_ms": 100.0798000022769,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 100.25429999222979,
+      "api_latency_ms": 99.3902999907732,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 130.54000001284294,
+      "api_latency_ms": 129.86079999245703,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 77.45529999374412,
+      "api_latency_ms": 76.60969998687506,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 94.82880000723526,
+      "api_latency_ms": 94.09639998921193,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 102.78319998178631,
+      "api_latency_ms": 101.98800000944175,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 96.26520000165328,
+      "api_latency_ms": 95.74610000709072,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 100.76269999262877,
+      "api_latency_ms": 99.90210001706146,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 100.40209998260252,
+      "api_latency_ms": 99.63860001880676,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 233.78420001245104,
+      "api_latency_ms": 232.98470000736415,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 872.9736000241246,
+      "api_latency_ms": 872.393400000874,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 101.65450000204146,
+      "api_latency_ms": 100.82540000439622,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 224.30279999389313,
+      "api_latency_ms": 223.40980000444688,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 1184.1720000084024,
+      "api_latency_ms": 1182.7284000173677,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 694.5492000086233,
+      "api_latency_ms": 693.7054000154603,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 114.68210001476109,
+      "api_latency_ms": 114.00239999056794,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 86.56450000125915,
+      "api_latency_ms": 85.65819999785163,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 105.30409999773838,
+      "api_latency_ms": 104.33309999643825,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 98.62179998890497,
+      "api_latency_ms": 97.52100001787767,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 1000.3843999875244,
+      "api_latency_ms": 999.339499976486,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 99.4594999938272,
+      "api_latency_ms": 98.58099999837577,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 103.47360000014305,
+      "api_latency_ms": 101.37389998999424,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 269.2246999940835,
+      "api_latency_ms": 268.66790000349283,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 96.85560001526028,
+      "api_latency_ms": 96.18979998049326,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 135.56059999973513,
+      "api_latency_ms": 134.8959000024479,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 97.06540001207031,
+      "api_latency_ms": 96.5137000021059,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 100.19549998105504,
+      "api_latency_ms": 99.69839997938834,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 368.96739999065176,
+      "api_latency_ms": 368.353500001831,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 84.56809999188408,
+      "api_latency_ms": 83.96789999096654,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 81.73030000762083,
+      "api_latency_ms": 81.09050002531148,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 88.48009997745976,
+      "api_latency_ms": 87.73410000139847,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 460.0499000225682,
+      "api_latency_ms": 459.39430000726134,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 77.89190000039525,
+      "api_latency_ms": 77.38039997639135,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 79.50379999238066,
+      "api_latency_ms": 78.96220000111498,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 83.66649999516085,
+      "api_latency_ms": 83.12859997386113,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 91.06659999815747,
+      "api_latency_ms": 90.1947999955155,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 89.76249999250285,
+      "api_latency_ms": 89.14690001984127,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 1167.4626999883913,
+      "api_latency_ms": 1166.7484999925364,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 92.05700000165962,
+      "api_latency_ms": 91.24310000333935,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 92.13819997967221,
+      "api_latency_ms": 91.5443999983836,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 112.4052999948617,
+      "api_latency_ms": 111.54109999188222,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 2,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 1546.035799983656,
+      "api_latency_ms": 1545.4381000017747,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 108.69399999501184,
+      "api_latency_ms": 108.150400017621,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 112.61179999564774,
+      "api_latency_ms": 111.66639998555183,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 102.62330001569353,
+      "api_latency_ms": 102.05849999329075,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 616.4220999926329,
+      "api_latency_ms": 615.7404000114184,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 276.1406000063289,
+      "api_latency_ms": 275.4484000033699,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 291.33579999324866,
+      "api_latency_ms": 290.7609000103548,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 317.6034000061918,
+      "api_latency_ms": 317.08760000765324,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 315.3716000088025,
+      "api_latency_ms": 314.68099998892285,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 92.69980000681244,
+      "api_latency_ms": 92.10629999870434,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 79.1365000186488,
+      "api_latency_ms": 78.23220000136644,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 121.61100000957958,
+      "api_latency_ms": 121.07189997914247,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 88.26150000095367,
+      "api_latency_ms": 87.53720001550391,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 89.27660001791082,
+      "api_latency_ms": 88.36160000646487,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 4730.51540000597,
+      "api_latency_ms": 4729.887099994812,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 82.65779999783263,
+      "api_latency_ms": 82.08739999099635,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 115.6638000102248,
+      "api_latency_ms": 114.87429999397136,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 85.1529999927152,
+      "api_latency_ms": 84.65269999578595,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "F1-05",
+      "latency_ms": 100.13460001209751,
+      "api_latency_ms": 99.63189999689348,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 100.8117999881506,
+      "api_latency_ms": 100.25129999849014,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 3458.1160000234377,
+      "api_latency_ms": 3457.6071000192314,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 87.81119997729547,
+      "api_latency_ms": 87.16339999227785,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 87.69700000993907,
+      "api_latency_ms": 87.11029999540187,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 89.93039999040775,
+      "api_latency_ms": 89.36109999194741,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 189.9293000169564,
+      "api_latency_ms": 189.20550000621006,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 101.62819997640327,
+      "api_latency_ms": 101.12710000248626,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 463.7679999868851,
+      "api_latency_ms": 463.2182000204921,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 91.88900000299327,
+      "api_latency_ms": 91.35609999066219,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S7-07",
+      "latency_ms": 89.21720000216737,
+      "api_latency_ms": 88.5446000029333,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 782.315499993274,
+      "api_latency_ms": 781.7013000021689,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 84.5846000011079,
+      "api_latency_ms": 83.84700000169687,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 92.77699998347089,
+      "api_latency_ms": 92.239099991275,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 69.63470001937822,
+      "api_latency_ms": 69.07300002058037,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 93.14439998706803,
+      "api_latency_ms": 92.24630001699552,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 92.96629999880679,
+      "api_latency_ms": 92.45710002142005,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 146.3231999950949,
+      "api_latency_ms": 145.5631999997422,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S6-04",
+      "latency_ms": 118.36049999692477,
+      "api_latency_ms": 117.8444999968633,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-03",
+      "latency_ms": 85.74420001241378,
+      "api_latency_ms": 85.0164000003133,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 98.84680001414381,
+      "api_latency_ms": 98.25260000070557,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-08",
+      "latency_ms": 98.9304999820888,
+      "api_latency_ms": 98.4580000222195,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S3-08",
+      "latency_ms": 101.30470001604408,
+      "api_latency_ms": 100.73550001834519,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 99.92029998102225,
+      "api_latency_ms": 99.28319999016821,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-04",
+      "latency_ms": 99.30860000895336,
+      "api_latency_ms": 98.81090000271797,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 99.93580001173541,
+      "api_latency_ms": 99.35610002139583,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-02",
+      "latency_ms": 100.57559999404475,
+      "api_latency_ms": 100.05639999872074,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S2-09",
+      "latency_ms": 106.72239999985322,
+      "api_latency_ms": 106.04069998953491,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S7-05",
+      "latency_ms": 1658.8594999921042,
+      "api_latency_ms": 1658.236899995245,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 140.84300000104122,
+      "api_latency_ms": 140.23660001112148,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 100.99549998994917,
+      "api_latency_ms": 100.49310000613332,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 1164.7604000172578,
+      "api_latency_ms": 1164.2416999966372,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "F3-03",
+      "latency_ms": 139.71529999980703,
+      "api_latency_ms": 139.04660000116564,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S13-09",
+      "latency_ms": 99.446700012777,
+      "api_latency_ms": 98.86669999104924,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S10-03",
+      "latency_ms": 103.39360000216402,
+      "api_latency_ms": 102.69319999497384,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 131.2974000175018,
+      "api_latency_ms": 130.62579999677837,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S12-05",
+      "latency_ms": 87.16399999684654,
+      "api_latency_ms": 86.63370000431314,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-4b-1024",
+      "query_id": "S12-06",
+      "latency_ms": 88.70329998899251,
+      "api_latency_ms": 88.01220002351329,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S4-05",
+      "latency_ms": 91.89300000434741,
+      "api_latency_ms": 91.29359998041764,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S5-04",
+      "latency_ms": 72.54929997725412,
+      "api_latency_ms": 71.93590002134442,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-8b-1024",
+      "query_id": "S2-11",
+      "latency_ms": 1654.2992000177037,
+      "api_latency_ms": 1653.7943000148516,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-05",
+      "latency_ms": 84.07749998150393,
+      "api_latency_ms": 83.3874000236392,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    },
+    {
+      "round": 3,
+      "arm_id": "qwen3-0.6b-1024",
+      "query_id": "S9-07",
+      "latency_ms": 96.38939998694696,
+      "api_latency_ms": 95.85839998908341,
+      "request_count": 1,
+      "error_count": 0,
+      "ok": true
+    }
+  ]
+}

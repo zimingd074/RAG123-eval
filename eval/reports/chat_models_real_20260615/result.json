@@ -1,0 +1,4754 @@
+{
+  "dataset": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_chat_models20_20260615.jsonl",
+  "dataset_sha256": "98f903c79966d8d9b977cafcd623eb6e63b9e3cb89833cae2f353157c3a5c37c",
+  "candidates": [
+    "qwen3-max",
+    "qwen3.7-max",
+    "qwen3.7-plus",
+    "qwen3.6-flash",
+    "deepseek-v4-pro",
+    "deepseek-v4-flash"
+  ],
+  "judge_model": "gpt-5.4-mini",
+  "selected_routing_models": [
+    "qwen3.7-max",
+    "qwen3-max",
+    "deepseek-v4-flash"
+  ],
+  "routing_ranking": [
+    {
+      "model": "qwen3.7-max",
+      "metrics": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7333333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.8025,
+        "mean_input_tokens": 3286.0,
+        "mean_output_tokens": 93.55,
+        "mean_latency_ms": 16881.7
+      },
+      "cost_per_1000": 42.799800000000005
+    },
+    {
+      "model": "qwen3-max",
+      "metrics": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7208333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.79875,
+        "mean_input_tokens": 3286.95,
+        "mean_output_tokens": 100.65,
+        "mean_latency_ms": 3050.45
+      },
+      "cost_per_1000": 9.223875
+    },
+    {
+      "model": "deepseek-v4-flash",
+      "metrics": {
+        "intent_accuracy": 0.7,
+        "document_recall": 0.775,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.7925,
+        "mean_input_tokens": 3286.45,
+        "mean_output_tokens": 89.5,
+        "mean_latency_ms": 5984.65
+      },
+      "cost_per_1000": 3.4654499999999997
+    },
+    {
+      "model": "qwen3.6-flash",
+      "metrics": {
+        "intent_accuracy": 0.8,
+        "document_recall": 0.525,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 1.0,
+        "quality": 0.7675000000000001,
+        "mean_input_tokens": 3286.25,
+        "mean_output_tokens": 94.6,
+        "mean_latency_ms": 18527.65
+      },
+      "cost_per_1000": 4.62462
+    },
+    {
+      "model": "qwen3.7-plus",
+      "metrics": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.6083333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.765,
+        "mean_input_tokens": 3286.45,
+        "mean_output_tokens": 94.0,
+        "mean_latency_ms": 21522.8
+      },
+      "cost_per_1000": 7.3248999999999995
+    },
+    {
+      "model": "deepseek-v4-pro",
+      "metrics": {
+        "intent_accuracy": 0.7,
+        "document_recall": 0.65,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.9,
+        "quality": 0.75,
+        "mean_input_tokens": 3286.25,
+        "mean_output_tokens": 87.3,
+        "mean_latency_ms": 11322.0
+      },
+      "cost_per_1000": 41.530199999999994
+    }
+  ],
+  "combination_ranking": [
+    {
+      "routing_model": "qwen3-max",
+      "answer_model": "qwen3-max",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__qwen3-max.jsonl",
+      "routing": {
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "mean_input_tokens": 3286.95,
+        "stability": 0.95,
+        "silent_condition_changes": 0.0,
+        "mean_latency_ms": 3050.45,
+        "quality": 0.79875,
+        "mean_output_tokens": 100.65,
+        "human_review_complete": false,
+        "document_recall": 0.7208333333333333,
+        "intent_accuracy": 0.75
+      },
+      "answer": {
+        "hard_answer_correctness": 0.6331635250930819,
+        "p95_latency_ms": 13236.0,
+        "mean_ttft_ms": 6118.7,
+        "answer_relevancy": 0.6715934591877529,
+        "mean_latency_ms": 8792.55,
+        "mean_output_tokens": 126.85,
+        "breakdowns": {
+          "answer_type": {
+            "error_code_lookup": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8282485172760583,
+              "answer_correctness": 0.7662982789361321
+            },
+            "complaint_with_policy": {
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.4149616289742722,
+              "answer_correctness": 0.4115878253214001
+            },
+            "app_steps": {
+              "faithfulness": 0.9090909090909091,
+              "answer_relevancy": 0.9827280760996424,
+              "answer_correctness": 0.7354049722752387
+            },
+            "scenario_recommendation": {
+              "faithfulness": 0.8064516129032258,
+              "answer_relevancy": 0.7587089493721443,
+              "answer_correctness": 0.7503857461691089
+            },
+            "automation_support": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.6672883905771126,
+              "answer_correctness": 0.6600687607069343
+            },
+            "membership_benefits": {
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.7941158870501293,
+              "answer_correctness": 0.27800009725966757
+            },
+            "firmware_steps": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7494512734459107,
+              "answer_correctness": 0.6876175520472554
+            },
+            "policy_reasoning": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5153079319954004,
+              "answer_correctness": 0.59249526149035
+            },
+            "advanced_steps": {
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.731160760042092,
+              "answer_correctness": 0.6410727709490636
+            },
+            "protocol_troubleshooting": {
+              "faithfulness": 0.7692307692307693,
+              "answer_relevancy": 0.6306070030538279,
+              "answer_correctness": 0.22722880462451084
+            },
+            "logistics_exception": {
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.49556584696009454,
+              "answer_correctness": 0.5082163291660091
+            },
+            "return_fee_policy": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9485760049915724,
+              "answer_correctness": 0.7373763512533793
+            },
+            "maintenance_steps": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5847423680409842,
+              "answer_correctness": 0.15823191958958405
+            },
+            "repair_quote": {
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.5324476878583664,
+              "answer_correctness": 0.7395700830035528
+            },
+            "boundary_response": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.0,
+              "answer_correctness": 0.4908051876004804
+            },
+            "cross_generation_compatibility": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9641388025567009,
+              "answer_correctness": 0.8215002883893259
+            },
+            "exception_scene": {
+              "faithfulness": 0.5714285714285714,
+              "answer_relevancy": 0.6335816102561111,
+              "answer_correctness": 0.497250983774674
+            },
+            "factual_list": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701107430407253,
+              "answer_correctness": 0.7246866932618388
+            },
+            "maintenance_boundary": {
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.5585342429761616,
+              "answer_correctness": 0.5766320418231745
+            },
+            "shipping_policy": {
+              "faithfulness": null,
+              "answer_relevancy": null,
+              "answer_correctness": null
+            }
+          },
+          "intent_l2": {
+            "S7_适用场景": {
+              "faithfulness": 0.6889400921658986,
+              "answer_relevancy": 0.6961452798141277,
+              "answer_correctness": 0.6238183649718915
+            },
+            "S12_生态联动": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.6672883905771126,
+              "answer_correctness": 0.6600687607069343
+            },
+            "S6_配件兼容": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9641388025567009,
+              "answer_correctness": 0.8215002883893259
+            },
+            "S2_参数咨询": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701107430407253,
+              "answer_correctness": 0.7246866932618388
+            },
+            "S11_固件升级": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7494512734459107,
+              "answer_correctness": 0.6876175520472554
+            },
+            "S9_配网连接": {
+              "faithfulness": 0.7692307692307693,
+              "answer_relevancy": 0.6306070030538279,
+              "answer_correctness": 0.22722880462451084
+            },
+            "S15_退换货": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9485760049915724,
+              "answer_correctness": 0.7373763512533793
+            },
+            "S13_保养维护": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.571638305508573,
+              "answer_correctness": 0.3674319807063793
+            },
+            "S14_售后政策": {
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.5324476878583664,
+              "answer_correctness": 0.7395700830035528
+            },
+            "S16_物流配送": {
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.49556584696009454,
+              "answer_correctness": 0.5082163291660091
+            },
+            "S5_库存到货": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.0,
+              "answer_correctness": 0.4908051876004804
+            },
+            "F3_投诉吐槽": {
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.4149616289742722,
+              "answer_correctness": 0.4115878253214001
+            },
+            "S17_发票会员": {
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.7941158870501293,
+              "answer_correctness": 0.27800009725966757
+            },
+            "S10_APP功能": {
+              "faithfulness": 0.9090909090909091,
+              "answer_relevancy": 0.9827280760996424,
+              "answer_correctness": 0.7354049722752387
+            },
+            "S8_操作指引": {
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.731160760042092,
+              "answer_correctness": 0.6410727709490636
+            },
+            "F1_故障报告": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8282485172760583,
+              "answer_correctness": 0.7662982789361321
+            },
+            "S4_价格活动": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5153079319954004,
+              "answer_correctness": 0.59249526149035
+            }
+          },
+          "difficulty": {
+            "easy": {
+              "faithfulness": 0.8877705627705627,
+              "answer_relevancy": 0.7489238429785555,
+              "answer_correctness": 0.471301104989284
+            },
+            "medium": {
+              "faithfulness": 0.8057539682539683,
+              "answer_relevancy": 0.5734355681722881,
+              "answer_correctness": 0.6061179090170962
+            },
+            "hard": {
+              "faithfulness": 0.8261057938477293,
+              "answer_relevancy": 0.7380286607160373,
+              "answer_correctness": 0.6331635250930819
+            }
+          }
+        },
+        "answer_correctness": 0.5791805235600883,
+        "faithfulness": 0.8337641748932071,
+        "mean_input_tokens": 4786.45,
+        "success_rate": 1.0,
+        "p95_ttft_ms": 9236.0
+      },
+      "answer_quality": 0.6867673886522129,
+      "cost_per_1000": 22.4585,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__qwen3-max.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": true,
+        "intent": true,
+        "success": true
+      },
+      "eligible": true,
+      "final_score": 0.7453915156546448
+    },
+    {
+      "routing_model": "deepseek-v4-flash",
+      "answer_model": "qwen3.7-max",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__qwen3.7-max.jsonl",
+      "routing": {
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "mean_input_tokens": 3286.45,
+        "stability": 0.95,
+        "silent_condition_changes": 0.0,
+        "mean_latency_ms": 5984.65,
+        "quality": 0.7925,
+        "mean_output_tokens": 89.5,
+        "human_review_complete": false,
+        "document_recall": 0.775,
+        "intent_accuracy": 0.7
+      },
+      "answer": {
+        "hard_answer_correctness": 0.6206625537601672,
+        "p95_latency_ms": 29655.0,
+        "mean_ttft_ms": 14548.3,
+        "answer_relevancy": 0.6920742163239794,
+        "mean_latency_ms": 17557.95,
+        "mean_output_tokens": 137.4,
+        "breakdowns": {
+          "answer_type": {
+            "error_code_lookup": {
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.8340094822923662,
+              "answer_correctness": 0.665437391229496
+            },
+            "complaint_with_policy": {
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.4428363025748416,
+              "answer_correctness": 0.43294202167743445
+            },
+            "app_steps": {
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.5543274190287134,
+              "answer_correctness": 0.7587232334777836
+            },
+            "scenario_recommendation": {
+              "faithfulness": 0.9090909090909091,
+              "answer_relevancy": 0.8751900079036242,
+              "answer_correctness": 0.6144588323856963
+            },
+            "automation_support": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7787082114389812,
+              "answer_correctness": 0.5941879752545531
+            },
+            "membership_benefits": {
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.7841294205451443,
+              "answer_correctness": 0.2497871037263259
+            },
+            "firmware_steps": {
+              "faithfulness": 0.96,
+              "answer_relevancy": 0.7547498418304209,
+              "answer_correctness": 0.6835547244039835
+            },
+            "policy_reasoning": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5046870193408741,
+              "answer_correctness": 0.6924784812404241
+            },
+            "advanced_steps": {
+              "faithfulness": 0.6363636363636364,
+              "answer_relevancy": 0.7311787353409812,
+              "answer_correctness": 0.6978029623755798
+            },
+            "protocol_troubleshooting": {
+              "faithfulness": 0.7368421052631579,
+              "answer_relevancy": 0.7771673231764995,
+              "answer_correctness": 0.40015609220095516
+            },
+            "logistics_exception": {
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.4668063688024253,
+              "answer_correctness": 0.6382362025937833
+            },
+            "return_fee_policy": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7761537009042896,
+              "answer_correctness": 0.5366209362717586
+            },
+            "maintenance_steps": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.778090537123632,
+              "answer_correctness": 0.38648481255855904
+            },
+            "repair_quote": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6414277268877253,
+              "answer_correctness": 0.7295848350819119
+            },
+            "boundary_response": {
+              "faithfulness": 0.4,
+              "answer_relevancy": 0.0,
+              "answer_correctness": 0.7576938010624956
+            },
+            "cross_generation_compatibility": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9303919373606231,
+              "answer_correctness": 0.653641563128852
+            },
+            "exception_scene": {
+              "faithfulness": 0.6428571428571429,
+              "answer_relevancy": 0.8203816246360042,
+              "answer_correctness": 0.5725202237088151
+            },
+            "factual_list": {
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9700302029721858,
+              "answer_correctness": 0.6465896596425316
+            },
+            "maintenance_boundary": {
+              "faithfulness": 0.5,
+              "answer_relevancy": 0.6652782721363645,
+              "answer_correctness": 0.583510223885755
+            },
+            "shipping_policy": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7559401921838922,
+              "answer_correctness": 0.7163241533979682
+            }
+          },
+          "intent_l2": {
+            "S7_适用场景": {
+              "faithfulness": 0.775974025974026,
+              "answer_relevancy": 0.8477858162698142,
+              "answer_correctness": 0.5934895280472556
+            },
+            "S12_生态联动": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7787082114389812,
+              "answer_correctness": 0.5941879752545531
+            },
+            "S6_配件兼容": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9303919373606231,
+              "answer_correctness": 0.653641563128852
+            },
+            "S2_参数咨询": {
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9700302029721858,
+              "answer_correctness": 0.6465896596425316
+            },
+            "S11_固件升级": {
+              "faithfulness": 0.96,
+              "answer_relevancy": 0.7547498418304209,
+              "answer_correctness": 0.6835547244039835
+            },
+            "S9_配网连接": {
+              "faithfulness": 0.7368421052631579,
+              "answer_relevancy": 0.7771673231764995,
+              "answer_correctness": 0.40015609220095516
+            },
+            "S15_退换货": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7761537009042896,
+              "answer_correctness": 0.5366209362717586
+            },
+            "S13_保养维护": {
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.7216844046299982,
+              "answer_correctness": 0.48499751822215703
+            },
+            "S14_售后政策": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6414277268877253,
+              "answer_correctness": 0.7295848350819119
+            },
+            "S16_物流配送": {
+              "faithfulness": 0.9166666666666667,
+              "answer_relevancy": 0.6113732804931588,
+              "answer_correctness": 0.6772801779958757
+            },
+            "S5_库存到货": {
+              "faithfulness": 0.4,
+              "answer_relevancy": 0.0,
+              "answer_correctness": 0.7576938010624956
+            },
+            "F3_投诉吐槽": {
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.4428363025748416,
+              "answer_correctness": 0.43294202167743445
+            },
+            "S17_发票会员": {
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.7841294205451443,
+              "answer_correctness": 0.2497871037263259
+            },
+            "S10_APP功能": {
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.5543274190287134,
+              "answer_correctness": 0.7587232334777836
+            },
+            "S8_操作指引": {
+              "faithfulness": 0.6363636363636364,
+              "answer_relevancy": 0.7311787353409812,
+              "answer_correctness": 0.6978029623755798
+            },
+            "F1_故障报告": {
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.8340094822923662,
+              "answer_correctness": 0.665437391229496
+            },
+            "S4_价格活动": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5046870193408741,
+              "answer_correctness": 0.6924784812404241
+            }
+          },
+          "difficulty": {
+            "easy": {
+              "faithfulness": 0.9060317460317461,
+              "answer_relevancy": 0.7412698392246345,
+              "answer_correctness": 0.5612323752122392
+            },
+            "medium": {
+              "faithfulness": 0.7851190476190476,
+              "answer_relevancy": 0.5926550982146016,
+              "answer_correctness": 0.614920706933778
+            },
+            "hard": {
+              "faithfulness": 0.808160552897395,
+              "answer_relevancy": 0.7754374175691613,
+              "answer_correctness": 0.6206625537601672
+            }
+          }
+        },
+        "answer_correctness": 0.6005367614652332,
+        "faithfulness": 0.8283053087263614,
+        "mean_input_tokens": 5037.9,
+        "success_rate": 1.0,
+        "p95_ttft_ms": 22266.0
+      },
+      "answer_quality": 0.6985632439783773,
+      "cost_per_1000": 68.86665,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__qwen3.7-max.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": true,
+        "intent": true,
+        "success": true
+      },
+      "eligible": true,
+      "final_score": 0.6659286359783948
+    },
+    {
+      "routing_model": "qwen3.7-max",
+      "answer_model": "qwen3.7-max",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__qwen3.7-max.jsonl",
+      "routing": {
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "mean_input_tokens": 3286.0,
+        "stability": 0.95,
+        "silent_condition_changes": 0.0,
+        "mean_latency_ms": 16881.7,
+        "quality": 0.8025,
+        "mean_output_tokens": 93.55,
+        "human_review_complete": false,
+        "document_recall": 0.7333333333333333,
+        "intent_accuracy": 0.75
+      },
+      "answer": {
+        "hard_answer_correctness": 0.6645578250303861,
+        "p95_latency_ms": 27715.0,
+        "mean_ttft_ms": 13270.45,
+        "answer_relevancy": 0.7050357067483992,
+        "mean_latency_ms": 16381.05,
+        "mean_output_tokens": 143.55,
+        "breakdowns": {
+          "answer_type": {
+            "error_code_lookup": {
+              "faithfulness": 0.8461538461538461,
+              "answer_relevancy": 0.8584362467505484,
+              "answer_correctness": 0.7249803323110618
+            },
+            "complaint_with_policy": {
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.3767863983522495,
+              "answer_correctness": 0.5368912845114733
+            },
+            "app_steps": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7522908049877112,
+              "answer_correctness": 0.7052465930590577
+            },
+            "scenario_recommendation": {
+              "faithfulness": 0.9130434782608695,
+              "answer_relevancy": 0.6632848920330401,
+              "answer_correctness": 0.7280086072007524
+            },
+            "automation_support": {
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.6560074410499281,
+              "answer_correctness": 0.5675691620509817
+            },
+            "membership_benefits": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7337256278530778,
+              "answer_correctness": 0.18840633770160425
+            },
+            "firmware_steps": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9265006310802253,
+              "answer_correctness": 0.7331198560852489
+            },
+            "policy_reasoning": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.49005279217073,
+              "answer_correctness": 0.5711078178341135
+            },
+            "advanced_steps": {
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.9451760605901471,
+              "answer_correctness": 0.6325037404635214
+            },
+            "protocol_troubleshooting": {
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.5405175740443378,
+              "answer_correctness": 0.5240261436351976
+            },
+            "logistics_exception": {
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.48532525023222567,
+              "answer_correctness": 0.5176332815439293
+            },
+            "return_fee_policy": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7730408787590458,
+              "answer_correctness": 0.6936185209990812
+            },
+            "maintenance_steps": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7947942700405383,
+              "answer_correctness": 0.628319982926316
+            },
+            "repair_quote": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7361204253693635,
+              "answer_correctness": 0.6387510258247222
+            },
+            "boundary_response": {
+              "faithfulness": 0.5,
+              "answer_relevancy": 0.0,
+              "answer_correctness": 0.6009143068995033
+            },
+            "cross_generation_compatibility": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9272364153272709,
+              "answer_correctness": 0.8067203087376698
+            },
+            "exception_scene": {
+              "faithfulness": 0.5454545454545454,
+              "answer_relevancy": 0.7410132197441258,
+              "answer_correctness": 0.719564661293341
+            },
+            "factual_list": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721,
+              "answer_correctness": 0.8359934748726825
+            },
+            "maintenance_boundary": {
+              "faithfulness": 0.16666666666666666,
+              "answer_relevancy": 0.8930365554844273,
+              "answer_correctness": 0.47271209928105995
+            },
+            "shipping_policy": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8372549417272199,
+              "answer_correctness": 0.7491429013553812
+            }
+          },
+          "intent_l2": {
+            "S7_适用场景": {
+              "faithfulness": 0.7292490118577075,
+              "answer_relevancy": 0.702149055888583,
+              "answer_correctness": 0.7237866342470467
+            },
+            "S12_生态联动": {
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.6560074410499281,
+              "answer_correctness": 0.5675691620509817
+            },
+            "S6_配件兼容": {
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9272364153272709,
+              "answer_correctness": 0.8067203087376698
+            },
+            "S2_参数咨询": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721,
+              "answer_correctness": 0.8359934748726825
+            },
+            "S11_固件升级": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9265006310802253,
+              "answer_correctness": 0.7331198560852489
+            },
+            "S9_配网连接": {
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.5405175740443378,
+              "answer_correctness": 0.5240261436351976
+            },
+            "S15_退换货": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7730408787590458,
+              "answer_correctness": 0.6936185209990812
+            },
+            "S13_保养维护": {
+              "faithfulness": 0.5833333333333334,
+              "answer_relevancy": 0.8439154127624828,
+              "answer_correctness": 0.550516041103688
+            },
+            "S14_售后政策": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7361204253693635,
+              "answer_correctness": 0.6387510258247222
+            },
+            "S16_物流配送": {
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.6612900959797228,
+              "answer_correctness": 0.6333880914496552
+            },
+            "S5_库存到货": {
+              "faithfulness": 0.5,
+              "answer_relevancy": 0.0,
+              "answer_correctness": 0.6009143068995033
+            },
+            "F3_投诉吐槽": {
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.3767863983522495,
+              "answer_correctness": 0.5368912845114733
+            },
+            "S17_发票会员": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7337256278530778,
+              "answer_correctness": 0.18840633770160425
+            },
+            "S10_APP功能": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7522908049877112,
+              "answer_correctness": 0.7052465930590577
+            },
+            "S8_操作指引": {
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.9451760605901471,
+              "answer_correctness": 0.6325037404635214
+            },
+            "F1_故障报告": {
+              "faithfulness": 0.8461538461538461,
+              "answer_relevancy": 0.8584362467505484,
+              "answer_correctness": 0.7249803323110618
+            },
+            "S4_价格活动": {
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.49005279217073,
+              "answer_correctness": 0.5711078178341135
+            }
+          },
+          "difficulty": {
+            "easy": {
+              "faithfulness": 0.9242424242424242,
+              "answer_relevancy": 0.7975965825721497,
+              "answer_correctness": 0.6206333887368248
+            },
+            "medium": {
+              "faithfulness": 0.796875,
+              "answer_relevancy": 0.6113038323273765,
+              "answer_correctness": 0.6080103944979292
+            },
+            "hard": {
+              "faithfulness": 0.8388344747040399,
+              "answer_relevancy": 0.7374506634860124,
+              "answer_correctness": 0.6645578250303861
+            }
+          }
+        },
+        "answer_correctness": 0.628761521929335,
+        "faithfulness": 0.8476730696839393,
+        "mean_input_tokens": 5067.75,
+        "success_rate": 1.0,
+        "p95_ttft_ms": 22366.0
+      },
+      "answer_quality": 0.7206354006072593,
+      "cost_per_1000": 108.7806,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__qwen3.7-max.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": true,
+        "intent": true,
+        "success": true
+      },
+      "eligible": true,
+      "final_score": 0.6223044921233641
+    },
+    {
+      "routing_model": "deepseek-v4-flash",
+      "answer_model": "deepseek-v4-flash",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__deepseek-v4-flash.jsonl",
+      "routing": {
+        "intent_accuracy": 0.7,
+        "document_recall": 0.775,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.7925,
+        "mean_input_tokens": 3286.45,
+        "mean_output_tokens": 89.5,
+        "mean_latency_ms": 5984.65
+      },
+      "answer": {
+        "answer_correctness": 0.5837886789013536,
+        "faithfulness": 0.835859829825347,
+        "answer_relevancy": 0.6383711455954788,
+        "hard_answer_correctness": 0.5094494903029277,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 5585.1,
+        "p95_ttft_ms": 10738,
+        "mean_latency_ms": 6813.15,
+        "p95_latency_ms": 11439,
+        "mean_input_tokens": 5037.9,
+        "mean_output_tokens": 116.45,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5094494903029277,
+              "faithfulness": 0.9004851470368712,
+              "answer_relevancy": 0.6442615965257144
+            },
+            "medium": {
+              "answer_correctness": 0.6153309906581663,
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.5435981890067869
+            },
+            "easy": {
+              "answer_correctness": 0.6160714518240288,
+              "faithfulness": 0.9523809523809524,
+              "answer_relevancy": 0.758844636783499
+            }
+          },
+          "intent_l2": {
+            "F1_故障报告": {
+              "answer_correctness": 0.7744079790102623,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.635488355260089
+            },
+            "S6_配件兼容": {
+              "answer_correctness": 0.47238537524187935,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9279065656765217
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.5568831595722776,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6051724883348407
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.6335683426766154,
+              "faithfulness": 0.8423645320197044,
+              "answer_relevancy": 0.7498614343367639
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.5724262789876888,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5703828848286818
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.13093517568862667,
+              "faithfulness": 0.8181818181818182,
+              "answer_relevancy": 0.3886038358344678
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.5769471679691738,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701107430407253
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.8153748943549493,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8973064085842628
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.7766514958026167,
+              "faithfulness": 0.8333333333333333,
+              "answer_relevancy": 0.5777921420038796
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.4895511913306366,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9485913261759937
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6077633063935964,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.6616390520381203
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.660450325625081,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.43844836313237645,
+              "faithfulness": 0.7285714285714285,
+              "answer_relevancy": 0.3391400620450874
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.5397167475989699,
+              "faithfulness": 0.5833333333333334,
+              "answer_relevancy": 0.46093205336821713
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7054245341097133,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.925280964165525
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7756965054832481,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6566779838294622
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.3004745334377496,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7857429740012064
+            }
+          },
+          "answer_type": {
+            "error_code_lookup": {
+              "answer_correctness": 0.7744079790102623,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.635488355260089
+            },
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.47238537524187935,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9279065656765217
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.5568831595722776,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6051724883348407
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.549658973316832,
+              "faithfulness": 0.8275862068965517,
+              "answer_relevancy": 0.7380154492196852
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.5724262789876888,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5703828848286818
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.13093517568862667,
+              "faithfulness": 0.8181818181818182,
+              "answer_relevancy": 0.3886038358344678
+            },
+            "factual_list": {
+              "answer_correctness": 0.5769471679691738,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701107430407253
+            },
+            "repair_quote": {
+              "answer_correctness": 0.8153748943549493,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8973064085842628
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.7891744546896686,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.4102059288469758
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.4895511913306366,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9485913261759937
+            },
+            "automation_support": {
+              "answer_correctness": 0.6077633063935964,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.6616390520381203
+            },
+            "boundary_response": {
+              "answer_correctness": 0.660450325625081,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.4436698373032546,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.0
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.5397167475989699,
+              "faithfulness": 0.5833333333333334,
+              "answer_relevancy": 0.46093205336821713
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7054245341097133,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.925280964165525
+            },
+            "app_steps": {
+              "answer_correctness": 0.7756965054832481,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6566779838294622
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.3004745334377496,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7857429740012064
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.7641285369155649,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7453783551607833
+            },
+            "exception_scene": {
+              "answer_correctness": 0.7174777120363988,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.7617074194538426
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.43322688896149836,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6782801240901748
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6829300750635763,
+      "cost_per_1000": 8.736249999999998,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__deepseek-v4-flash.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.7625625822813795
+    },
+    {
+      "routing_model": "deepseek-v4-flash",
+      "answer_model": "qwen3.6-flash",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__qwen3.6-flash.jsonl",
+      "routing": {
+        "intent_accuracy": 0.7,
+        "document_recall": 0.775,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.7925,
+        "mean_input_tokens": 3286.45,
+        "mean_output_tokens": 89.5,
+        "mean_latency_ms": 5984.65
+      },
+      "answer": {
+        "answer_correctness": 0.606158160386261,
+        "faithfulness": 0.8418703626655573,
+        "answer_relevancy": 0.6439933150426826,
+        "hard_answer_correctness": 0.5548551462020226,
+        "success_rate": 0.95,
+        "mean_ttft_ms": 6578.8421052631575,
+        "p95_ttft_ms": 10638,
+        "mean_latency_ms": 7111.45,
+        "p95_latency_ms": 11246,
+        "mean_input_tokens": 5037.9,
+        "mean_output_tokens": 121.15,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5548551462020226,
+              "faithfulness": 0.8398268398268398,
+              "answer_relevancy": 0.6905272895846613
+            },
+            "medium": {
+              "answer_correctness": 0.6314312989289235,
+              "faithfulness": 0.8133184523809524,
+              "answer_relevancy": 0.6100132177874001
+            },
+            "easy": {
+              "answer_correctness": 0.6152131541495767,
+              "faithfulness": 0.8816425120772947,
+              "answer_relevancy": 0.6505217992647441
+            }
+          },
+          "intent_l2": {
+            "F1_故障报告": {
+              "answer_correctness": null,
+              "faithfulness": null,
+              "answer_relevancy": null
+            },
+            "S6_配件兼容": {
+              "answer_correctness": 0.768154738301606,
+              "faithfulness": 0.5714285714285714,
+              "answer_relevancy": 0.8927456360966757
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.351995678359076,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.4669994231474032
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.766728241798035,
+              "faithfulness": 0.8095238095238095,
+              "answer_relevancy": 0.692022501146621
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.6020903441508556,
+              "faithfulness": 0.8181818181818182,
+              "answer_relevancy": 0.644826041194542
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.2836292072386961,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6432619213859101
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7531333971441418,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.5694242469415538,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.6212197799523586
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.7174692320818957,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.7062605865089218
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.5266827882488628,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9384548987853699
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6771922769629275,
+              "faithfulness": 0.8125,
+              "answer_relevancy": 0.6377626073337149
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.700223619110931,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.5647345042908294,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.6571124096731498
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.6079011660898186,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.37612468929584847
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.6880901053294853,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7536278893641977
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7026504889893797,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.5827050271566285
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.18797303413010572,
+              "faithfulness": 0.9565217391304348,
+              "answer_relevancy": 0.5972403680691655
+            }
+          },
+          "answer_type": {
+            "error_code_lookup": {
+              "answer_correctness": null,
+              "faithfulness": null,
+              "answer_relevancy": null
+            },
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.768154738301606,
+              "faithfulness": 0.5714285714285714,
+              "answer_relevancy": 0.8927456360966757
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.351995678359076,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.4669994231474032
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.7684057629598788,
+              "faithfulness": 0.9523809523809523,
+              "answer_relevancy": 0.804803426098775
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.6020903441508556,
+              "faithfulness": 0.8181818181818182,
+              "answer_relevancy": 0.644826041194542
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.2836292072386961,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6432619213859101
+            },
+            "factual_list": {
+              "answer_correctness": 0.7531333971441418,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "repair_quote": {
+              "answer_correctness": 0.5694242469415538,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.6212197799523586
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.6642723943561524,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.629712824560376
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.5266827882488628,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9384548987853699
+            },
+            "automation_support": {
+              "answer_correctness": 0.6771922769629275,
+              "faithfulness": 0.8125,
+              "answer_relevancy": 0.6377626073337149
+            },
+            "boundary_response": {
+              "answer_correctness": 0.700223619110931,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.5526205025769999,
+              "faithfulness": 0.42857142857142855,
+              "answer_relevancy": 0.7067172329997614
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.6079011660898186,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.37612468929584847
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.6880901053294853,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7536278893641977
+            },
+            "app_steps": {
+              "answer_correctness": 0.7026504889893797,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.5827050271566285
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.18797303413010572,
+              "faithfulness": 0.9565217391304348,
+              "answer_relevancy": 0.5972403680691655
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.7706660698076391,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.7828083484574674
+            },
+            "exception_scene": {
+              "answer_correctness": 0.7650507206361913,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.579241576194467
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.5768485060046589,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6075075863465382
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6962244621152991,
+      "cost_per_1000": 10.383209999999998,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__qwen3.6-flash.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": false
+      },
+      "eligible": false,
+      "final_score": 0.7674760170087027
+    },
+    {
+      "routing_model": "qwen3-max",
+      "answer_model": "deepseek-v4-flash",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__deepseek-v4-flash.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7208333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.79875,
+        "mean_input_tokens": 3286.95,
+        "mean_output_tokens": 100.65,
+        "mean_latency_ms": 3050.45
+      },
+      "answer": {
+        "answer_correctness": 0.5869927005057007,
+        "faithfulness": 0.8273010958769473,
+        "answer_relevancy": 0.6301694727802737,
+        "hard_answer_correctness": 0.5776177471745453,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 5467.2,
+        "p95_ttft_ms": 8528,
+        "mean_latency_ms": 6763.1,
+        "p95_latency_ms": 9242,
+        "mean_input_tokens": 4786.45,
+        "mean_output_tokens": 110.25,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5776177471745453,
+              "faithfulness": 0.8267973856209151,
+              "answer_relevancy": 0.69560692477922
+            },
+            "medium": {
+              "answer_correctness": 0.6106723812765108,
+              "faithfulness": 0.7995039682539682,
+              "answer_relevancy": 0.5096299745010388
+            },
+            "easy": {
+              "answer_correctness": 0.560355155269791,
+              "faithfulness": 0.8723809523809523,
+              "answer_relevancy": 0.7445077276283136
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.7204696275253373,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9454930023544704
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.627716715924874,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.5512449476086245
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.6108453982300868,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.543479165558412
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.6400466385523806,
+              "faithfulness": 0.611344537815126,
+              "answer_relevancy": 0.7736973845513834
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.5747428404191397,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.6940312793663423
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.2862497164947636,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.7004343590324074
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.6325951275060413,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700302029721858
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.6902921957502643,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.7121277729894595
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.6015848166299754,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.4580325936596363
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6499125918222265,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.7560492677532075
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.7804094285777853,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.766946294293576
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.5855693986282327,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.4013144034833188,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.25694936759073267
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.5831144137744234,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.41385366434024523
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7619838499760471,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8208841554022733
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.2533591359488345,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.834572548110987
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7112939683288828,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7447472250991393
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.7204696275253373,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9454930023544704
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.627716715924874,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.5512449476086245
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.6108453982300868,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.543479165558412
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.6456821844530706,
+              "faithfulness": 0.7941176470588235,
+              "answer_relevancy": 0.7389587947550634
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.5747428404191397,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.6940312793663423
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.2862497164947636,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.7004343590324074
+            },
+            "factual_list": {
+              "answer_correctness": 0.6325951275060413,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700302029721858
+            },
+            "repair_quote": {
+              "answer_correctness": 0.6902921957502643,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.7121277729894595
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.6015848166299754,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.4580325936596363
+            },
+            "automation_support": {
+              "answer_correctness": 0.6499125918222265,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.7560492677532075
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.7804094285777853,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.766946294293576
+            },
+            "boundary_response": {
+              "answer_correctness": 0.5855693986282327,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.3619010775231374,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.0
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.5831144137744234,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.41385366434024523
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7619838499760471,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8208841554022733
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.2533591359488345,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.834572548110987
+            },
+            "app_steps": {
+              "answer_correctness": 0.7112939683288828,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7447472250991393
+            },
+            "shipping_policy": {
+              "answer_correctness": null,
+              "faithfulness": null,
+              "answer_relevancy": null
+            },
+            "exception_scene": {
+              "answer_correctness": 0.6344110926516906,
+              "faithfulness": 0.42857142857142855,
+              "answer_relevancy": 0.8084359743477033
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.44072772944350025,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5138987351814653
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6797359933405517,
+      "cost_per_1000": 14.230825,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__deepseek-v4-flash.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.7560100570952861
+    },
+    {
+      "routing_model": "qwen3-max",
+      "answer_model": "qwen3.6-flash",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__qwen3.6-flash.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7208333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.79875,
+        "mean_input_tokens": 3286.95,
+        "mean_output_tokens": 100.65,
+        "mean_latency_ms": 3050.45
+      },
+      "answer": {
+        "answer_correctness": 0.6160564990708155,
+        "faithfulness": 0.8237802910285749,
+        "answer_relevancy": 0.6629600408451852,
+        "hard_answer_correctness": 0.5751653243847475,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 7123.6,
+        "p95_ttft_ms": 10065,
+        "mean_latency_ms": 7842.8,
+        "p95_latency_ms": 10768,
+        "mean_input_tokens": 4786.45,
+        "mean_output_tokens": 123.25,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5751653243847475,
+              "faithfulness": 0.809937445807011,
+              "answer_relevancy": 0.684500356291896
+            },
+            "medium": {
+              "answer_correctness": 0.6610715709782301,
+              "faithfulness": 0.7916666666666666,
+              "answer_relevancy": 0.6237474239995174
+            },
+            "easy": {
+              "answer_correctness": 0.5931017936422333,
+              "faithfulness": 0.8917735042735042,
+              "answer_relevancy": 0.699851849262201
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.6930423325455303,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.8985456927922824
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.6854708000931209,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.6215504359081414
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.6539564027683303,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.4748386855733902
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.6436797468091895,
+              "faithfulness": 0.8026755852842808,
+              "answer_relevancy": 0.773832773775482
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.5169661370079258,
+              "faithfulness": 0.6923076923076923,
+              "answer_relevancy": 0.7018190411448058
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.1541674574655921,
+              "faithfulness": 0.6153846153846154,
+              "answer_relevancy": 0.5890865202373881
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7633660235828651,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701244282294345
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.6956401395768828,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8321124774491505
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.6183983379322862,
+              "faithfulness": 0.8666666666666667,
+              "answer_relevancy": 0.5578616658699994
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.5612674511871064,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.7485704806951982
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.8674562813270553,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7658482232982474
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.6543236207452661,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.4971661087735278,
+              "faithfulness": 0.6388888888888888,
+              "answer_relevancy": 0.6876401035033752
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.6246900036413141,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.40271634581320387
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.6582497980623271,
+              "faithfulness": 0.9615384615384616,
+              "answer_relevancy": 0.7281245569148412
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.5556833055156127,
+              "faithfulness": 0.9375,
+              "answer_relevancy": 0.7890729262169635
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7207036797288435,
+              "faithfulness": 0.9230769230769231,
+              "answer_relevancy": 0.5930235413577596
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.6930423325455303,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.8985456927922824
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.6854708000931209,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.6215504359081414
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.6539564027683303,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.4748386855733902
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.7473888164279863,
+              "faithfulness": 0.9130434782608695,
+              "answer_relevancy": 0.8211617620953683
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.5169661370079258,
+              "faithfulness": 0.6923076923076923,
+              "answer_relevancy": 0.7018190411448058
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.1541674574655921,
+              "faithfulness": 0.6153846153846154,
+              "answer_relevancy": 0.5890865202373881
+            },
+            "factual_list": {
+              "answer_correctness": 0.7633660235828651,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701244282294345
+            },
+            "repair_quote": {
+              "answer_correctness": 0.6956401395768828,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8321124774491505
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.6183983379322862,
+              "faithfulness": 0.8666666666666667,
+              "answer_relevancy": 0.5578616658699994
+            },
+            "automation_support": {
+              "answer_correctness": 0.5612674511871064,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.7485704806951982
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.8674562813270553,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7658482232982474
+            },
+            "boundary_response": {
+              "answer_correctness": 0.6543236207452661,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.5034307098330653,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.7127457706409057
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.6246900036413141,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.40271634581320387
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.6582497980623271,
+              "faithfulness": 0.9615384615384616,
+              "answer_relevancy": 0.7281245569148412
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.5556833055156127,
+              "faithfulness": 0.9375,
+              "answer_relevancy": 0.7890729262169635
+            },
+            "app_steps": {
+              "answer_correctness": 0.7207036797288435,
+              "faithfulness": 0.9230769230769231,
+              "answer_relevancy": 0.5930235413577596
+            },
+            "shipping_policy": {
+              "answer_correctness": null,
+              "faithfulness": null,
+              "answer_relevancy": null
+            },
+            "exception_scene": {
+              "answer_correctness": 0.5399706771903927,
+              "faithfulness": 0.6923076923076923,
+              "answer_relevancy": 0.7265037854555957
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.4909015077139903,
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.6625344363658447
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6981405346109053,
+      "cost_per_1000": 15.855014999999998,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__qwen3.6-flash.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.7629827676812395
+    },
+    {
+      "routing_model": "deepseek-v4-flash",
+      "answer_model": "qwen3-max",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__deepseek-v4-flash.jsonl",
+      "routing": {
+        "intent_accuracy": 0.7,
+        "document_recall": 0.775,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.7925,
+        "mean_input_tokens": 3286.45,
+        "mean_output_tokens": 89.5,
+        "mean_latency_ms": 5984.65
+      },
+      "answer": {
+        "answer_correctness": 0.5658943631584393,
+        "faithfulness": 0.8504094516594517,
+        "answer_relevancy": 0.690856372768278,
+        "hard_answer_correctness": 0.5328447202859515,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 8576.7,
+        "p95_ttft_ms": 11892,
+        "mean_latency_ms": 11043.0,
+        "p95_latency_ms": 14526,
+        "mean_input_tokens": 5037.9,
+        "mean_output_tokens": 114.2,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5328447202859515,
+              "faithfulness": 0.888095238095238,
+              "answer_relevancy": 0.7315444241651674
+            },
+            "medium": {
+              "answer_correctness": 0.542596686554333,
+              "faithfulness": 0.7151605339105339,
+              "answer_relevancy": 0.6527498287202159
+            },
+            "easy": {
+              "answer_correctness": 0.6300075748364024,
+              "faithfulness": 0.9930555555555555,
+              "answer_relevancy": 0.7009770467688053
+            }
+          },
+          "intent_l2": {
+            "F1_故障报告": {
+              "answer_correctness": 0.6507152754288603,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.57553676103847
+            },
+            "S6_配件兼容": {
+              "answer_correctness": 0.5525304114468074,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.9278502330354572
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.37599812356296364,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.6865407341065065
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.7040216629202073,
+              "faithfulness": 0.8333333333333333,
+              "answer_relevancy": 0.7704506844127494
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.7343620729512049,
+              "faithfulness": 0.9285714285714286,
+              "answer_relevancy": 0.7264343759255906
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.25585207106570296,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5886524324209989
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7977772234456659,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701107430407253
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.7124332622904437,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.914155336910393
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.6232878789189424,
+              "faithfulness": 0.9285714285714286,
+              "answer_relevancy": 0.6645948063849004
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.6420460738158931,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9486127104756176
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.5819944105693993,
+              "faithfulness": 0.7777777777777778,
+              "answer_relevancy": 0.7068961108490619
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.3198337722397504,
+              "faithfulness": 0.25,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.5714305469400307,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.6391622907454989
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.3541325592772839,
+              "faithfulness": 0.6363636363636364,
+              "answer_relevancy": 0.385652512523294
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.6610843233257553,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7975966524293969
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.6525460210597501,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6404016019232504
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.2291014851309458,
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.8002716876005048
+            }
+          },
+          "answer_type": {
+            "error_code_lookup": {
+              "answer_correctness": 0.6507152754288603,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.57553676103847
+            },
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.5525304114468074,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.9278502330354572
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.37599812356296364,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.6865407341065065
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.6276103672601702,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.884252008463981
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.7343620729512049,
+              "faithfulness": 0.9285714285714286,
+              "answer_relevancy": 0.7264343759255906
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.25585207106570296,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5886524324209989
+            },
+            "factual_list": {
+              "answer_correctness": 0.7977772234456659,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701107430407253
+            },
+            "repair_quote": {
+              "answer_correctness": 0.7124332622904437,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.914155336910393
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.43732403489023897,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.5338853796875571
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.6420460738158931,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9486127104756176
+            },
+            "automation_support": {
+              "answer_correctness": 0.5819944105693993,
+              "faithfulness": 0.7777777777777778,
+              "answer_relevancy": 0.7068961108490619
+            },
+            "boundary_response": {
+              "answer_correctness": 0.3198337722397504,
+              "faithfulness": 0.25,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.49523215590598857,
+              "faithfulness": 0.2,
+              "answer_relevancy": 0.7626858362750787
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.3541325592772839,
+              "faithfulness": 0.6363636363636364,
+              "answer_relevancy": 0.385652512523294
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.6610843233257553,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7975966524293969
+            },
+            "app_steps": {
+              "answer_correctness": 0.6525460210597501,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6404016019232504
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.2291014851309458,
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.8002716876005048
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.809251722947646,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7953042330822437
+            },
+            "exception_scene": {
+              "answer_correctness": 0.7804329585802444,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6566493603615178
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.6476289379740727,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5156387452159191
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6904670460557614,
+      "cost_per_1000": 17.2022,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__deepseek-v4-flash.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.7521327961867246
+    },
+    {
+      "routing_model": "deepseek-v4-flash",
+      "answer_model": "qwen3.7-plus",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__qwen3.7-plus.jsonl",
+      "routing": {
+        "intent_accuracy": 0.7,
+        "document_recall": 0.775,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.7925,
+        "mean_input_tokens": 3286.45,
+        "mean_output_tokens": 89.5,
+        "mean_latency_ms": 5984.65
+      },
+      "answer": {
+        "answer_correctness": 0.5838159057333128,
+        "faithfulness": 0.8681587301587304,
+        "answer_relevancy": 0.674585645893237,
+        "hard_answer_correctness": 0.5897259912648414,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 16034.15,
+        "p95_ttft_ms": 31770,
+        "mean_latency_ms": 18720.6,
+        "p95_latency_ms": 34822,
+        "mean_input_tokens": 5037.9,
+        "mean_output_tokens": 129.65,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5897259912648414,
+              "faithfulness": 0.8973015873015874,
+              "answer_relevancy": 0.5925359560486748
+            },
+            "medium": {
+              "answer_correctness": 0.5684721871310755,
+              "faithfulness": 0.7849206349206349,
+              "answer_relevancy": 0.6434064154234743
+            },
+            "easy": {
+              "answer_correctness": 0.5983641116714334,
+              "faithfulness": 0.9500000000000001,
+              "answer_relevancy": 0.7982076430308161
+            }
+          },
+          "intent_l2": {
+            "F1_故障报告": {
+              "answer_correctness": 0.9506849376782271,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6013504631963056
+            },
+            "S6_配件兼容": {
+              "answer_correctness": 0.5638916807367729,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9303954105250428
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.5896870942702588,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5024349111513638
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.6271658709131651,
+              "faithfulness": 0.83,
+              "answer_relevancy": 0.7496794803424385
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.604299784423088,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.7166541882845164
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.1454281160329151,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.0
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.8601309487615284,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.6516590871262377,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6195231973578846
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.6488040094355215,
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.558788700934382
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.6915146430479281,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9242763602520403
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.47932984650649857,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.9901567851923603
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.39608485470167537,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.5140250787962531,
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.805960924863997
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.3662730668602443,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.39569573008223885
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.6886015888245813,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8214862077253838
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.5745474975037129,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9827457216324845
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.5341950499027047,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8080220208117129
+            }
+          },
+          "answer_type": {
+            "error_code_lookup": {
+              "answer_correctness": 0.9506849376782271,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6013504631963056
+            },
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.5638916807367729,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.9303954105250428
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.5896870942702588,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5024349111513638
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.6843643344477863,
+              "faithfulness": 0.96,
+              "answer_relevancy": 0.8043807631348207
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.604299784423088,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.7166541882845164
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.1454281160329151,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.0
+            },
+            "factual_list": {
+              "answer_correctness": 0.8601309487615284,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "repair_quote": {
+              "answer_correctness": 0.6516590871262377,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6195231973578846
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.484709340234591,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.401308768023132
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.6915146430479281,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9242763602520403
+            },
+            "automation_support": {
+              "answer_correctness": 0.47932984650649857,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.9901567851923603
+            },
+            "boundary_response": {
+              "answer_correctness": 0.39608485470167537,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.618075709809901,
+              "faithfulness": 0.4,
+              "answer_relevancy": 0.8461767731083664
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.3662730668602443,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.39569573008223885
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.6886015888245813,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8214862077253838
+            },
+            "app_steps": {
+              "answer_correctness": 0.5745474975037129,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9827457216324845
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.5341950499027047,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8080220208117129
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.812898678636452,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7162686338456321
+            },
+            "exception_scene": {
+              "answer_correctness": 0.569967407378544,
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.6949781975500563
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.4099744477826053,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7657450766196274
+            }
+          }
+        }
+      },
+      "answer_quality": 0.7014898423141938,
+      "cost_per_1000": 14.57845,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__qwen3.7-plus.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.7412397661888795
+    },
+    {
+      "routing_model": "qwen3-max",
+      "answer_model": "qwen3.7-plus",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__qwen3.7-plus.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7208333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.79875,
+        "mean_input_tokens": 3286.95,
+        "mean_output_tokens": 100.65,
+        "mean_latency_ms": 3050.45
+      },
+      "answer": {
+        "answer_correctness": 0.5879164632359506,
+        "faithfulness": 0.8750212652844233,
+        "answer_relevancy": 0.7136097499849476,
+        "hard_answer_correctness": 0.5889576743173547,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 16190.9,
+        "p95_ttft_ms": 27674,
+        "mean_latency_ms": 18943.25,
+        "p95_latency_ms": 33189,
+        "mean_input_tokens": 4786.45,
+        "mean_output_tokens": 119.75,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5889576743173547,
+              "faithfulness": 0.8891414141414141,
+              "answer_relevancy": 0.7813472206091255
+            },
+            "medium": {
+              "answer_correctness": 0.55646147772222,
+              "faithfulness": 0.8625,
+              "answer_relevancy": 0.6205231881323897
+            },
+            "easy": {
+              "answer_correctness": 0.6369949867602351,
+              "faithfulness": 0.8781111111111111,
+              "answer_relevancy": 0.7812632842000262
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.6672800541025032,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.8293817461326412
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.7765104091223582,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.8515743455215055
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.41077112973887625,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7783034830363891
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.6921526234048978,
+              "faithfulness": 0.7777777777777778,
+              "answer_relevancy": 0.7962611854399881
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.6949433651468202,
+              "faithfulness": 0.8181818181818182,
+              "answer_relevancy": 0.70268170443125
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.29965516717517293,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.734275595868103
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7237611860781976,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701097353781402
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.7055100280655816,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7440012747585617
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.41270288236942226,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.42279817431934585
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6230738444275288,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.7761181445101297
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.7322921128824775,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.928098351714532
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.3713621809676969,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.4726301247839061,
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.668313926191556
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.4007404387860616,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.5645475623632181
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7562613091711756,
+              "faithfulness": 0.96,
+              "answer_relevancy": 0.9018448382307865
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.5639463459518083,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.7838673066953646
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7020368511197741,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6418327634909469
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.6672800541025032,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.8293817461326412
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.7765104091223582,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.8515743455215055
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.41077112973887625,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7783034830363891
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.6845859206183968,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7918664486648649
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.6949433651468202,
+              "faithfulness": 0.8181818181818182,
+              "answer_relevancy": 0.70268170443125
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.29965516717517293,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.734275595868103
+            },
+            "factual_list": {
+              "answer_correctness": 0.7237611860781976,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701097353781402
+            },
+            "repair_quote": {
+              "answer_correctness": 0.7055100280655816,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7440012747585617
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.41270288236942226,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.42279817431934585
+            },
+            "automation_support": {
+              "answer_correctness": 0.6230738444275288,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.7761181445101297
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.7322921128824775,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.928098351714532
+            },
+            "boundary_response": {
+              "answer_correctness": 0.3713621809676969,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.4822491482007937,
+              "faithfulness": 0.4,
+              "answer_relevancy": 0.5585122620151903
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.4007404387860616,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.5645475623632181
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7562613091711756,
+              "faithfulness": 0.96,
+              "answer_relevancy": 0.9018448382307865
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.5639463459518083,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.7838673066953646
+            },
+            "app_steps": {
+              "answer_correctness": 0.7020368511197741,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6418327634909469
+            },
+            "shipping_policy": {
+              "answer_correctness": null,
+              "faithfulness": null,
+              "answer_relevancy": null
+            },
+            "exception_scene": {
+              "answer_correctness": 0.6997193261913988,
+              "faithfulness": 0.5555555555555556,
+              "answer_relevancy": 0.8006559222151114
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.4630111013670185,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7781155903679218
+            }
+          }
+        }
+      },
+      "answer_quality": 0.7135418013027154,
+      "cost_per_1000": 19.754775,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__qwen3.7-plus.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.7450237269258849
+    },
+    {
+      "routing_model": "qwen3.7-max",
+      "answer_model": "deepseek-v4-flash",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__deepseek-v4-flash.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7333333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.8025,
+        "mean_input_tokens": 3286.0,
+        "mean_output_tokens": 93.55,
+        "mean_latency_ms": 16881.7
+      },
+      "answer": {
+        "answer_correctness": 0.6040523627835622,
+        "faithfulness": 0.8660051089261614,
+        "answer_relevancy": 0.690884061069679,
+        "hard_answer_correctness": 0.5747261781929828,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 3526.75,
+        "p95_ttft_ms": 5267,
+        "mean_latency_ms": 4904.35,
+        "p95_latency_ms": 6240,
+        "mean_input_tokens": 5067.75,
+        "mean_output_tokens": 121.45,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5747261781929828,
+              "faithfulness": 0.8944444444444444,
+              "answer_relevancy": 0.7304368159432596
+            },
+            "medium": {
+              "answer_correctness": 0.614822622607764,
+              "faithfulness": 0.8112408424908425,
+              "answer_relevancy": 0.5794535379954793
+            },
+            "easy": {
+              "answer_correctness": 0.6190182009418727,
+              "faithfulness": 0.9105847953216374,
+              "answer_relevancy": 0.7999053369616985
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.7590247103336444,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8618030828654916
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.8258262796142496,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6250307418513399
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.5867812706684337,
+              "faithfulness": 0.7184210526315788,
+              "answer_relevancy": 0.7899702887413307
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.6897899522360764,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7181342330414724
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.5072533964631334,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6902541766361653
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.14581960969383023,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.8216254246237533
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7621712960447957,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.7821038305353913,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8869291185279454
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.6812458870161601,
+              "faithfulness": 0.8571428571428572,
+              "answer_relevancy": 0.6202707067914333
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.5736923881696193,
+              "faithfulness": 0.6923076923076923,
+              "answer_relevancy": 0.6814387043876176
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.686043660425506,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9485913261759937
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.5739595077809837,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.5268763460532735,
+              "faithfulness": 0.7166666666666667,
+              "answer_relevancy": 0.2524800171583315
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.4185150371628992,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7007019956202558
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7767944226759189,
+              "faithfulness": 0.96,
+              "answer_relevancy": 0.825124107178091
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.24969136320555085,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.7797644996318512
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7405547938539101,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9827280760996424
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.7590247103336444,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8618030828654916
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.8258262796142496,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6250307418513399
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.5206431208169623,
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.6657732366413348
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.6897899522360764,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7181342330414724
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.5072533964631334,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6902541766361653
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.14581960969383023,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.8216254246237533
+            },
+            "factual_list": {
+              "answer_correctness": 0.7621712960447957,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "repair_quote": {
+              "answer_correctness": 0.7821038305353913,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8869291185279454
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.5517972033192391,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.4478534498802492
+            },
+            "automation_support": {
+              "answer_correctness": 0.5736923881696193,
+              "faithfulness": 0.6923076923076923,
+              "answer_relevancy": 0.6814387043876176
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.686043660425506,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9485913261759937
+            },
+            "boundary_response": {
+              "answer_correctness": 0.5739595077809837,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.5702980574236771,
+              "faithfulness": 0.5,
+              "answer_relevancy": 0.0
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.4185150371628992,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7007019956202558
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7767944226759189,
+              "faithfulness": 0.96,
+              "answer_relevancy": 0.825124107178091
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.24969136320555085,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.7797644996318512
+            },
+            "app_steps": {
+              "answer_correctness": 0.7405547938539101,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9827280760996424
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.810694570713081,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7926879637026172
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.48345463468286975,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.504960034316663
+            },
+            "exception_scene": {
+              "answer_correctness": 0.6529194205199051,
+              "faithfulness": 0.7368421052631579,
+              "answer_relevancy": 0.9141673408413264
+            }
+          }
+        }
+      },
+      "answer_quality": 0.7131021635906953,
+      "cost_per_1000": 48.11045000000001,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__deepseek-v4-flash.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.729326180229217
+    },
+    {
+      "routing_model": "qwen3.7-max",
+      "answer_model": "qwen3.6-flash",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__qwen3.6-flash.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7333333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.8025,
+        "mean_input_tokens": 3286.0,
+        "mean_output_tokens": 93.55,
+        "mean_latency_ms": 16881.7
+      },
+      "answer": {
+        "answer_correctness": 0.6397749210213234,
+        "faithfulness": 0.809556623931624,
+        "answer_relevancy": 0.6315256174674001,
+        "hard_answer_correctness": 0.6730086873218938,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 8077.9,
+        "p95_ttft_ms": 13204,
+        "mean_latency_ms": 8909.5,
+        "p95_latency_ms": 14377,
+        "mean_input_tokens": 5067.75,
+        "mean_output_tokens": 129.95,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.6730086873218938,
+              "faithfulness": 0.8161146723646723,
+              "answer_relevancy": 0.67582260996618
+            },
+            "medium": {
+              "answer_correctness": 0.6156324737711434,
+              "faithfulness": 0.7541666666666667,
+              "answer_relevancy": 0.53906872142904
+            },
+            "easy": {
+              "answer_correctness": 0.6387310843876594,
+              "faithfulness": 0.8768518518518519,
+              "answer_relevancy": 0.7105044863531002
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.8255666747660415,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.7539550555487725
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.7714390432998699,
+              "faithfulness": 0.9230769230769231,
+              "answer_relevancy": 0.527658643322452
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.8527745650289182,
+              "faithfulness": 0.7222222222222222,
+              "answer_relevancy": 0.6879765600711447
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.8661592328182951,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.37801043890571834
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.5202584262211902,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.859310526870793
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.1614578040891984,
+              "faithfulness": 0.6875,
+              "answer_relevancy": 0.7979845762429748
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.8120571876931527,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.7818076023979208,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6769802758028404
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.7182287479233724,
+              "faithfulness": 0.8333333333333333,
+              "answer_relevancy": 0.6217098325229773
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6323467305237869,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.5973177746848822
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.46664679936124503,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6505265896973332
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.5689477212014585,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.47716189071473475,
+              "faithfulness": 0.4583333333333333,
+              "answer_relevancy": 0.5641976161861855
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.5188438816968205,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.36711374161051
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7611036526323856,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8046486869509654
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.22907228484992326,
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.8635069176314003
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.783460971541126,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.6356173951469727
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.8255666747660415,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.7539550555487725
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.7714390432998699,
+              "faithfulness": 0.9230769230769231,
+              "answer_relevancy": 0.527658643322452
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.8931709427367676,
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.7380164189063702
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.8661592328182951,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.37801043890571834
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.5202584262211902,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.859310526870793
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.1614578040891984,
+              "faithfulness": 0.6875,
+              "answer_relevancy": 0.7979845762429748
+            },
+            "factual_list": {
+              "answer_correctness": 0.8120571876931527,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "repair_quote": {
+              "answer_correctness": 0.7818076023979208,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6769802758028404
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.5992082849190008,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.4606113165884871
+            },
+            "automation_support": {
+              "answer_correctness": 0.6323467305237869,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.5973177746848822
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.46664679936124503,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6505265896973332
+            },
+            "boundary_response": {
+              "answer_correctness": 0.5689477212014585,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.5452015823757614,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.589886363676495
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.5188438816968205,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.36711374161051
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7611036526323856,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8046486869509654
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.22907228484992326,
+              "faithfulness": 0.9444444444444444,
+              "answer_relevancy": 0.8635069176314003
+            },
+            "app_steps": {
+              "answer_correctness": 0.783460971541126,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.6356173951469727
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.8372492109277442,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7828083484574674
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.40912219905370806,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.5385088686958759
+            },
+            "exception_scene": {
+              "answer_correctness": 0.8123781873210689,
+              "faithfulness": 0.5,
+              "answer_relevancy": 0.6379367012359193
+            }
+          }
+        }
+      },
+      "answer_quality": 0.697548656329144,
+      "cost_per_1000": 49.81674,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__qwen3.6-flash.jsonl"
+      ],
+      "gates": {
+        "faithfulness": false,
+        "hard_quality": true,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.7088572738356531
+    },
+    {
+      "routing_model": "qwen3.7-max",
+      "answer_model": "qwen3.7-plus",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__qwen3.7-plus.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7333333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.8025,
+        "mean_input_tokens": 3286.0,
+        "mean_output_tokens": 93.55,
+        "mean_latency_ms": 16881.7
+      },
+      "answer": {
+        "answer_correctness": 0.6085507961769199,
+        "faithfulness": 0.866931642918485,
+        "answer_relevancy": 0.6948002073454627,
+        "hard_answer_correctness": 0.5601607602236706,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 17695.1,
+        "p95_ttft_ms": 37903,
+        "mean_latency_ms": 20286.8,
+        "p95_latency_ms": 39183,
+        "mean_input_tokens": 5067.75,
+        "mean_output_tokens": 126.4,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5601607602236706,
+              "faithfulness": 0.954441391941392,
+              "answer_relevancy": 0.6927378020361529
+            },
+            "medium": {
+              "answer_correctness": 0.6541740342014633,
+              "faithfulness": 0.7431647300068353,
+              "answer_relevancy": 0.6622915836043708
+            },
+            "easy": {
+              "answer_correctness": 0.5961098480974442,
+              "faithfulness": 0.9444444444444445,
+              "answer_relevancy": 0.7402074443095614
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.7564973936599508,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9410134757023122
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.7471416627645391,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6170171607796193
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.5953479955422413,
+              "faithfulness": 0.8615384615384616,
+              "answer_relevancy": 0.6185304631842385
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.36310679274328284,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.797199772007304
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.6297591459073815,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.7346979023770218
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.19984761398475576,
+              "faithfulness": 0.9285714285714286,
+              "answer_relevancy": 0.40301230683738587
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7797266673148296,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700283271498846
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.6642629624927623,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8653883912700033
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.7384581467156806,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6594514018645147
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6214444074636498,
+              "faithfulness": 0.7894736842105263,
+              "answer_relevancy": 0.6069862215012753
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.8119750379630055,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9280999581520651
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.4321233519651997,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.5177187664582329,
+              "faithfulness": 0.6476190476190476,
+              "answer_relevancy": 0.848432920223942
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.6643284830940095,
+              "faithfulness": 0.7272727272727273,
+              "answer_relevancy": 0.5053835418400329
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.6890650704910999,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8251789356030111
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.4670141196333746,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7840421555544539
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.6416733966282451,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6651264275894918
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.7564973936599508,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9410134757023122
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.7471416627645391,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6170171607796193
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.6646119522821137,
+              "faithfulness": 0.9230769230769231,
+              "answer_relevancy": 0.6634861945132743
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.36310679274328284,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.797199772007304
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.6297591459073815,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.7346979023770218
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.19984761398475576,
+              "faithfulness": 0.9285714285714286,
+              "answer_relevancy": 0.40301230683738587
+            },
+            "factual_list": {
+              "answer_correctness": 0.7797266673148296,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700283271498846
+            },
+            "repair_quote": {
+              "answer_correctness": 0.6642629624927623,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8653883912700033
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.6857538719443188,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5763583318130835
+            },
+            "automation_support": {
+              "answer_correctness": 0.6214444074636498,
+              "faithfulness": 0.7894736842105263,
+              "answer_relevancy": 0.6069862215012753
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.8119750379630055,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9280999581520651
+            },
+            "boundary_response": {
+              "answer_correctness": 0.4321233519651997,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.5737774913739312,
+              "faithfulness": 0.42857142857142855,
+              "answer_relevancy": 0.8460878971086211
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.6643284830940095,
+              "faithfulness": 0.7272727272727273,
+              "answer_relevancy": 0.5053835418400329
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.6890650704910999,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8251789356030111
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.4670141196333746,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7840421555544539
+            },
+            "app_steps": {
+              "answer_correctness": 0.6416733966282451,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6651264275894918
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.7911624214870423,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7425444719159459
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.4616600415425346,
+              "faithfulness": 0.8666666666666667,
+              "answer_relevancy": 0.850777943339263
+            },
+            "exception_scene": {
+              "answer_correctness": 0.5260840388023689,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.5735747318552027
+            }
+          }
+        }
+      },
+      "answer_quality": 0.7162339747701763,
+      "cost_per_1000": 53.94650000000001,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__qwen3.7-plus.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.6874550726480727
+    },
+    {
+      "routing_model": "qwen3.7-max",
+      "answer_model": "qwen3-max",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__qwen3.7-max.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7333333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.8025,
+        "mean_input_tokens": 3286.0,
+        "mean_output_tokens": 93.55,
+        "mean_latency_ms": 16881.7
+      },
+      "answer": {
+        "answer_correctness": 0.5402950871145227,
+        "faithfulness": 0.8715349927849928,
+        "answer_relevancy": 0.6920831711309793,
+        "hard_answer_correctness": 0.5140447757977281,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 19706.4,
+        "p95_ttft_ms": 25603,
+        "mean_latency_ms": 22210.65,
+        "p95_latency_ms": 28073,
+        "mean_input_tokens": 5067.75,
+        "mean_output_tokens": 117.5,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5140447757977281,
+              "faithfulness": 0.9184981684981685,
+              "answer_relevancy": 0.7812113868409306
+            },
+            "medium": {
+              "answer_correctness": 0.5658318535540661,
+              "faithfulness": 0.8022817460317461,
+              "answer_relevancy": 0.5929638139269648
+            },
+            "easy": {
+              "answer_correctness": 0.532496376511926,
+              "faithfulness": 0.9169094794094793,
+              "answer_relevancy": 0.7351140983597144
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.6938195864287255,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9471393615747288
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.6784626904333325,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8244199155272026
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.4677527703351395,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.7203983188824301
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.39148043703584123,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6827750396101021
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.6275116079688474,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.715535639297468
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.23600973734403793,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7048378140557569
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.6483660728410967,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700302029721858
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.7345223606426045,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.6752427130989453
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.5388630382834787,
+              "faithfulness": 0.9285714285714286,
+              "answer_relevancy": 0.6445712862948438
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6945345421873121,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.6706183464208638
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.6409443622742603,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7791954877431237
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.48972373045642537,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.6000114343439702,
+              "faithfulness": 0.6388888888888888,
+              "answer_relevancy": 0.6824740948016879
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.32688364740636033,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.37960853386573384
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.5036806804952902,
+              "faithfulness": 0.9545454545454546,
+              "answer_relevancy": 0.8046623246827798
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.25265447513985184,
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.8003104702367013
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.6740533257112902,
+              "faithfulness": 0.9090909090909091,
+              "answer_relevancy": 0.7924001735760735
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.6938195864287255,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9471393615747288
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.6784626904333325,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8244199155272026
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.45698459557558385,
+              "faithfulness": 0.6538461538461539,
+              "answer_relevancy": 0.812560550980325
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.39148043703584123,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6827750396101021
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.6275116079688474,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.715535639297468
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.23600973734403793,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7048378140557569
+            },
+            "factual_list": {
+              "answer_correctness": 0.6483660728410967,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700302029721858
+            },
+            "repair_quote": {
+              "answer_correctness": 0.7345223606426045,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.6752427130989453
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.31033849403024205,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.4919338335875462
+            },
+            "automation_support": {
+              "answer_correctness": 0.6945345421873121,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.6706183464208638
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.6409443622742603,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7791954877431237
+            },
+            "boundary_response": {
+              "answer_correctness": 0.48972373045642537,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.6813416185942273,
+              "faithfulness": 0.4444444444444444,
+              "answer_relevancy": 0.7770813937273198
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.32688364740636033,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.37960853386573384
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.5036806804952902,
+              "faithfulness": 0.9545454545454546,
+              "answer_relevancy": 0.8046623246827798
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.25265447513985184,
+              "faithfulness": 0.9583333333333334,
+              "answer_relevancy": 0.8003104702367013
+            },
+            "app_steps": {
+              "answer_correctness": 0.6740533257112902,
+              "faithfulness": 0.9090909090909091,
+              "answer_relevancy": 0.7924001735760735
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.7673875825367154,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7972087390021414
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.5186812500937132,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.5878667958760558
+            },
+            "exception_scene": {
+              "answer_correctness": 0.4785209450946952,
+              "faithfulness": 0.8461538461538461,
+              "answer_relevancy": 0.6282360867845351
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6865866709024786,
+      "cost_per_1000": 56.644175000000004,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__qwen3.7-max.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.6781193098369669
+    },
+    {
+      "routing_model": "deepseek-v4-flash",
+      "answer_model": "deepseek-v4-pro",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__deepseek-v4-pro.jsonl",
+      "routing": {
+        "intent_accuracy": 0.7,
+        "document_recall": 0.775,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.7925,
+        "mean_input_tokens": 3286.45,
+        "mean_output_tokens": 89.5,
+        "mean_latency_ms": 5984.65
+      },
+      "answer": {
+        "answer_correctness": 0.5774706291073547,
+        "faithfulness": 0.7872808441558441,
+        "answer_relevancy": 0.7140233013703338,
+        "hard_answer_correctness": 0.5841061093413783,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 5921.1,
+        "p95_ttft_ms": 9446,
+        "mean_latency_ms": 8844.05,
+        "p95_latency_ms": 13790,
+        "mean_input_tokens": 5037.9,
+        "mean_output_tokens": 101.2,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5841061093413783,
+              "faithfulness": 0.7538329725829725,
+              "answer_relevancy": 0.7218761275884806
+            },
+            "medium": {
+              "answer_correctness": 0.5727501782983285,
+              "faithfulness": 0.7247023809523809,
+              "answer_relevancy": 0.6489359044973947
+            },
+            "easy": {
+              "answer_correctness": 0.5771290832853657,
+              "faithfulness": 0.9041666666666667,
+              "answer_relevancy": 0.7929536709827721
+            }
+          },
+          "intent_l2": {
+            "F1_故障报告": {
+              "answer_correctness": 0.7784396416834765,
+              "faithfulness": 0.7777777777777778,
+              "answer_relevancy": 0.6284343071725987
+            },
+            "S6_配件兼容": {
+              "answer_correctness": 0.6527442706960875,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.9643143208412059
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.6951622244651743,
+              "faithfulness": 0.9375,
+              "answer_relevancy": 0.7501040551473077
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.6416175254625555,
+              "faithfulness": 0.7569444444444444,
+              "answer_relevancy": 0.837744750980548
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.6502720770585068,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.7167354766379908
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.1428380114878608,
+              "faithfulness": 0.45454545454545453,
+              "answer_relevancy": 0.42531363978606485
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.6487948404426499,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9702057379745358
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.7663906995675034,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6800383513007918
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.6023688540033817,
+              "faithfulness": 0.7333333333333334,
+              "answer_relevancy": 0.616963429259035
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.5170910172941446,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9486127104756176
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.684964238096494,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.7539078434644456
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.49545782791756904,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.3921707906288098,
+              "faithfulness": 0.625,
+              "answer_relevancy": 0.7882575818136401
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.5813322574419302,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6864512675027179
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7276693642791848,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7549205438606127
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7546313839144005,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7321849379601555
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.18131038761261556,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7833113111761825
+            }
+          },
+          "answer_type": {
+            "error_code_lookup": {
+              "answer_correctness": 0.7784396416834765,
+              "faithfulness": 0.7777777777777778,
+              "answer_relevancy": 0.6284343071725987
+            },
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.6527442706960875,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.9643143208412059
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.6951622244651743,
+              "faithfulness": 0.9375,
+              "answer_relevancy": 0.7501040551473077
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.5851804306571635,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.8463549659457156
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.6502720770585068,
+              "faithfulness": 0.75,
+              "answer_relevancy": 0.7167354766379908
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.1428380114878608,
+              "faithfulness": 0.45454545454545453,
+              "answer_relevancy": 0.42531363978606485
+            },
+            "factual_list": {
+              "answer_correctness": 0.6487948404426499,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9702057379745358
+            },
+            "repair_quote": {
+              "answer_correctness": 0.7663906995675034,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6800383513007918
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.39708475644914376,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.439542104172753
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.5170910172941446,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9486127104756176
+            },
+            "automation_support": {
+              "answer_correctness": 0.684964238096494,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.7539078434644456
+            },
+            "boundary_response": {
+              "answer_correctness": 0.49545782791756904,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.49088578917719317,
+              "faithfulness": 0.25,
+              "answer_relevancy": 0.7127292210882957
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.5813322574419302,
+              "faithfulness": 0.8571428571428571,
+              "answer_relevancy": 0.6864512675027179
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7276693642791848,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7549205438606127
+            },
+            "app_steps": {
+              "answer_correctness": 0.7546313839144005,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7321849379601555
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.18131038761261556,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7833113111761825
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.8076529515576196,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.794384754345317
+            },
+            "exception_scene": {
+              "answer_correctness": 0.6980546202679474,
+              "faithfulness": 0.625,
+              "answer_relevancy": 0.8291345360153806
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.2934557920804263,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8637859425389847
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6782147388269218,
+      "cost_per_1000": 66.34905,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__deepseek-v4-pro.jsonl"
+      ],
+      "gates": {
+        "faithfulness": false,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.6727963840841146
+    },
+    {
+      "routing_model": "qwen3-max",
+      "answer_model": "qwen3.7-max",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__qwen3.7-max.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7208333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.79875,
+        "mean_input_tokens": 3286.95,
+        "mean_output_tokens": 100.65,
+        "mean_latency_ms": 3050.45
+      },
+      "answer": {
+        "answer_correctness": 0.6021298245854714,
+        "faithfulness": 0.8845029239766082,
+        "answer_relevancy": 0.6736530840283145,
+        "hard_answer_correctness": 0.5867227920749486,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 12458.2,
+        "p95_ttft_ms": 19868,
+        "mean_latency_ms": 15248.15,
+        "p95_latency_ms": 26898,
+        "mean_input_tokens": 4786.45,
+        "mean_output_tokens": 126.1,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5867227920749486,
+              "faithfulness": 0.9013888888888889,
+              "answer_relevancy": 0.7419710231468714
+            },
+            "medium": {
+              "answer_correctness": 0.6292492262629437,
+              "faithfulness": 0.7996527777777778,
+              "answer_relevancy": 0.6022409446744084
+            },
+            "easy": {
+              "answer_correctness": 0.5772272209141438,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7059309800522959
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.7226738662882493,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.9271988765645242
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.625136531931243,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.8206882068748608
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.732455010587547,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5984830904911763
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.7056697397819115,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.78987339984503
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.5150035755750146,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.7311888959336976
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.3508131612981233,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6078157696024522
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7592108179863069,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.6644281519845321,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5746788665264955
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.673320693093085,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.4984218382834033
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6208052559320687,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.7553830094089129
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.7602431439457835,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7736830885839157
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.4505678608546264,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.4853608365394029,
+              "faithfulness": 0.7,
+              "answer_relevancy": 0.5535027781814117
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.5475110627851041,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.6418383525245094
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7219435669653256,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8255327757186244
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.254970863791446,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7376124679713665
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.6593219514628754,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6500172926293799
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.7226738662882493,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.9271988765645242
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.625136531931243,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.8206882068748608
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.732455010587547,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5984830904911763
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.5742546067695143,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7664512994145165
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.5150035755750146,
+              "faithfulness": 0.9333333333333333,
+              "answer_relevancy": 0.7311888959336976
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.3508131612981233,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6078157696024522
+            },
+            "factual_list": {
+              "answer_correctness": 0.7592108179863069,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "repair_quote": {
+              "answer_correctness": 0.6644281519845321,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5746788665264955
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.673320693093085,
+              "faithfulness": 0.9,
+              "answer_relevancy": 0.4984218382834033
+            },
+            "automation_support": {
+              "answer_correctness": 0.6208052559320687,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.7553830094089129
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.7602431439457835,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7736830885839157
+            },
+            "boundary_response": {
+              "answer_correctness": 0.4505678608546264,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.5579068235220423,
+              "faithfulness": 0.4,
+              "answer_relevancy": 0.6038086926962585
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.5475110627851041,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.6418383525245094
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7219435669653256,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8255327757186244
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.254970863791446,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7376124679713665
+            },
+            "app_steps": {
+              "answer_correctness": 0.6593219514628754,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6500172926293799
+            },
+            "shipping_policy": {
+              "answer_correctness": null,
+              "faithfulness": null,
+              "answer_relevancy": null
+            },
+            "exception_scene": {
+              "answer_correctness": 0.8370848727943087,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8132955002755435
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.41281484955676345,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5031968636665649
+            }
+          }
+        }
+      },
+      "answer_quality": 0.7152650612609378,
+      "cost_per_1000": 71.200875,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__qwen3.7-max.jsonl"
+      ],
+      "gates": {
+        "faithfulness": true,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.6764503661596499
+    },
+    {
+      "routing_model": "qwen3-max",
+      "answer_model": "deepseek-v4-pro",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__deepseek-v4-pro.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7208333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.79875,
+        "mean_input_tokens": 3286.95,
+        "mean_output_tokens": 100.65,
+        "mean_latency_ms": 3050.45
+      },
+      "answer": {
+        "answer_correctness": 0.5813004532224366,
+        "faithfulness": 0.785494038125617,
+        "answer_relevancy": 0.5400289724093448,
+        "hard_answer_correctness": 0.5999446391788342,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 7540.0,
+        "p95_ttft_ms": 11787,
+        "mean_latency_ms": 10905.6,
+        "p95_latency_ms": 14832,
+        "mean_input_tokens": 4786.45,
+        "mean_output_tokens": 102.3,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.5999446391788342,
+              "faithfulness": 0.8163299663299664,
+              "answer_relevancy": 0.5523534216073894
+            },
+            "medium": {
+              "answer_correctness": 0.5962001663235741,
+              "faithfulness": 0.6855925324675325,
+              "answer_relevancy": 0.4586539898237952
+            },
+            "easy": {
+              "answer_correctness": 0.5350878891129398,
+              "faithfulness": 0.9083333333333334,
+              "answer_relevancy": 0.6554396055085703
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.5387477477717885,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9263733017863724
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.7417452859749367,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.5864054775808017
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.7124692421060713,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.5384118946468028
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.638711452817999,
+              "faithfulness": 0.7125,
+              "answer_relevancy": 0.6024031706851466
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.6230951987909163,
+              "faithfulness": 0.9090909090909091,
+              "answer_relevancy": 0.6868275217889918
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.3821638870867701,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.0
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7935796746912063,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.7808112120466011,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8238965702061145
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.5813948232206307,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.4575694676242821
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6735533410236968,
+              "faithfulness": 0.625,
+              "answer_relevancy": 0.6514353168686624
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.4886827824746126,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7662168545195303
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.510393987500126,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.4075036891393447,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.28168243246597485
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.5445190126757173,
+              "faithfulness": 0.5454545454545454,
+              "answer_relevancy": 0.0
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7279221776893995,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.718890224411028
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.2286260309604248,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.798452083844395
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.6245739232987123,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.5677868468265529
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.5387477477717885,
+              "faithfulness": 0.8333333333333334,
+              "answer_relevancy": 0.9263733017863724
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.7417452859749367,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.5864054775808017
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.7124692421060713,
+              "faithfulness": 0.8888888888888888,
+              "answer_relevancy": 0.5384118946468028
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.6014464733425227,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.5761023338413676
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.6230951987909163,
+              "faithfulness": 0.9090909090909091,
+              "answer_relevancy": 0.6868275217889918
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.3821638870867701,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.0
+            },
+            "factual_list": {
+              "answer_correctness": 0.7935796746912063,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9701137093717721
+            },
+            "repair_quote": {
+              "answer_correctness": 0.7808112120466011,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8238965702061145
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.5813948232206307,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.4575694676242821
+            },
+            "automation_support": {
+              "answer_correctness": 0.6735533410236968,
+              "faithfulness": 0.625,
+              "answer_relevancy": 0.6514353168686624
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.4886827824746126,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7662168545195303
+            },
+            "boundary_response": {
+              "answer_correctness": 0.510393987500126,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.3966664969560021,
+              "faithfulness": 0.6,
+              "answer_relevancy": 0.0
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.5445190126757173,
+              "faithfulness": 0.5454545454545454,
+              "answer_relevancy": 0.0
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7279221776893995,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.718890224411028
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.2286260309604248,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.798452083844395
+            },
+            "app_steps": {
+              "answer_correctness": 0.6245739232987123,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.5677868468265529
+            },
+            "shipping_policy": {
+              "answer_correctness": null,
+              "faithfulness": null,
+              "answer_relevancy": null
+            },
+            "exception_scene": {
+              "answer_correctness": 0.6759764322934754,
+              "faithfulness": 0.625,
+              "answer_relevancy": 0.6287040075289256
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.4183408813226873,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.5633648649319497
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6445139117759314,
+      "cost_per_1000": 69.116475,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3-max__deepseek-v4-pro.jsonl"
+      ],
+      "gates": {
+        "faithfulness": false,
+        "hard_quality": false,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.6478677731345966
+    },
+    {
+      "routing_model": "qwen3.7-max",
+      "answer_model": "deepseek-v4-pro",
+      "runs_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__deepseek-v4-pro.jsonl",
+      "routing": {
+        "intent_accuracy": 0.75,
+        "document_recall": 0.7333333333333333,
+        "rewrite_parse_rate": 1.0,
+        "rewrite_semantic_score": 1.0,
+        "silent_condition_changes": 0,
+        "human_review_complete": false,
+        "stability": 0.95,
+        "quality": 0.8025,
+        "mean_input_tokens": 3286.0,
+        "mean_output_tokens": 93.55,
+        "mean_latency_ms": 16881.7
+      },
+      "answer": {
+        "answer_correctness": 0.6382806349888754,
+        "faithfulness": 0.8038212047581377,
+        "answer_relevancy": 0.6443246246104878,
+        "hard_answer_correctness": 0.6490492692643345,
+        "success_rate": 1.0,
+        "mean_ttft_ms": 6366.15,
+        "p95_ttft_ms": 11845,
+        "mean_latency_ms": 9286.9,
+        "p95_latency_ms": 14640,
+        "mean_input_tokens": 5067.75,
+        "mean_output_tokens": 113.35,
+        "breakdowns": {
+          "difficulty": {
+            "hard": {
+              "answer_correctness": 0.6490492692643345,
+              "faithfulness": 0.866303690260133,
+              "answer_relevancy": 0.7332554690840123
+            },
+            "medium": {
+              "answer_correctness": 0.6328454277079791,
+              "faithfulness": 0.7153273809523809,
+              "answer_relevancy": 0.4811049626584981
+            },
+            "easy": {
+              "answer_correctness": 0.6347589437546114,
+              "faithfulness": 0.8593304843304844,
+              "answer_relevancy": 0.7730199960729497
+            }
+          },
+          "intent_l2": {
+            "S6_配件兼容": {
+              "answer_correctness": 0.5653215515690704,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9275750623447104
+            },
+            "F1_故障报告": {
+              "answer_correctness": 0.7589063490710188,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6066570809808908
+            },
+            "S7_适用场景": {
+              "answer_correctness": 0.6060695594922247,
+              "faithfulness": 0.5928381962864722,
+              "answer_relevancy": 0.7006935648735388
+            },
+            "S4_价格活动": {
+              "answer_correctness": 0.6224504373483565,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8469146772650515
+            },
+            "S8_操作指引": {
+              "answer_correctness": 0.5408620732458191,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7230042875003525
+            },
+            "S9_配网连接": {
+              "answer_correctness": 0.6061315048911013,
+              "faithfulness": 0.47368421052631576,
+              "answer_relevancy": 0.5681786305892103
+            },
+            "S2_参数咨询": {
+              "answer_correctness": 0.7219335259975627,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700283271498846
+            },
+            "S14_售后政策": {
+              "answer_correctness": 0.699302698256052,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7671664645378896
+            },
+            "S16_物流配送": {
+              "answer_correctness": 0.6255771363068476,
+              "faithfulness": 0.9375,
+              "answer_relevancy": 0.5829000420098361
+            },
+            "S12_生态联动": {
+              "answer_correctness": 0.6309313322441297,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.7306594754355208
+            },
+            "S15_退换货": {
+              "answer_correctness": 0.6413143892069322,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9485878910848276
+            },
+            "S5_库存到货": {
+              "answer_correctness": 0.6322420642136451,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "S13_保养维护": {
+              "answer_correctness": 0.6196939258028346,
+              "faithfulness": 0.6666666666666666,
+              "answer_relevancy": 0.3312694140517377
+            },
+            "F3_投诉吐槽": {
+              "answer_correctness": 0.5517007754591121,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.0
+            },
+            "S11_固件升级": {
+              "answer_correctness": 0.7296677547774777,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8048713199056188
+            },
+            "S17_发票会员": {
+              "answer_correctness": 0.5987437748837696,
+              "faithfulness": 0.7777777777777778,
+              "answer_relevancy": 0.7803951574459326
+            },
+            "S10_APP功能": {
+              "answer_correctness": 0.7634232254096476,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.9827280760996424
+            }
+          },
+          "answer_type": {
+            "cross_generation_compatibility": {
+              "answer_correctness": 0.5653215515690704,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9275750623447104
+            },
+            "error_code_lookup": {
+              "answer_correctness": 0.7589063490710188,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6066570809808908
+            },
+            "scenario_recommendation": {
+              "answer_correctness": 0.8006236994606408,
+              "faithfulness": 0.7241379310344828,
+              "answer_relevancy": 0.7272030758238581
+            },
+            "policy_reasoning": {
+              "answer_correctness": 0.6224504373483565,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8469146772650515
+            },
+            "advanced_steps": {
+              "answer_correctness": 0.5408620732458191,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7230042875003525
+            },
+            "protocol_troubleshooting": {
+              "answer_correctness": 0.6061315048911013,
+              "faithfulness": 0.47368421052631576,
+              "answer_relevancy": 0.5681786305892103
+            },
+            "factual_list": {
+              "answer_correctness": 0.7219335259975627,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9700283271498846
+            },
+            "repair_quote": {
+              "answer_correctness": 0.699302698256052,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.7671664645378896
+            },
+            "logistics_exception": {
+              "answer_correctness": 0.6173754321265299,
+              "faithfulness": 0.875,
+              "answer_relevancy": 0.4323975430598623
+            },
+            "automation_support": {
+              "answer_correctness": 0.6309313322441297,
+              "faithfulness": 0.7142857142857143,
+              "answer_relevancy": 0.7306594754355208
+            },
+            "return_fee_policy": {
+              "answer_correctness": 0.6413143892069322,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.9485878910848276
+            },
+            "boundary_response": {
+              "answer_correctness": 0.6322420642136451,
+              "faithfulness": 0.0,
+              "answer_relevancy": 0.0
+            },
+            "maintenance_boundary": {
+              "answer_correctness": 0.5679632041598699,
+              "faithfulness": 0.3333333333333333,
+              "answer_relevancy": 0.0
+            },
+            "complaint_with_policy": {
+              "answer_correctness": 0.5517007754591121,
+              "faithfulness": 0.8,
+              "answer_relevancy": 0.0
+            },
+            "firmware_steps": {
+              "answer_correctness": 0.7296677547774777,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.8048713199056188
+            },
+            "membership_benefits": {
+              "answer_correctness": 0.5987437748837696,
+              "faithfulness": 0.7777777777777778,
+              "answer_relevancy": 0.7803951574459326
+            },
+            "app_steps": {
+              "answer_correctness": 0.7634232254096476,
+              "faithfulness": 0.9166666666666666,
+              "answer_relevancy": 0.9827280760996424
+            },
+            "shipping_policy": {
+              "answer_correctness": 0.6337788404871655,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.73340254095981
+            },
+            "maintenance_steps": {
+              "answer_correctness": 0.6714246474457992,
+              "faithfulness": 1.0,
+              "answer_relevancy": 0.6625388281034754
+            },
+            "exception_scene": {
+              "answer_correctness": 0.41151541952380877,
+              "faithfulness": 0.46153846153846156,
+              "answer_relevancy": 0.6741840539232195
+            }
+          }
+        }
+      },
+      "answer_quality": 0.6974286323324397,
+      "cost_per_1000": 106.3332,
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__deepseek-v4-pro.jsonl"
+      ],
+      "gates": {
+        "faithfulness": false,
+        "hard_quality": true,
+        "intent": true,
+        "success": true
+      },
+      "eligible": false,
+      "final_score": 0.6246371591481207
+    }
+  ],
+  "recommendation": {
+    "routing_model": "qwen3-max",
+    "answer_model": "qwen3-max",
+    "final_score": 0.7453915156546448
+  },
+  "low_cost_backup": {
+    "routing_model": "deepseek-v4-flash",
+    "answer_model": "qwen3.7-max",
+    "cost_per_1000": 68.86665
+  },
+  "finalists": [
+    {
+      "routing_model": "qwen3-max",
+      "answer_model": "qwen3-max",
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\routing__qwen3-max.jsonl"
+      ]
+    },
+    {
+      "routing_model": "deepseek-v4-flash",
+      "answer_model": "qwen3.7-max",
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__deepseek-v4-flash__qwen3.7-max.jsonl"
+      ]
+    },
+    {
+      "routing_model": "qwen3.7-max",
+      "answer_model": "qwen3.7-max",
+      "repeat_runs": [
+        "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\runs\\combo__qwen3.7-max__qwen3.7-max.jsonl"
+      ]
+    }
+  ],
+  "status_counts": {
+    "eligible": 3,
+    "ineligible": 15
+  },
+  "model_catalog": {
+    "snapshot_date": "2026-06-15",
+    "region": "cn-beijing",
+    "currency": "CNY",
+    "official_source": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "pricing_tier_note": "Rates use the first real-time inference tier because benchmark prompts are below the first tier limit.",
+    "models": {
+      "qwen3-max": {
+        "provider_model": "qwen3-max",
+        "actual_version": "qwen3-max-2026-01-23",
+        "context_limit": 262144,
+        "input_per_million": 2.5,
+        "output_per_million": 10.0
+      },
+      "qwen3.7-max": {
+        "provider_model": "qwen3.7-max",
+        "actual_version": "qwen3.7-max-2026-05-20",
+        "context_limit": 1048576,
+        "input_per_million": 12.0,
+        "output_per_million": 36.0
+      },
+      "qwen3.7-plus": {
+        "provider_model": "qwen3.7-plus",
+        "actual_version": "qwen3.7-plus-2026-05-26",
+        "context_limit": 1048576,
+        "input_per_million": 2.0,
+        "output_per_million": 8.0
+      },
+      "qwen3.6-flash": {
+        "provider_model": "qwen3.6-flash",
+        "actual_version": "qwen3.6-flash-2026-04-16",
+        "context_limit": 1048576,
+        "input_per_million": 1.2,
+        "output_per_million": 7.2
+      },
+      "deepseek-v4-pro": {
+        "provider_model": "deepseek-v4-pro",
+        "actual_version": "deepseek-v4-pro",
+        "context_limit": 131072,
+        "input_per_million": 12.0,
+        "output_per_million": 24.0
+      },
+      "deepseek-v4-flash": {
+        "provider_model": "deepseek-v4-flash",
+        "actual_version": "deepseek-v4-flash",
+        "context_limit": 131072,
+        "input_per_million": 1.0,
+        "output_per_million": 2.0
+      }
+    }
+  },
+  "price_snapshot_required": false,
+  "human_rewrite_review_required": true,
+  "hnsw_ef_search": 200,
+  "retrieval_configuration_fixed": true,
+  "rewrite_review_file": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\rewrite_review.json",
+  "pareto_svg": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\chat_models_real_20260615\\pareto.svg"
+}

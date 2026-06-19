@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620">
+<rect width="100%" height="100%" fill="white"/>
+<line x1="80" y1="540" x2="920" y2="540" stroke="#333"/>
+<line x1="80" y1="80" x2="80" y2="540" stroke="#333"/>
+<text x="500.0" y="600" text-anchor="middle">CNY / 1000 complete questions</text>
+<text x="24" y="310.0" transform="rotate(-90 24 310.0)" text-anchor="middle">Answer quality</text>
+<polyline points="80.0,307.8522138279048 93.82833113514157,227.5146095891962 129.0527251164109,195.69606624910932 172.51457978386586,122.86641959040719 459.5977483985852,106.59769161300147 920.0,80.0" fill="none" stroke="#d97706" stroke-width="3"/>
+<circle cx="195.2" cy="284.7" r="6" fill="#15803d"/>
+<text x="204.2" y="277.7" font-size="12">qwen3-max + qwen3-max</text>
+<circle cx="584.9" cy="213.4" r="6" fill="#15803d"/>
+<text x="593.9" y="206.4" font-size="12">deepseek-v4-flash + qwen3.7-max</text>
+<circle cx="920.0" cy="80.0" r="6" fill="#15803d"/>
+<text x="929.0" y="73.0" font-size="12">qwen3.7-max + qwen3.7-max</text>
+<circle cx="80.0" cy="307.9" r="6" fill="#64748b"/>
+<text x="89.0" y="300.9" font-size="12">deepseek-v4-flash + deepseek-v4-flash</text>
+<circle cx="93.8" cy="227.5" r="6" fill="#64748b"/>
+<text x="102.8" y="220.5" font-size="12">deepseek-v4-flash + qwen3.6-flash</text>
+<circle cx="126.1" cy="327.2" r="6" fill="#64748b"/>
+<text x="135.1" y="320.2" font-size="12">qwen3-max + deepseek-v4-flash</text>
+<circle cx="139.8" cy="215.9" r="6" fill="#64748b"/>
+<text x="148.8" y="208.9" font-size="12">qwen3-max + qwen3.6-flash</text>
+<circle cx="151.1" cy="262.3" r="6" fill="#64748b"/>
+<text x="160.1" y="255.3" font-size="12">deepseek-v4-flash + qwen3-max</text>
+<circle cx="129.1" cy="195.7" r="6" fill="#64748b"/>
+<text x="138.1" y="188.7" font-size="12">deepseek-v4-flash + qwen3.7-plus</text>
+<circle cx="172.5" cy="122.9" r="6" fill="#64748b"/>
+<text x="181.5" y="115.9" font-size="12">qwen3-max + qwen3.7-plus</text>
+<circle cx="410.6" cy="125.5" r="6" fill="#64748b"/>
+<text x="419.6" y="118.5" font-size="12">qwen3.7-max + deepseek-v4-flash</text>
+<circle cx="424.9" cy="219.5" r="6" fill="#64748b"/>
+<text x="433.9" y="212.5" font-size="12">qwen3.7-max + qwen3.6-flash</text>
+<circle cx="459.6" cy="106.6" r="6" fill="#64748b"/>
+<text x="468.6" y="99.6" font-size="12">qwen3.7-max + qwen3.7-plus</text>
+<circle cx="482.2" cy="285.8" r="6" fill="#64748b"/>
+<text x="491.2" y="278.8" font-size="12">qwen3.7-max + qwen3-max</text>
+<circle cx="563.7" cy="336.3" r="6" fill="#64748b"/>
+<text x="572.7" y="329.3" font-size="12">deepseek-v4-flash + deepseek-v4-pro</text>
+<circle cx="604.5" cy="112.5" r="6" fill="#64748b"/>
+<text x="613.5" y="105.5" font-size="12">qwen3-max + qwen3.7-max</text>
+<circle cx="587.0" cy="540.0" r="6" fill="#64748b"/>
+<text x="596.0" y="533.0" font-size="12">qwen3-max + deepseek-v4-pro</text>
+<circle cx="899.5" cy="220.2" r="6" fill="#64748b"/>
+<text x="908.5" y="213.2" font-size="12">qwen3.7-max + deepseek-v4-pro</text>
+</svg>

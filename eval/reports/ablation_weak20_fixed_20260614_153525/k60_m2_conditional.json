@@ -1,0 +1,725 @@
+{
+  "summary": {
+    "label": "k60_m2_conditional",
+    "rrf_k": 60,
+    "keyword_multiplier": 2,
+    "ordinary_fts_conditional": true,
+    "sample_count": 20,
+    "error_count": 0,
+    "hit5": 0.7,
+    "recall5": 0.475,
+    "mrr10": 0.5583333333333333,
+    "wall_p50_ms": 2570.449599996209,
+    "wall_p95_ms": 5480.696700018598,
+    "retrieval_p50_ms": 2505.0,
+    "retrieval_p95_ms": 5311.0,
+    "keyword_p95_ms": 15.0,
+    "keyword_candidate_mean": 1.5,
+    "keyword_candidate_max": 10.0,
+    "ordinary_fts_call_count": 6
+  },
+  "samples": [
+    {
+      "query_id": "F3-03",
+      "query": "这手机用了 3 个月就卡",
+      "expected_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_003"
+      ],
+      "retrieved_doc_ids": [],
+      "trace_id": "2066062505326800896",
+      "intent_leaf_ids": [
+        "F3_投诉吐槽"
+      ],
+      "error": null,
+      "wall_ms": 5480.696700018598,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0,
+      "retrieval_ms": [
+        5217.0
+      ],
+      "keyword_ms": [
+        4.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S5-04",
+      "query": "新款手表什么时候上市？",
+      "expected_doc_ids": [
+        "GUIDE_WATCH_001",
+        "POLICY_LOG_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_WATCH_002",
+        "PROD_WATCH_003",
+        "PROD_WATCH_004",
+        "PROD_WATCH_005",
+        "PROD_WATCH_001"
+      ],
+      "trace_id": "2066062528206729216",
+      "intent_leaf_ids": [
+        "S5_库存到货"
+      ],
+      "error": null,
+      "wall_ms": 4816.99550000485,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0,
+      "retrieval_ms": [
+        4746.0
+      ],
+      "keyword_ms": [
+        0.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S2-09",
+      "query": "小米平板 6 看视频能撑多久？",
+      "expected_doc_ids": [
+        "PROD_PAD_002"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PAD_003",
+        "PROD_PAD_002",
+        "PROD_PAD_001",
+        "MANUAL_PAD_001",
+        "PROD_PHONE_005"
+      ],
+      "trace_id": "2066062548620406784",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 2570.449599996209,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 0.5,
+      "retrieval_ms": [
+        2505.0
+      ],
+      "keyword_ms": [
+        0.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "F1-05",
+      "query": "手表充电时发烫得厉害",
+      "expected_doc_ids": [
+        "MANUAL_WATCH_001",
+        "POLICY_WAR_001",
+        "POLICY_WAR_002"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_PHONE_001",
+        "CODE_FW_001",
+        "MANUAL_WATCH_001",
+        "MANUAL_PHONE_001"
+      ],
+      "trace_id": "2066062559487848448",
+      "intent_leaf_ids": [
+        "F1_故障报告"
+      ],
+      "error": null,
+      "wall_ms": 1268.4536000015214,
+      "hit5": 1.0,
+      "recall5": 0.3333333333333333,
+      "mrr10": 0.3333333333333333,
+      "retrieval_ms": [
+        1226.0
+      ],
+      "keyword_ms": [
+        1.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S9-07",
+      "query": "蓝牙连上了但 APP 显示离线",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "FAQ_NET_001",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_LOCK_001",
+        "CODE_AIR_001",
+        "FAQ_LOCK_001",
+        "FAQ_AIR_001",
+        "NET_GUIDE_003"
+      ],
+      "trace_id": "2066062564932055040",
+      "intent_leaf_ids": [
+        "S9_配网连接"
+      ],
+      "error": null,
+      "wall_ms": 953.8698999967892,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0,
+      "retrieval_ms": [
+        897.0
+      ],
+      "keyword_ms": [
+        15.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S10-03",
+      "query": "APP 里怎么查扫地机的清扫记录？",
+      "expected_doc_ids": [
+        "APP_GUIDE_003",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_001",
+        "APP_GUIDE_003",
+        "MANUAL_VAC_002",
+        "MANUAL_VAC_003",
+        "APP_GUIDE_002"
+      ],
+      "trace_id": "2066062569059250176",
+      "intent_leaf_ids": [
+        "S10_APP功能"
+      ],
+      "error": null,
+      "wall_ms": 1469.3212000129279,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 0.5,
+      "retrieval_ms": [
+        1417.0
+      ],
+      "keyword_ms": [
+        3.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S2-08",
+      "query": "石头 G10 在地毯上吸力会下降吗？",
+      "expected_doc_ids": [
+        "PROD_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_003",
+        "MANUAL_VAC_001",
+        "GUIDE_VAC_001",
+        "GUIDE_VAC_002",
+        "GUIDE_VAC_003"
+      ],
+      "trace_id": "2066062575254237184",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 5349.008400022285,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0,
+      "retrieval_ms": [
+        5307.0
+      ],
+      "keyword_ms": [
+        8.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S7-05",
+      "query": "我家是长条户型，扫地机会乱跑吗？",
+      "expected_doc_ids": [
+        "GUIDE_VAC_002",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "GUIDE_VAC_002",
+        "GUIDE_VAC_003",
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "GUIDE_VAC_001"
+      ],
+      "trace_id": "2066062597823787008",
+      "intent_leaf_ids": [
+        "S7_适用场景"
+      ],
+      "error": null,
+      "wall_ms": 3068.826100003207,
+      "hit5": 1.0,
+      "recall5": 0.5,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        3029.0
+      ],
+      "keyword_ms": [
+        1.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S12-06",
+      "query": "比特设备能接入苹果家庭吗？",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_002",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "APP_GUIDE_002",
+        "APP_GUIDE_004",
+        "APP_GUIDE_005",
+        "APP_GUIDE_003",
+        "PROD_SPK_002"
+      ],
+      "trace_id": "2066062610901626880",
+      "intent_leaf_ids": [
+        "S12_生态联动"
+      ],
+      "error": null,
+      "wall_ms": 801.8256000068504,
+      "hit5": 1.0,
+      "recall5": 0.5,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        753.0
+      ],
+      "keyword_ms": [
+        1.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S13-09",
+      "query": "扫地机刷头掉毛了还能用吗？要换吗？",
+      "expected_doc_ids": [
+        "MANUAL_VAC_003",
+        "FAQ_VAC_001"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_003",
+        "PROD_VAC_001",
+        "GUIDE_VAC_001",
+        "MANUAL_VAC_001"
+      ],
+      "trace_id": "2066062614319984640",
+      "intent_leaf_ids": [
+        "S13_保养维护"
+      ],
+      "error": null,
+      "wall_ms": 2372.5528999930248,
+      "hit5": 1.0,
+      "recall5": 0.5,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        2329.0
+      ],
+      "keyword_ms": [
+        0.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S4-05",
+      "query": "现在买和等双十一买哪个划算？",
+      "expected_doc_ids": [
+        "POLICY_RET_004"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_PHONE_003",
+        "POLICY_LOG_001",
+        "POLICY_RET_004",
+        "PROD_PHONE_005",
+        "POLICY_VIP_002"
+      ],
+      "trace_id": "2066062624310816768",
+      "intent_leaf_ids": [
+        "S4_价格活动"
+      ],
+      "error": null,
+      "wall_ms": 2505.482500011567,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 0.3333333333333333,
+      "retrieval_ms": [
+        2470.0
+      ],
+      "keyword_ms": [
+        0.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S7-07",
+      "query": "租房想低成本做智能家居，哪些设备适合带走？",
+      "expected_doc_ids": [
+        "GUIDE_HOME_002",
+        "PROD_SPK_001",
+        "PROD_SOCKET_001",
+        "PROD_LIGHT_002"
+      ],
+      "retrieved_doc_ids": [],
+      "trace_id": "2066062634943377408",
+      "intent_leaf_ids": [
+        "S7_适用场景"
+      ],
+      "error": null,
+      "wall_ms": 5090.844999998808,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0,
+      "retrieval_ms": [
+        5048.0
+      ],
+      "keyword_ms": [
+        0.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S9-05",
+      "query": "智能门锁离路由器太远连不上怎么办？",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "NET_GUIDE_003",
+        "FAQ_LOCK_001"
+      ],
+      "retrieved_doc_ids": [
+        "CODE_LOCK_001",
+        "FAQ_LOCK_001",
+        "FAQ_NET_001",
+        "NET_GUIDE_003"
+      ],
+      "trace_id": "2066062656414019584",
+      "intent_leaf_ids": [
+        "S9_配网连接"
+      ],
+      "error": null,
+      "wall_ms": 702.1900000108872,
+      "hit5": 1.0,
+      "recall5": 0.6666666666666666,
+      "mrr10": 0.5,
+      "retrieval_ms": [
+        650.0
+      ],
+      "keyword_ms": [
+        1.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S12-05",
+      "query": "想做个离家模式，关灯关空调启动扫地机",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "AUTO_GUIDE_001",
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "MANUAL_VAC_002"
+      ],
+      "trace_id": "2066062659513610240",
+      "intent_leaf_ids": [
+        "S12_生态联动"
+      ],
+      "error": null,
+      "wall_ms": 5119.920099998126,
+      "hit5": 1.0,
+      "recall5": 0.6666666666666666,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        5073.0
+      ],
+      "keyword_ms": [
+        0.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S12-04",
+      "query": "门锁开门后扫地机自动暂停能实现吗？",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "AUTO_GUIDE_002",
+        "PROD_LOCK_001",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_003",
+        "MANUAL_VAC_001",
+        "MANUAL_VAC_002",
+        "PROD_VAC_002"
+      ],
+      "trace_id": "2066062681038778368",
+      "intent_leaf_ids": [
+        "S12_生态联动"
+      ],
+      "error": null,
+      "wall_ms": 1758.1585999869276,
+      "hit5": 1.0,
+      "recall5": 0.5,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        1715.0
+      ],
+      "keyword_ms": [
+        1.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S2-11",
+      "query": "RedmiBook Pro 14 适合剪视频吗？",
+      "expected_doc_ids": [
+        "PROD_BOOK_001",
+        "PROD_BOOK_003"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_BOOK_003",
+        "PROD_BOOK_001",
+        "PROD_BOOK_002",
+        "MANUAL_BOOK_001"
+      ],
+      "trace_id": "2066062688437530624",
+      "intent_leaf_ids": [
+        "S2_参数咨询"
+      ],
+      "error": null,
+      "wall_ms": 5075.280399993062,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        5035.0
+      ],
+      "keyword_ms": [
+        2.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S9-02",
+      "query": "智能门锁配网失败怎么办？",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "FAQ_LOCK_001",
+        "MANUAL_LOCK_001"
+      ],
+      "retrieved_doc_ids": [],
+      "trace_id": "2066062709883006976",
+      "intent_leaf_ids": [
+        "S9_配网连接"
+      ],
+      "error": null,
+      "wall_ms": 5092.212299990933,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0,
+      "retrieval_ms": [
+        5049.0
+      ],
+      "keyword_ms": [
+        1.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S12-03",
+      "query": "回家自动开灯开空调怎么设置？",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "APP_GUIDE_002"
+      ],
+      "retrieved_doc_ids": [
+        "AUTO_GUIDE_001",
+        "PROD_LIGHT_001",
+        "PROD_SOCKET_001",
+        "PROD_SPK_002",
+        "MANUAL_AIR_001"
+      ],
+      "trace_id": "2066062731307511808",
+      "intent_leaf_ids": [
+        "S12_生态联动"
+      ],
+      "error": null,
+      "wall_ms": 532.6574000064284,
+      "hit5": 1.0,
+      "recall5": 0.5,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        501.0
+      ],
+      "keyword_ms": [
+        1.0
+      ],
+      "keyword_candidates": [
+        0.0
+      ],
+      "ordinary_fts_enabled": [
+        false
+      ]
+    },
+    {
+      "query_id": "S3-08",
+      "query": "小米手表 S2 和苹果手表哪个好？",
+      "expected_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001"
+      ],
+      "retrieved_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001",
+        "PROD_WATCH_001",
+        "PROD_WATCH_003"
+      ],
+      "trace_id": "2066062733677293568",
+      "intent_leaf_ids": [
+        "S3_对比选购"
+      ],
+      "error": null,
+      "wall_ms": 819.580399984261,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        782.0
+      ],
+      "keyword_ms": [
+        5.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    },
+    {
+      "query_id": "S6-04",
+      "query": "T7 的滤芯能用在 G10S Pro 上吗？",
+      "expected_doc_ids": [
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids": [
+        "MANUAL_VAC_003",
+        "PROD_VAC_005",
+        "MANUAL_VAC_001",
+        "GUIDE_VAC_001"
+      ],
+      "trace_id": "2066062737200508928",
+      "intent_leaf_ids": [
+        "S6_配件兼容"
+      ],
+      "error": null,
+      "wall_ms": 5341.759100003401,
+      "hit5": 1.0,
+      "recall5": 0.3333333333333333,
+      "mrr10": 1.0,
+      "retrieval_ms": [
+        5311.0
+      ],
+      "keyword_ms": [
+        5.0
+      ],
+      "keyword_candidates": [
+        10.0
+      ],
+      "ordinary_fts_enabled": [
+        true
+      ]
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+{
+  "exact": {
+    "qwen3-0.6b-1024": {
+      "hit5": 1.0,
+      "recall5": 0.8819444444444444,
+      "recall10": 0.9694444444444444,
+      "mrr10": 0.9472222222222223,
+      "ndcg10": 0.899306725011754,
+      "query_p50_ms": 99.72829998878296,
+      "query_p95_ms": 184.50795001117484,
+      "error_rate": 0.0
+    },
+    "qwen3-4b-1024": {
+      "hit5": 1.0,
+      "recall5": 0.8708333333333333,
+      "recall10": 0.9333333333333333,
+      "mrr10": 0.9194444444444444,
+      "ndcg10": 0.8686338065451636,
+      "query_p50_ms": 99.71169999334961,
+      "query_p95_ms": 123.66555999615214,
+      "error_rate": 0.0
+    }
+  },
+  "gold": {
+    "0.6b": {
+      "hit@1": 0.7833,
+      "recall@1": 0.4667,
+      "hit@3": 0.95,
+      "recall@3": 0.7125,
+      "hit@5": 1.0,
+      "recall@5": 0.8153,
+      "hit@10": 1.0,
+      "recall@10": 0.8153,
+      "mrr@10": 0.8728,
+      "latency_p50_ms": 423.1,
+      "latency_p95_ms": 543.8,
+      "error_rate": 0.0,
+      "sample_count": 60
+    },
+    "4b": {
+      "hit@1": 0.7833,
+      "recall@1": 0.4667,
+      "hit@3": 0.95,
+      "recall@3": 0.7083,
+      "hit@5": 0.9667,
+      "recall@5": 0.8167,
+      "hit@10": 0.9667,
+      "recall@10": 0.8167,
+      "mrr@10": 0.8653,
+      "latency_p50_ms": 448.8,
+      "latency_p95_ms": 879.2,
+      "error_rate": 0.0,
+      "sample_count": 60
+    }
+  },
+  "score_files": {
+    "0.6b": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\v1_20260614_234153\\_scores.json",
+    "4b": "D:\\PycharmProjects\\ragenteval\\eval\\reports\\v1_20260614_235605\\_scores.json"
+  },
+  "paired_bootstrap_06b_minus_4b": {
+    "exact": {
+      "hit5": {
+        "mean_delta": 0.0,
+        "ci95_low": 0.0,
+        "ci95_high": 0.0
+      },
+      "recall5": {
+        "mean_delta": 0.011111111111111112,
+        "ci95_low": -0.019444444444444448,
+        "ci95_high": 0.04166666666666667
+      },
+      "mrr10": {
+        "mean_delta": 0.02777777777777778,
+        "ci95_low": -0.00972222222222222,
+        "ci95_high": 0.06944444444444443
+      }
+    },
+    "gold": {
+      "hit5": {
+        "mean_delta": 0.03333333333333333,
+        "ci95_low": 0.0,
+        "ci95_high": 0.08333333333333333
+      },
+      "recall5": {
+        "mean_delta": -0.0013888888888888905,
+        "ci95_low": -0.026388888888888892,
+        "ci95_high": 0.026388888888888885
+      },
+      "mrr10": {
+        "mean_delta": 0.007500000000000001,
+        "ci95_low": -0.002777777777777777,
+        "ci95_high": 0.02222222222222222
+      }
+    },
+    "real": {
+      "hit5": {
+        "mean_delta": 0.03333333333333333,
+        "ci95_low": 0.0,
+        "ci95_high": 0.08333333333333333
+      },
+      "recall5": {
+        "mean_delta": 0.005555555555555555,
+        "ci95_low": -0.019444444444444445,
+        "ci95_high": 0.030555555555555555
+      },
+      "mrr10": {
+        "mean_delta": 0.006944444444444444,
+        "ci95_low": -0.005555555555555556,
+        "ci95_high": 0.023611111111111107
+      }
+    }
+  },
+  "different_samples": {
+    "gold": [
+      {
+        "query_id": "F3-03",
+        "delta_06b_minus_4b": {
+          "hit5": 1.0,
+          "recall5": 0.5,
+          "mrr10": 0.3333
+        },
+        "expected": [
+          "POLICY_WAR_002",
+          "POLICY_WAR_003"
+        ],
+        "retrieved_06b": [
+          "CODE_PHONE_001",
+          "MANUAL_PHONE_001",
+          "POLICY_WAR_002",
+          "CODE_FW_001",
+          "CODE_LOCK_001",
+          "GUIDE_PHONE_002",
+          "FAQ_NET_001",
+          "CODE_FW_002"
+        ],
+        "retrieved_4b": [
+          "CODE_PHONE_001",
+          "MANUAL_PHONE_001",
+          "MANUAL_PHONE_002",
+          "PROD_PHONE_001",
+          "CODE_FW_001",
+          "PROD_PHONE_002",
+          "CODE_AIR_001",
+          "GUIDE_PHONE_002"
+        ]
+      },
+      {
+        "query_id": "S11-04",
+        "delta_06b_minus_4b": {
+          "hit5": 0.0,
+          "recall5": -0.3333,
+          "mrr10": 0.0
+        },
+        "expected": [
+          "CODE_FW_002",
+          "CODE_PHONE_001",
+          "CODE_FW_001"
+        ],
+        "retrieved_06b": [
+          "CODE_FW_001",
+          "CODE_FW_002",
+          "CODE_AIR_001",
+          "FAQ_NET_001"
+        ],
+        "retrieved_4b": [
+          "CODE_FW_001",
+          "CODE_FW_002",
+          "CODE_AIR_001",
+          "CODE_PHONE_001"
+        ]
+      },
+      {
+        "query_id": "S12-04",
+        "delta_06b_minus_4b": {
+          "hit5": 0.0,
+          "recall5": -0.25,
+          "mrr10": -0.0833
+        },
+        "expected": [
+          "AUTO_GUIDE_001",
+          "AUTO_GUIDE_002",
+          "PROD_LOCK_001",
+          "MANUAL_VAC_002"
+        ],
+        "retrieved_06b": [
+          "MANUAL_VAC_003",
+          "MANUAL_VAC_001",
+          "MANUAL_LOCK_001",
+          "MANUAL_VAC_002",
+          "PROD_VAC_002"
+        ],
+        "retrieved_4b": [
+          "MANUAL_VAC_003",
+          "MANUAL_VAC_001",
+          "MANUAL_VAC_002",
+          "PROD_VAC_002",
+          "AUTO_GUIDE_001"
+        ]
+      },
+      {
+        "query_id": "S13-08",
+        "delta_06b_minus_4b": {
+          "hit5": 0.0,
+          "recall5": -0.3333,
+          "mrr10": 0.0
+        },
+        "expected": [
+          "FAQ_AIR_001",
+          "MANUAL_AIR_002",
+          "CODE_AIR_001"
+        ],
+        "retrieved_06b": [
+          "CODE_AIR_001",
+          "FAQ_AIR_001",
+          "MANUAL_AIR_001",
+          "CODE_FW_001"
+        ],
+        "retrieved_4b": [
+          "CODE_AIR_001",
+          "FAQ_AIR_001",
+          "MANUAL_AIR_001",
+          "MANUAL_AIR_002"
+        ]
+      },
+      {
+        "query_id": "S9-07",
+        "delta_06b_minus_4b": {
+          "hit5": 1.0,
+          "recall5": 0.3333,
+          "mrr10": 0.2
+        },
+        "expected": [
+          "NET_GUIDE_001",
+          "FAQ_NET_001",
+          "APP_GUIDE_002"
+        ],
+        "retrieved_06b": [
+          "CODE_LOCK_001",
+          "CODE_AIR_001",
+          "FAQ_AIR_001",
+          "NET_GUIDE_003",
+          "FAQ_NET_001"
+        ],
+        "retrieved_4b": [
+          "CODE_LOCK_001",
+          "CODE_AIR_001",
+          "FAQ_LOCK_001",
+          "FAQ_AIR_001",
+          "NET_GUIDE_003"
+        ]
+      }
+    ],
+    "real": [
+      {
+        "query_id": "F3-03",
+        "delta_06b_minus_4b": {
+          "hit5": 1.0,
+          "recall5": 0.5,
+          "mrr10": 0.3333
+        },
+        "expected": [
+          "POLICY_WAR_002",
+          "POLICY_WAR_003"
+        ],
+        "retrieved_06b": [
+          "CODE_PHONE_001",
+          "MANUAL_PHONE_001",
+          "POLICY_WAR_002",
+          "GUIDE_PHONE_002",
+          "APP_GUIDE_004",
+          "GUIDE_PHONE_004",
+          "CODE_FW_001",
+          "POLICY_WAR_004"
+        ],
+        "retrieved_4b": [
+          "CODE_PHONE_001",
+          "MANUAL_PHONE_001",
+          "MANUAL_PHONE_002",
+          "PROD_PHONE_001",
+          "CODE_FW_001",
+          "GUIDE_PHONE_002",
+          "GUIDE_PHONE_004",
+          "CODE_AIR_001"
+        ]
+      },
+      {
+        "query_id": "S10-07",
+        "delta_06b_minus_4b": {
+          "hit5": 0.0,
+          "recall5": -0.5,
+          "mrr10": -0.1667
+        },
+        "expected": [
+          "APP_GUIDE_004",
+          "APP_GUIDE_002"
+        ],
+        "retrieved_06b": [
+          "MANUAL_PHONE_001",
+          "APP_GUIDE_003",
+          "APP_GUIDE_004",
+          "MANUAL_PAD_001",
+          "GUIDE_HOME_002"
+        ],
+        "retrieved_4b": [
+          "MANUAL_PHONE_001",
+          "APP_GUIDE_004",
+          "APP_GUIDE_003",
+          "APP_GUIDE_002",
+          "NET_GUIDE_003"
+        ]
+      },
+      {
+        "query_id": "S9-07",
+        "delta_06b_minus_4b": {
+          "hit5": 1.0,
+          "recall5": 0.3333,
+          "mrr10": 0.25
+        },
+        "expected": [
+          "NET_GUIDE_001",
+          "FAQ_NET_001",
+          "APP_GUIDE_002"
+        ],
+        "retrieved_06b": [
+          "CODE_LOCK_001",
+          "CODE_AIR_001",
+          "FAQ_AIR_001",
+          "FAQ_NET_001",
+          "CODE_FW_001"
+        ],
+        "retrieved_4b": [
+          "CODE_LOCK_001",
+          "CODE_AIR_001",
+          "FAQ_LOCK_001",
+          "FAQ_AIR_001",
+          "NET_GUIDE_003"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "summary": {
+    "label": "fts_sql_keyword20",
+    "mode": "fts",
+    "sample_count": 20,
+    "top_k": 10,
+    "hit5": 0.05,
+    "recall5": 0.05,
+    "mrr10": 0.05,
+    "wall_p50_ms": 263.35950000793673,
+    "wall_p95_ms": 309.6176999970339
+  },
+  "samples": [
+    {
+      "query_id": "S6-04",
+      "query": "T7 的滤芯能用在 G10S Pro 上吗？",
+      "expected_doc_ids": [
+        "PROD_VAC_001",
+        "PROD_VAC_004",
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 258.6946999945212,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S6-05",
+      "query": "我有小米 13 的 67W 充电器，给小米 14 Pro 用会慢吗？",
+      "expected_doc_ids": [
+        "PROD_PHONE_001",
+        "PROD_PHONE_004",
+        "MANUAL_PHONE_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 204.42199999524746,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S9-03",
+      "query": "我家是 5G WiFi，扫地机连不上",
+      "expected_doc_ids": [
+        "NET_GUIDE_002",
+        "FAQ_NET_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 282.0896999910474,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S11-01",
+      "query": "我的小米手表 S3 怎么升级系统？",
+      "expected_doc_ids": [
+        "CODE_FW_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 299.8587000038242,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S2-06",
+      "query": "小米手表 S2 防水吗？能游泳戴吗？",
+      "expected_doc_ids": [
+        "PROD_WATCH_002",
+        "MANUAL_WATCH_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 299.362799996743,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S3-08",
+      "query": "小米手表 S2 和苹果手表哪个好？",
+      "expected_doc_ids": [
+        "PROD_WATCH_002",
+        "GUIDE_WATCH_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 292.0299999968847,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S8-08",
+      "query": "小米手表 S2 怎么自定义表盘？",
+      "expected_doc_ids": [
+        "MANUAL_WATCH_001",
+        "PROD_WATCH_002"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 272.98250001331326,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "F1-04",
+      "query": "扫地机扫一会就停，提示故障 E5",
+      "expected_doc_ids": [
+        "CODE_VAC_001",
+        "FAQ_VAC_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 278.69120000104886,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S2-02",
+      "query": "Redmi K70 电池容量多大，支持多少瓦快充？",
+      "expected_doc_ids": [
+        "PROD_PHONE_006"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 309.6176999970339,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S2-05",
+      "query": "小米智能门锁 E10 支持几种开锁方式？",
+      "expected_doc_ids": [
+        "PROD_LOCK_001",
+        "MANUAL_LOCK_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 288.8993999949889,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S6-02",
+      "query": "石头 T7 的滤芯型号是什么？",
+      "expected_doc_ids": [
+        "PROD_VAC_001",
+        "MANUAL_VAC_003"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 230.16269999789074,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S14-01",
+      "query": "小米 14 Pro 保修期多久？",
+      "expected_doc_ids": [
+        "POLICY_WAR_001",
+        "POLICY_WAR_002"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 260.7700999942608,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S6-06",
+      "query": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "expected_doc_ids": [
+        "PROD_BUDS_002",
+        "PROD_BUDS_003",
+        "MANUAL_BUDS_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 250.31610000587534,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S9-01",
+      "query": "扫地机怎么连 WiFi？",
+      "expected_doc_ids": [
+        "NET_GUIDE_001",
+        "MANUAL_VAC_001"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 262.7266000054078,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "F3-03",
+      "query": "这手机用了 3 个月就卡",
+      "expected_doc_ids": [
+        "POLICY_WAR_002",
+        "POLICY_WAR_003"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 284.4368000078248,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S15-01",
+      "query": "可以 7 天无理由退货吗？",
+      "expected_doc_ids": [
+        "POLICY_RET_001"
+      ],
+      "retrieved_doc_ids": [
+        "POLICY_RET_001"
+      ],
+      "retrieved_doc_ids_raw": [
+        "2062065931084894208"
+      ],
+      "scores": [
+        {
+          "doc_id": "2062065931084894208",
+          "score": 0.1
+        }
+      ],
+      "wall_ms": 260.60120000329334,
+      "hit5": 1.0,
+      "recall5": 1.0,
+      "mrr10": 1.0
+    },
+    {
+      "query_id": "S2-03",
+      "query": "米家空气净化器 4 Pro 适合多大面积？",
+      "expected_doc_ids": [
+        "PROD_AIR_003"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 263.35950000793673,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S2-08",
+      "query": "石头 G10 在地毯上吸力会下降吗？",
+      "expected_doc_ids": [
+        "PROD_VAC_003"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 244.1432000050554,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S4-07",
+      "query": "小米平板 6 Pro 现在参考价是多少，活动价会变吗？",
+      "expected_doc_ids": [
+        "PROD_PAD_003",
+        "POLICY_RET_004"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 250.36879999970552,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    },
+    {
+      "query_id": "S12-05",
+      "query": "想做个离家模式，关灯关空调启动扫地机",
+      "expected_doc_ids": [
+        "AUTO_GUIDE_001",
+        "AUTO_GUIDE_002",
+        "MANUAL_VAC_002"
+      ],
+      "retrieved_doc_ids": [],
+      "retrieved_doc_ids_raw": [],
+      "scores": [],
+      "wall_ms": 251.89590000081807,
+      "hit5": 0.0,
+      "recall5": 0.0,
+      "mrr10": 0.0
+    }
+  ]
+}

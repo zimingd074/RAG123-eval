@@ -1,0 +1,351 @@
+{
+  "name": "eval_set_static_keyword20_bm25_20260618.jsonl",
+  "created_on": "2026-06-18",
+  "source": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_v1_all.jsonl",
+  "source_sha256": "890b579fa40940cecba30a0f33325dad30f8088ce93721911b514bc83e8c6add",
+  "sample_count": 20,
+  "selection": {
+    "include": {
+      "evaluation_scope": "static-v1",
+      "requires_rag": true,
+      "expected_doc_ids": "non-empty"
+    },
+    "sort": "score DESC, query_id ASC",
+    "score_rules": [
+      "4 points per model/version/error-code/numeric-unit token",
+      "3 points per ASCII/digit mixed token",
+      "2 points per product/domain keyword hit",
+      "up to 3 points for expected_doc_ids count",
+      "1 point for easy difficulty"
+    ],
+    "keywords": [
+      "小米",
+      "Redmi",
+      "红米",
+      "米家",
+      "手机",
+      "平板",
+      "手表",
+      "耳机",
+      "电视",
+      "空调",
+      "冰箱",
+      "洗衣机",
+      "路由",
+      "扫地",
+      "牙刷",
+      "剃须",
+      "空气净化",
+      "参数",
+      "保修",
+      "售后",
+      "退换货",
+      "退货",
+      "换货",
+      "发票",
+      "库存",
+      "到货",
+      "配送",
+      "物流",
+      "APP",
+      "WiFi",
+      "Pro",
+      "Max",
+      "Ultra",
+      "mAh",
+      "Hz",
+      "W"
+    ]
+  },
+  "samples": [
+    {
+      "rank": 1,
+      "query_id": "S6-04",
+      "score": 19,
+      "identifier_hits": [
+        "T7",
+        "G10S"
+      ],
+      "ascii_digit_hits": [
+        "T7",
+        "G10"
+      ],
+      "keyword_hits": [
+        "Pro"
+      ],
+      "expected_doc_count": 3
+    },
+    {
+      "rank": 2,
+      "query_id": "S6-05",
+      "score": 16,
+      "identifier_hits": [
+        "67W"
+      ],
+      "ascii_digit_hits": [
+        "67W"
+      ],
+      "keyword_hits": [
+        "小米",
+        "Pro",
+        "W"
+      ],
+      "expected_doc_count": 3
+    },
+    {
+      "rank": 3,
+      "query_id": "S9-03",
+      "score": 15,
+      "identifier_hits": [
+        "5G"
+      ],
+      "ascii_digit_hits": [
+        "5G"
+      ],
+      "keyword_hits": [
+        "扫地",
+        "WiFi",
+        "W"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 4,
+      "query_id": "S11-01",
+      "score": 13,
+      "identifier_hits": [
+        "S3"
+      ],
+      "ascii_digit_hits": [
+        "S3"
+      ],
+      "keyword_hits": [
+        "小米",
+        "手表"
+      ],
+      "expected_doc_count": 1
+    },
+    {
+      "rank": 5,
+      "query_id": "S2-06",
+      "score": 13,
+      "identifier_hits": [
+        "S2"
+      ],
+      "ascii_digit_hits": [
+        "S2"
+      ],
+      "keyword_hits": [
+        "小米",
+        "手表"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 6,
+      "query_id": "S3-08",
+      "score": 13,
+      "identifier_hits": [
+        "S2"
+      ],
+      "ascii_digit_hits": [
+        "S2"
+      ],
+      "keyword_hits": [
+        "小米",
+        "手表"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 7,
+      "query_id": "S8-08",
+      "score": 13,
+      "identifier_hits": [
+        "S2"
+      ],
+      "ascii_digit_hits": [
+        "S2"
+      ],
+      "keyword_hits": [
+        "小米",
+        "手表"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 8,
+      "query_id": "F1-04",
+      "score": 11,
+      "identifier_hits": [
+        "E5"
+      ],
+      "ascii_digit_hits": [
+        "E5"
+      ],
+      "keyword_hits": [
+        "扫地"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 9,
+      "query_id": "S2-02",
+      "score": 11,
+      "identifier_hits": [
+        "K70"
+      ],
+      "ascii_digit_hits": [
+        "K70"
+      ],
+      "keyword_hits": [
+        "Redmi"
+      ],
+      "expected_doc_count": 1
+    },
+    {
+      "rank": 10,
+      "query_id": "S2-05",
+      "score": 11,
+      "identifier_hits": [
+        "E10"
+      ],
+      "ascii_digit_hits": [
+        "E10"
+      ],
+      "keyword_hits": [
+        "小米"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 11,
+      "query_id": "S6-02",
+      "score": 10,
+      "identifier_hits": [
+        "T7"
+      ],
+      "ascii_digit_hits": [
+        "T7"
+      ],
+      "keyword_hits": [],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 12,
+      "query_id": "S14-01",
+      "score": 9,
+      "identifier_hits": [],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "小米",
+        "保修",
+        "Pro"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 13,
+      "query_id": "S6-06",
+      "score": 9,
+      "identifier_hits": [],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "小米",
+        "Redmi",
+        "Pro"
+      ],
+      "expected_doc_count": 3
+    },
+    {
+      "rank": 14,
+      "query_id": "S9-01",
+      "score": 9,
+      "identifier_hits": [],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "扫地",
+        "WiFi",
+        "W"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 15,
+      "query_id": "F3-03",
+      "score": 8,
+      "identifier_hits": [
+        "3 个月"
+      ],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "手机"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 16,
+      "query_id": "S15-01",
+      "score": 8,
+      "identifier_hits": [
+        "7 天"
+      ],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "退货"
+      ],
+      "expected_doc_count": 1
+    },
+    {
+      "rank": 17,
+      "query_id": "S2-03",
+      "score": 8,
+      "identifier_hits": [],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "米家",
+        "空气净化",
+        "Pro"
+      ],
+      "expected_doc_count": 1
+    },
+    {
+      "rank": 18,
+      "query_id": "S2-08",
+      "score": 8,
+      "identifier_hits": [
+        "G10"
+      ],
+      "ascii_digit_hits": [
+        "G10"
+      ],
+      "keyword_hits": [],
+      "expected_doc_count": 1
+    },
+    {
+      "rank": 19,
+      "query_id": "S4-07",
+      "score": 8,
+      "identifier_hits": [],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "小米",
+        "平板",
+        "Pro"
+      ],
+      "expected_doc_count": 2
+    },
+    {
+      "rank": 20,
+      "query_id": "S12-05",
+      "score": 7,
+      "identifier_hits": [],
+      "ascii_digit_hits": [],
+      "keyword_hits": [
+        "空调",
+        "扫地"
+      ],
+      "expected_doc_count": 3
+    }
+  ]
+}

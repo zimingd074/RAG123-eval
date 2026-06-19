@@ -1,0 +1,26 @@
+{
+  "dataset_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_chat_models20_20260615.jsonl",
+  "dataset_sha256": "98f903c79966d8d9b977cafcd623eb6e63b9e3cb89833cae2f353157c3a5c37c",
+  "profile": "static-v1",
+  "original_sample_count": 20,
+  "profile_sample_count": 20,
+  "selected_sample_count": 20,
+  "excluded_sample_count": 0,
+  "excluded_sample_ids": [],
+  "excluded_samples": [],
+  "filter_intent": null,
+  "start": 0,
+  "limit": null,
+  "doc_map_path": "D:\\PycharmProjects\\ragenteval\\eval\\states\\qwen8b_1536_weak20\\doc_id_map.json",
+  "state_dir": "D:\\PycharmProjects\\ragenteval\\eval\\states\\qwen8b_1536_weak20",
+  "embedding_model": "qwen-emb-8b",
+  "embedding_dimension": 1536,
+  "routing_model": "qwen3.7-plus",
+  "answer_model": "qwen3-max",
+  "require_same_trace": true,
+  "experiment": {
+    "embedding_model": "qwen-emb-8b",
+    "dimension": 1536,
+    "ragent_base_url": "http://localhost:19092/api/ragent"
+  }
+}

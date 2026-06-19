@@ -1,0 +1,1214 @@
+{
+  "qwen3-max": {
+    "S6-06": {
+      "original_question": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "rewritten_question": "Redmi Buds 3 Pro 的耳塞套是否适用于小米 Buds 4",
+      "sub_questions": [
+        "Redmi Buds 3 Pro 的耳塞套是否适用于小米 Buds 4"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F1-04": {
+      "original_question": "扫地机扫一会就停，提示故障 E5",
+      "rewritten_question": "扫地机提示故障 E5，扫一会就停",
+      "sub_questions": [
+        "扫地机提示故障 E5，扫一会就停"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S4-06": {
+      "original_question": "我买了一周降价了能补差价吗？",
+      "rewritten_question": "购买后一周内降价能否补差价",
+      "sub_questions": [
+        "购买后一周内降价能否补差价"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-07": {
+      "original_question": "租房想低成本做智能家居，哪些设备适合带走？",
+      "rewritten_question": "租房低成本智能家居中适合带走的设备",
+      "sub_questions": [
+        "租房低成本智能家居中适合带走的设备"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S8-06": {
+      "original_question": "扫地机怎么设置只扫客厅不扫卧室？",
+      "rewritten_question": "扫地机设置只扫客厅不扫卧室的方法",
+      "sub_questions": [
+        "扫地机设置只扫客厅不扫卧室的方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S9-07": {
+      "original_question": "蓝牙连上了但 APP 显示离线",
+      "rewritten_question": "蓝牙连上了但 APP 显示离线",
+      "sub_questions": [
+        "蓝牙连上了但 APP 显示离线"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S2-05": {
+      "original_question": "小米智能门锁 E10 支持几种开锁方式？",
+      "rewritten_question": "小米智能门锁 E10 支持的开锁方式",
+      "sub_questions": [
+        "小米智能门锁 E10 支持的开锁方式"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S14-04": {
+      "original_question": "换屏多少钱？",
+      "rewritten_question": "换屏多少钱",
+      "sub_questions": [
+        "换屏多少钱"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-04": {
+      "original_question": "我下单了 3 天还没发货",
+      "rewritten_question": "下单3天还没发货",
+      "sub_questions": [
+        "下单3天还没发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S12-01": {
+      "original_question": "智能音箱能控制扫地机吗？",
+      "rewritten_question": "智能音箱能否控制扫地机",
+      "sub_questions": [
+        "智能音箱能否控制扫地机"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S15-05": {
+      "original_question": "退货运费谁出？",
+      "rewritten_question": "退货运费由谁承担",
+      "sub_questions": [
+        "退货运费由谁承担"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S5-04": {
+      "original_question": "新款手表什么时候上市？",
+      "rewritten_question": "新款手表的上市时间",
+      "sub_questions": [
+        "新款手表的上市时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-05": {
+      "original_question": "扫地机的水箱可以用洗洁精洗吗？",
+      "rewritten_question": "扫地机的水箱是否可以用洗洁精清洗",
+      "sub_questions": [
+        "扫地机的水箱是否可以用洗洁精清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F3-02": {
+      "original_question": "等了一周还没发货，太慢了！",
+      "rewritten_question": "订单等了一周还没发货",
+      "sub_questions": [
+        "订单等了一周还没发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S11-01": {
+      "original_question": "我的小米手表 S3 怎么升级系统？",
+      "rewritten_question": "小米手表 S3 升级系统的方法",
+      "sub_questions": [
+        "小米手表 S3 升级系统的方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S17-02": {
+      "original_question": "比特会员有什么权益？",
+      "rewritten_question": "比特会员的权益",
+      "sub_questions": [
+        "比特会员的权益"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S10-02": {
+      "original_question": "怎么修改收货地址？",
+      "rewritten_question": "修改收货地址的方法",
+      "sub_questions": [
+        "修改收货地址的方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-01": {
+      "original_question": "我下单了一个比特严选自营商品，一般什么时候发货？",
+      "rewritten_question": "比特严选自营商品的发货时间",
+      "sub_questions": [
+        "比特严选自营商品的发货时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-02": {
+      "original_question": "智能门锁停电了能用吗？",
+      "rewritten_question": "智能门锁停电了能否使用",
+      "sub_questions": [
+        "智能门锁停电了能否使用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-02": {
+      "original_question": "扫地机滚刷怎么清洗？",
+      "rewritten_question": "扫地机滚刷的清洗方法",
+      "sub_questions": [
+        "扫地机滚刷的清洗方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    }
+  },
+  "qwen3.7-max": {
+    "S6-06": {
+      "original_question": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "rewritten_question": "Redmi Buds 3 Pro耳塞套与小米Buds 4是否通用",
+      "sub_questions": [
+        "Redmi Buds 3 Pro耳塞套与小米Buds 4是否通用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F1-04": {
+      "original_question": "扫地机扫一会就停，提示故障 E5",
+      "rewritten_question": "扫地机扫一会就停提示故障E5",
+      "sub_questions": [
+        "扫地机扫一会就停提示故障E5"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-07": {
+      "original_question": "租房想低成本做智能家居，哪些设备适合带走？",
+      "rewritten_question": "租房低成本智能家居适合带走的设备",
+      "sub_questions": [
+        "租房低成本智能家居适合带走的设备"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S4-06": {
+      "original_question": "我买了一周降价了能补差价吗？",
+      "rewritten_question": "购买一周后降价能否补差价",
+      "sub_questions": [
+        "购买一周后降价能否补差价"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S8-06": {
+      "original_question": "扫地机怎么设置只扫客厅不扫卧室？",
+      "rewritten_question": "扫地机设置只扫客厅不扫卧室",
+      "sub_questions": [
+        "扫地机设置只扫客厅不扫卧室"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S9-07": {
+      "original_question": "蓝牙连上了但 APP 显示离线",
+      "rewritten_question": "蓝牙已连接但APP显示离线",
+      "sub_questions": [
+        "蓝牙已连接但APP显示离线"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S2-05": {
+      "original_question": "小米智能门锁 E10 支持几种开锁方式？",
+      "rewritten_question": "小米智能门锁 E10 支持的开锁方式",
+      "sub_questions": [
+        "小米智能门锁 E10 支持的开锁方式"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S14-04": {
+      "original_question": "换屏多少钱？",
+      "rewritten_question": "换屏多少钱",
+      "sub_questions": [
+        "换屏多少钱"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-04": {
+      "original_question": "我下单了 3 天还没发货",
+      "rewritten_question": "下单3天未发货",
+      "sub_questions": [
+        "下单3天未发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S12-01": {
+      "original_question": "智能音箱能控制扫地机吗？",
+      "rewritten_question": "智能音箱控制扫地机",
+      "sub_questions": [
+        "智能音箱控制扫地机"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S15-05": {
+      "original_question": "退货运费谁出？",
+      "rewritten_question": "退货运费由谁承担",
+      "sub_questions": [
+        "退货运费由谁承担"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S5-04": {
+      "original_question": "新款手表什么时候上市？",
+      "rewritten_question": "新款手表上市时间",
+      "sub_questions": [
+        "新款手表上市时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-05": {
+      "original_question": "扫地机的水箱可以用洗洁精洗吗？",
+      "rewritten_question": "扫地机水箱用洗洁精清洗",
+      "sub_questions": [
+        "扫地机水箱用洗洁精清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F3-02": {
+      "original_question": "等了一周还没发货，太慢了！",
+      "rewritten_question": "一周未发货",
+      "sub_questions": [
+        "一周未发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S11-01": {
+      "original_question": "我的小米手表 S3 怎么升级系统？",
+      "rewritten_question": "小米手表 S3 升级系统",
+      "sub_questions": [
+        "小米手表 S3 升级系统"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S17-02": {
+      "original_question": "比特会员有什么权益？",
+      "rewritten_question": "比特会员的权益",
+      "sub_questions": [
+        "比特会员的权益"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S10-02": {
+      "original_question": "怎么修改收货地址？",
+      "rewritten_question": "修改收货地址",
+      "sub_questions": [
+        "修改收货地址"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-01": {
+      "original_question": "我下单了一个比特严选自营商品，一般什么时候发货？",
+      "rewritten_question": "比特严选自营商品发货时间",
+      "sub_questions": [
+        "比特严选自营商品发货时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-02": {
+      "original_question": "扫地机滚刷怎么清洗？",
+      "rewritten_question": "扫地机滚刷清洗方法",
+      "sub_questions": [
+        "扫地机滚刷清洗方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-02": {
+      "original_question": "智能门锁停电了能用吗？",
+      "rewritten_question": "智能门锁停电能用吗",
+      "sub_questions": [
+        "智能门锁停电能用吗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    }
+  },
+  "qwen3.7-plus": {
+    "F1-04": {
+      "original_question": "扫地机扫一会就停，提示故障 E5",
+      "rewritten_question": "扫地机扫一会就停提示故障E5",
+      "sub_questions": [
+        "扫地机扫一会就停提示故障E5"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S6-06": {
+      "original_question": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "rewritten_question": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 是否通用",
+      "sub_questions": [
+        "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 是否通用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-07": {
+      "original_question": "租房想低成本做智能家居，哪些设备适合带走？",
+      "rewritten_question": "租房低成本智能家居适合带走的设备",
+      "sub_questions": [
+        "租房低成本智能家居适合带走的设备"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S4-06": {
+      "original_question": "我买了一周降价了能补差价吗？",
+      "rewritten_question": "购买一周降价能否补差价",
+      "sub_questions": [
+        "购买一周降价能否补差价"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S8-06": {
+      "original_question": "扫地机怎么设置只扫客厅不扫卧室？",
+      "rewritten_question": "扫地机设置只扫客厅不扫卧室的方法",
+      "sub_questions": [
+        "扫地机设置只扫客厅不扫卧室的方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S9-07": {
+      "original_question": "蓝牙连上了但 APP 显示离线",
+      "rewritten_question": "蓝牙已连接但APP显示离线",
+      "sub_questions": [
+        "蓝牙已连接但APP显示离线"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S2-05": {
+      "original_question": "小米智能门锁 E10 支持几种开锁方式？",
+      "rewritten_question": "小米智能门锁 E10 支持的开锁方式",
+      "sub_questions": [
+        "小米智能门锁 E10 支持的开锁方式"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S14-04": {
+      "original_question": "换屏多少钱？",
+      "rewritten_question": "换屏价格",
+      "sub_questions": [
+        "换屏价格"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-04": {
+      "original_question": "我下单了 3 天还没发货",
+      "rewritten_question": "下单3天未发货",
+      "sub_questions": [
+        "下单3天未发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S12-01": {
+      "original_question": "智能音箱能控制扫地机吗？",
+      "rewritten_question": "智能音箱控制扫地机",
+      "sub_questions": [
+        "智能音箱控制扫地机"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S15-05": {
+      "original_question": "退货运费谁出？",
+      "rewritten_question": "退货运费谁出",
+      "sub_questions": [
+        "退货运费谁出"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S5-04": {
+      "original_question": "新款手表什么时候上市？",
+      "rewritten_question": "新款手表上市时间",
+      "sub_questions": [
+        "新款手表上市时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-05": {
+      "original_question": "扫地机的水箱可以用洗洁精洗吗？",
+      "rewritten_question": "扫地机水箱可以用洗洁精清洗吗",
+      "sub_questions": [
+        "扫地机水箱可以用洗洁精清洗吗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F3-02": {
+      "original_question": "等了一周还没发货，太慢了！",
+      "rewritten_question": "订单等了一周还没发货怎么办",
+      "sub_questions": [
+        "订单等了一周还没发货怎么办"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S11-01": {
+      "original_question": "我的小米手表 S3 怎么升级系统？",
+      "rewritten_question": "小米手表 S3 升级系统的方法",
+      "sub_questions": [
+        "小米手表 S3 升级系统的方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S17-02": {
+      "original_question": "比特会员有什么权益？",
+      "rewritten_question": "比特会员的权益",
+      "sub_questions": [
+        "比特会员的权益"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S10-02": {
+      "original_question": "怎么修改收货地址？",
+      "rewritten_question": "修改收货地址",
+      "sub_questions": [
+        "修改收货地址"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-01": {
+      "original_question": "我下单了一个比特严选自营商品，一般什么时候发货？",
+      "rewritten_question": "比特严选自营商品的发货时间",
+      "sub_questions": [
+        "比特严选自营商品的发货时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-02": {
+      "original_question": "智能门锁停电了能用吗？",
+      "rewritten_question": "智能门锁停电了能用吗",
+      "sub_questions": [
+        "智能门锁停电了能用吗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-02": {
+      "original_question": "扫地机滚刷怎么清洗？",
+      "rewritten_question": "扫地机滚刷清洗方法",
+      "sub_questions": [
+        "扫地机滚刷清洗方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    }
+  },
+  "qwen3.6-flash": {
+    "S6-06": {
+      "original_question": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "rewritten_question": "Redmi Buds 3 Pro 的耳塞套是否适用于小米 Buds 4",
+      "sub_questions": [
+        "Redmi Buds 3 Pro 的耳塞套是否适用于小米 Buds 4"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F1-04": {
+      "original_question": "扫地机扫一会就停，提示故障 E5",
+      "rewritten_question": "扫地机故障代码E5",
+      "sub_questions": [
+        "扫地机故障代码E5"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-07": {
+      "original_question": "租房想低成本做智能家居，哪些设备适合带走？",
+      "rewritten_question": "租房低成本智能家居适合带走的设备",
+      "sub_questions": [
+        "租房低成本智能家居适合带走的设备"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S4-06": {
+      "original_question": "我买了一周降价了能补差价吗？",
+      "rewritten_question": "购买一周后降价能否补差价",
+      "sub_questions": [
+        "购买一周后降价能否补差价"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S8-06": {
+      "original_question": "扫地机怎么设置只扫客厅不扫卧室？",
+      "rewritten_question": "扫地机设置只扫客厅不扫卧室",
+      "sub_questions": [
+        "扫地机设置只扫客厅不扫卧室"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S9-07": {
+      "original_question": "蓝牙连上了但 APP 显示离线",
+      "rewritten_question": "蓝牙已连接但APP显示离线",
+      "sub_questions": [
+        "蓝牙已连接但APP显示离线"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S14-04": {
+      "original_question": "换屏多少钱？",
+      "rewritten_question": "换屏费用",
+      "sub_questions": [
+        "换屏费用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S2-05": {
+      "original_question": "小米智能门锁 E10 支持几种开锁方式？",
+      "rewritten_question": "小米智能门锁 E10 支持的开锁方式",
+      "sub_questions": [
+        "小米智能门锁 E10 支持的开锁方式"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-04": {
+      "original_question": "我下单了 3 天还没发货",
+      "rewritten_question": "下单3天未发货",
+      "sub_questions": [
+        "下单3天未发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S12-01": {
+      "original_question": "智能音箱能控制扫地机吗？",
+      "rewritten_question": "智能音箱能否控制扫地机",
+      "sub_questions": [
+        "智能音箱能否控制扫地机"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S15-05": {
+      "original_question": "退货运费谁出？",
+      "rewritten_question": "退货运费由谁承担",
+      "sub_questions": [
+        "退货运费由谁承担"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S5-04": {
+      "original_question": "新款手表什么时候上市？",
+      "rewritten_question": "新款手表上市时间",
+      "sub_questions": [
+        "新款手表上市时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-05": {
+      "original_question": "扫地机的水箱可以用洗洁精洗吗？",
+      "rewritten_question": "扫地机水箱能否用洗洁精清洗",
+      "sub_questions": [
+        "扫地机水箱能否用洗洁精清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F3-02": {
+      "original_question": "等了一周还没发货，太慢了！",
+      "rewritten_question": "发货延迟查询",
+      "sub_questions": [
+        "发货延迟查询"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S11-01": {
+      "original_question": "我的小米手表 S3 怎么升级系统？",
+      "rewritten_question": "小米手表 S3 升级系统",
+      "sub_questions": [
+        "小米手表 S3 升级系统"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S17-02": {
+      "original_question": "比特会员有什么权益？",
+      "rewritten_question": "比特会员的权益",
+      "sub_questions": [
+        "比特会员的权益"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S10-02": {
+      "original_question": "怎么修改收货地址？",
+      "rewritten_question": "如何修改收货地址",
+      "sub_questions": [
+        "如何修改收货地址"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-01": {
+      "original_question": "我下单了一个比特严选自营商品，一般什么时候发货？",
+      "rewritten_question": "比特严选自营商品的发货时间",
+      "sub_questions": [
+        "比特严选自营商品的发货时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-02": {
+      "original_question": "扫地机滚刷怎么清洗？",
+      "rewritten_question": "扫地机滚刷怎么清洗",
+      "sub_questions": [
+        "扫地机滚刷怎么清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-02": {
+      "original_question": "智能门锁停电了能用吗？",
+      "rewritten_question": "智能门锁停电后能否正常使用",
+      "sub_questions": [
+        "智能门锁停电后能否正常使用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    }
+  },
+  "deepseek-v4-pro": {
+    "F1-04": {
+      "original_question": "扫地机扫一会就停，提示故障 E5",
+      "rewritten_question": "扫地机扫一会就停，提示故障E5",
+      "sub_questions": [
+        "扫地机扫一会就停，提示故障E5"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S6-06": {
+      "original_question": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "rewritten_question": "Redmi Buds 3 Pro 耳塞套 小米 Buds 4 能否使用",
+      "sub_questions": [
+        "Redmi Buds 3 Pro 耳塞套 小米 Buds 4 能否使用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-07": {
+      "original_question": "租房想低成本做智能家居，哪些设备适合带走？",
+      "rewritten_question": "租房低成本智能家居适合带走的设备",
+      "sub_questions": [
+        "租房低成本智能家居适合带走的设备"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S4-06": {
+      "original_question": "我买了一周降价了能补差价吗？",
+      "rewritten_question": "一周内降价补差价",
+      "sub_questions": [
+        "一周内降价补差价"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S9-07": {
+      "original_question": "蓝牙连上了但 APP 显示离线",
+      "rewritten_question": "蓝牙连上了但APP显示离线",
+      "sub_questions": [
+        "蓝牙连上了但APP显示离线"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S8-06": {
+      "original_question": "扫地机怎么设置只扫客厅不扫卧室？",
+      "rewritten_question": "扫地机设置只扫客厅不扫卧室",
+      "sub_questions": [
+        "扫地机设置只扫客厅不扫卧室"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S14-04": {
+      "original_question": "换屏多少钱？",
+      "rewritten_question": "换屏价格",
+      "sub_questions": [
+        "换屏价格"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-04": {
+      "original_question": "我下单了 3 天还没发货",
+      "rewritten_question": "下单3天未发货",
+      "sub_questions": [
+        "下单3天未发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S2-05": {
+      "original_question": "小米智能门锁 E10 支持几种开锁方式？",
+      "rewritten_question": "小米智能门锁 E10 开锁方式",
+      "sub_questions": [
+        "小米智能门锁 E10 开锁方式"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S12-01": {
+      "original_question": "智能音箱能控制扫地机吗？",
+      "rewritten_question": "智能音箱控制扫地机",
+      "sub_questions": [
+        "智能音箱控制扫地机"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S15-05": {
+      "original_question": "退货运费谁出？",
+      "rewritten_question": "退货运费谁出",
+      "sub_questions": [
+        "退货运费谁出"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-05": {
+      "original_question": "扫地机的水箱可以用洗洁精洗吗？",
+      "rewritten_question": "扫地机水箱可以用洗洁精清洗",
+      "sub_questions": [
+        "扫地机水箱可以用洗洁精清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S5-04": {
+      "original_question": "新款手表什么时候上市？",
+      "rewritten_question": "新款手表上市时间",
+      "sub_questions": [
+        "新款手表上市时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F3-02": {
+      "original_question": "等了一周还没发货，太慢了！",
+      "rewritten_question": "发货延迟 等了一周仍未发货",
+      "sub_questions": [
+        "发货延迟 等了一周仍未发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S11-01": {
+      "original_question": "我的小米手表 S3 怎么升级系统？",
+      "rewritten_question": "小米手表 S3 升级系统",
+      "sub_questions": [
+        "小米手表 S3 升级系统"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S17-02": {
+      "original_question": "比特会员有什么权益？",
+      "rewritten_question": "比特会员有什么权益",
+      "sub_questions": [
+        "比特会员有什么权益"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-01": {
+      "original_question": "我下单了一个比特严选自营商品，一般什么时候发货？",
+      "rewritten_question": "比特严选自营商品发货时间",
+      "sub_questions": [
+        "比特严选自营商品发货时间"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S10-02": {
+      "original_question": "怎么修改收货地址？",
+      "rewritten_question": "修改收货地址",
+      "sub_questions": [
+        "修改收货地址"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-02": {
+      "original_question": "扫地机滚刷怎么清洗？",
+      "rewritten_question": "扫地机滚刷怎么清洗",
+      "sub_questions": [
+        "扫地机滚刷怎么清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-02": {
+      "original_question": "智能门锁停电了能用吗？",
+      "rewritten_question": "智能门锁停电后能否使用",
+      "sub_questions": [
+        "智能门锁停电后能否使用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    }
+  },
+  "deepseek-v4-flash": {
+    "F1-04": {
+      "original_question": "扫地机扫一会就停，提示故障 E5",
+      "rewritten_question": "扫地机扫一会就停，提示故障E5",
+      "sub_questions": [
+        "扫地机扫一会就停，提示故障E5"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S6-06": {
+      "original_question": "Redmi Buds 3 Pro 的耳塞套小米 Buds 4 能用吗？",
+      "rewritten_question": "Redmi Buds 3 Pro 的耳塞套与小米 Buds 4 的兼容性",
+      "sub_questions": [
+        "Redmi Buds 3 Pro 的耳塞套与小米 Buds 4 的兼容性"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S4-06": {
+      "original_question": "我买了一周降价了能补差价吗？",
+      "rewritten_question": "商品购买一周后降价能否补差价",
+      "sub_questions": [
+        "商品购买一周后降价能否补差价"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-07": {
+      "original_question": "租房想低成本做智能家居，哪些设备适合带走？",
+      "rewritten_question": "租房低成本智能家居设备适合带走",
+      "sub_questions": [
+        "租房低成本智能家居设备适合带走"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S8-06": {
+      "original_question": "扫地机怎么设置只扫客厅不扫卧室？",
+      "rewritten_question": "扫地机设置只扫客厅不扫卧室的方法",
+      "sub_questions": [
+        "扫地机设置只扫客厅不扫卧室的方法"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S9-07": {
+      "original_question": "蓝牙连上了但 APP 显示离线",
+      "rewritten_question": "蓝牙连接成功但APP显示离线",
+      "sub_questions": [
+        "蓝牙连接成功但APP显示离线"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S2-05": {
+      "original_question": "小米智能门锁 E10 支持几种开锁方式？",
+      "rewritten_question": "小米智能门锁 E10 支持的开锁方式",
+      "sub_questions": [
+        "小米智能门锁 E10 支持的开锁方式"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S14-04": {
+      "original_question": "换屏多少钱？",
+      "rewritten_question": "换屏多少钱",
+      "sub_questions": [
+        "换屏多少钱"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-04": {
+      "original_question": "我下单了 3 天还没发货",
+      "rewritten_question": "下单3天未发货",
+      "sub_questions": [
+        "下单3天未发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S15-05": {
+      "original_question": "退货运费谁出？",
+      "rewritten_question": "退货运费谁出",
+      "sub_questions": [
+        "退货运费谁出"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S12-01": {
+      "original_question": "智能音箱能控制扫地机吗？",
+      "rewritten_question": "智能音箱能控制扫地机吗",
+      "sub_questions": [
+        "智能音箱能控制扫地机吗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S5-04": {
+      "original_question": "新款手表什么时候上市？",
+      "rewritten_question": "新款手表什么时候上市",
+      "sub_questions": [
+        "新款手表什么时候上市"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-05": {
+      "original_question": "扫地机的水箱可以用洗洁精洗吗？",
+      "rewritten_question": "扫地机水箱可以用洗洁精清洗",
+      "sub_questions": [
+        "扫地机水箱可以用洗洁精清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "F3-02": {
+      "original_question": "等了一周还没发货，太慢了！",
+      "rewritten_question": "一周没发货",
+      "sub_questions": [
+        "一周没发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S11-01": {
+      "original_question": "我的小米手表 S3 怎么升级系统？",
+      "rewritten_question": "小米手表 S3 升级系统",
+      "sub_questions": [
+        "小米手表 S3 升级系统"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S10-02": {
+      "original_question": "怎么修改收货地址？",
+      "rewritten_question": "怎么修改收货地址",
+      "sub_questions": [
+        "怎么修改收货地址"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S17-02": {
+      "original_question": "比特会员有什么权益？",
+      "rewritten_question": "比特会员的权益",
+      "sub_questions": [
+        "比特会员的权益"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S16-01": {
+      "original_question": "我下单了一个比特严选自营商品，一般什么时候发货？",
+      "rewritten_question": "比特严选自营商品什么时候发货",
+      "sub_questions": [
+        "比特严选自营商品什么时候发货"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S7-02": {
+      "original_question": "智能门锁停电了能用吗？",
+      "rewritten_question": "智能门锁停电是否可用",
+      "sub_questions": [
+        "智能门锁停电是否可用"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    },
+    "S13-02": {
+      "original_question": "扫地机滚刷怎么清洗？",
+      "rewritten_question": "扫地机滚刷怎么清洗",
+      "sub_questions": [
+        "扫地机滚刷怎么清洗"
+      ],
+      "semantic_score": null,
+      "silent_condition_change": null,
+      "review_note": ""
+    }
+  }
+}

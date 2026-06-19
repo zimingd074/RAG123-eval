@@ -1,0 +1,131 @@
+{
+  "dataset_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_v1_all.jsonl",
+  "dataset_sha256": "6079a94bb3267c8e375aea14c43790d98a1a9c24af998f9b953fe6ef03392ad5",
+  "profile": "static-v1",
+  "original_sample_count": 150,
+  "profile_sample_count": 127,
+  "selected_sample_count": 127,
+  "excluded_sample_count": 23,
+  "excluded_sample_ids": [
+    "S1-01",
+    "S1-02",
+    "S1-03",
+    "S1-04",
+    "S1-05",
+    "S1-06",
+    "S1-07",
+    "S1-08",
+    "S3-01",
+    "S3-02",
+    "S3-03",
+    "S3-04",
+    "S3-05",
+    "S3-06",
+    "S3-07",
+    "S4-01",
+    "S4-03",
+    "S4-04",
+    "S5-01",
+    "S5-03",
+    "S5-05",
+    "S1-09",
+    "S3-09"
+  ],
+  "excluded_samples": [
+    {
+      "query_id": "S1-01",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S1-02",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S1-03",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S1-04",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S1-05",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S1-06",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S1-07",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S1-08",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S3-01",
+      "intent_l2": "S3_对比选购"
+    },
+    {
+      "query_id": "S3-02",
+      "intent_l2": "S3_对比选购"
+    },
+    {
+      "query_id": "S3-03",
+      "intent_l2": "S3_对比选购"
+    },
+    {
+      "query_id": "S3-04",
+      "intent_l2": "S3_对比选购"
+    },
+    {
+      "query_id": "S3-05",
+      "intent_l2": "S3_对比选购"
+    },
+    {
+      "query_id": "S3-06",
+      "intent_l2": "S3_对比选购"
+    },
+    {
+      "query_id": "S3-07",
+      "intent_l2": "S3_对比选购"
+    },
+    {
+      "query_id": "S4-01",
+      "intent_l2": "S4_价格活动"
+    },
+    {
+      "query_id": "S4-03",
+      "intent_l2": "S4_价格活动"
+    },
+    {
+      "query_id": "S4-04",
+      "intent_l2": "S4_价格活动"
+    },
+    {
+      "query_id": "S5-01",
+      "intent_l2": "S5_库存到货"
+    },
+    {
+      "query_id": "S5-03",
+      "intent_l2": "S5_库存到货"
+    },
+    {
+      "query_id": "S5-05",
+      "intent_l2": "S5_库存到货"
+    },
+    {
+      "query_id": "S1-09",
+      "intent_l2": "S1_选购推荐"
+    },
+    {
+      "query_id": "S3-09",
+      "intent_l2": "S3_对比选购"
+    }
+  ],
+  "filter_intent": null,
+  "start": 0,
+  "limit": null
+}
