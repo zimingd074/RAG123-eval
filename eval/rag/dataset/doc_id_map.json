@@ -2,31 +2,31 @@
   "APP_GUIDE_001": {
     "kb_id": "2062065734992793600",
     "kb_key": "manual",
-    "ragent_doc_id": "2062065896028901376",
+    "ragent_doc_id": "2067904841312673792",
     "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_001.md"
   },
   "APP_GUIDE_002": {
     "kb_id": "2062065734992793600",
     "kb_key": "manual",
-    "ragent_doc_id": "2062065897186529280",
+    "ragent_doc_id": "2067904848136806400",
     "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_002.md"
   },
   "APP_GUIDE_003": {
     "kb_id": "2062065734992793600",
     "kb_key": "manual",
-    "ragent_doc_id": "2062065898323185664",
+    "ragent_doc_id": "2067904849088913408",
     "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_003.md"
   },
   "APP_GUIDE_004": {
     "kb_id": "2062065734992793600",
     "kb_key": "manual",
-    "ragent_doc_id": "2062065899392733184",
+    "ragent_doc_id": "2067904849701281792",
     "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_004.md"
   },
   "APP_GUIDE_005": {
     "kb_id": "2062065734992793600",
     "kb_key": "manual",
-    "ragent_doc_id": "2062065900592304128",
+    "ragent_doc_id": "2067904850389147648",
     "rel_path": "knowledge_base\\02_manual\\app\\APP_GUIDE_005.md"
   },
   "AUTO_GUIDE_001": {
@@ -302,91 +302,91 @@
   "POLICY_INV_001": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065924353036288",
+    "ragent_doc_id": "2067904851261562880",
     "rel_path": "knowledge_base\\03_policy\\invoice_vip\\POLICY_INV_001.md"
   },
   "POLICY_LOG_001": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065927746228224",
+    "ragent_doc_id": "2067904853530681344",
     "rel_path": "knowledge_base\\03_policy\\logistics\\POLICY_LOG_001.md"
   },
   "POLICY_LOG_002": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065928861913088",
+    "ragent_doc_id": "2067904854096912384",
     "rel_path": "knowledge_base\\03_policy\\logistics\\POLICY_LOG_002.md"
   },
   "POLICY_LOG_003": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065929977597952",
+    "ragent_doc_id": "2067904854688309248",
     "rel_path": "knowledge_base\\03_policy\\logistics\\POLICY_LOG_003.md"
   },
   "POLICY_RET_001": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065931084894208",
+    "ragent_doc_id": "2067904855237763072",
     "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_001.md"
   },
   "POLICY_RET_002": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065932280270848",
+    "ragent_doc_id": "2067904855938211840",
     "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_002.md"
   },
   "POLICY_RET_003": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065933416927232",
+    "ragent_doc_id": "2067904856416362496",
     "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_003.md"
   },
   "POLICY_RET_004": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065934528417792",
+    "ragent_doc_id": "2067904857095839744",
     "rel_path": "knowledge_base\\03_policy\\return\\POLICY_RET_004.md"
   },
   "POLICY_VIP_001": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065925451943936",
+    "ragent_doc_id": "2067904852238835712",
     "rel_path": "knowledge_base\\03_policy\\invoice_vip\\POLICY_VIP_001.md"
   },
   "POLICY_VIP_002": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065926542462976",
+    "ragent_doc_id": "2067904853002199040",
     "rel_path": "knowledge_base\\03_policy\\invoice_vip\\POLICY_VIP_002.md"
   },
   "POLICY_WAR_001": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065935660879872",
+    "ragent_doc_id": "2067904857666265088",
     "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_001.md"
   },
   "POLICY_WAR_002": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065936818507776",
+    "ragent_doc_id": "2067904858186358784",
     "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_002.md"
   },
   "POLICY_WAR_003": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065937992912896",
+    "ragent_doc_id": "2067904858807115776",
     "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_003.md"
   },
   "POLICY_WAR_004": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065939200872448",
+    "ragent_doc_id": "2067904859394318336",
     "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_004.md"
   },
   "POLICY_WAR_005": {
     "kb_id": "2062065735202508800",
     "kb_key": "policy",
-    "ragent_doc_id": "2062065940341723136",
+    "ragent_doc_id": "2067904859985715200",
     "rel_path": "knowledge_base\\03_policy\\warranty\\POLICY_WAR_005.md"
   },
   "PROD_AIR_001": {

@@ -14,7 +14,7 @@
 ---
 doc_id: PROD_PHONE_001          # 唯一标识，与文档清单一致
 doc_type: product_detail         # 模板类型，见下方分类
-title: 比特 13 商品详情           # 文档标题
+title: Redmi Note 13 商品详情           # 文档标题
 version: v1.0                    # 文档版本
 last_updated: "2026-05-11"       # 最后更新日期
 related_intents:                 # 关联的二级意图编号
@@ -24,7 +24,7 @@ related_intents:                 # 关联的二级意图编号
 tags:                            # 检索辅助标签
   - 手机
   - 数码
-  - 比特13
+  - Redmi Note 13
 ---
 ```
 

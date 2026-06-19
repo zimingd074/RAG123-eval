@@ -1,25 +1,25 @@
 {
   "product": {
     "kb_id": "2062065732585263104",
-    "name": "比特严选-商品库",
+    "name": "小米生态-商品库",
     "collection_name": "kb-product",
     "embedding_model": "qwen-emb-8b"
   },
   "manual": {
     "kb_id": "2062065734992793600",
-    "name": "比特严选-使用手册库",
+    "name": "小米生态-使用手册库",
     "collection_name": "kb-manual",
     "embedding_model": "qwen-emb-8b"
   },
   "policy": {
     "kb_id": "2062065735202508800",
-    "name": "比特严选-政策库",
+    "name": "小米商城-模拟政策库",
     "collection_name": "kb-policy",
     "embedding_model": "qwen-emb-8b"
   },
   "faq": {
     "kb_id": "2062065735332532224",
-    "name": "比特严选-FAQ库",
+    "name": "小米生态-FAQ库",
     "collection_name": "kb-faq",
     "embedding_model": "qwen-emb-8b"
   }

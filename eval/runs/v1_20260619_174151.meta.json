@@ -1,0 +1,22 @@
+{
+  "dataset_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\eval_set_static_weak20_20260613_groundtruth_fixed.jsonl",
+  "dataset_sha256": "4efdd72a923177bed26cdd3460042c8d2e5122d4bc26e865ed9011f7a1d29764",
+  "profile": "static-v1",
+  "original_sample_count": 20,
+  "profile_sample_count": 20,
+  "selected_sample_count": 20,
+  "excluded_sample_count": 0,
+  "excluded_sample_ids": [],
+  "excluded_samples": [],
+  "filter_intent": null,
+  "start": 0,
+  "limit": null,
+  "doc_map_path": "D:\\PycharmProjects\\ragenteval\\eval\\rag\\dataset\\doc_id_map.json",
+  "state_dir": null,
+  "embedding_model": null,
+  "embedding_dimension": null,
+  "routing_model": "qwen3-max",
+  "answer_model": "qwen3-max",
+  "require_same_trace": false,
+  "experiment": {}
+}

@@ -129,11 +129,11 @@
 
 | # | Doc ID | 文件路径 | 文档标题 | 关联意图 | 状态 |
 |---|---|---|---|---|---|
-| 81 | APP_GUIDE_001 | 02_manual/app/APP_GUIDE_001.md | 比特APP 基础使用指南（订单/地址/收藏） | S10 | done |
-| 82 | APP_GUIDE_002 | 02_manual/app/APP_GUIDE_002.md | 比特APP 设备管理（添加/共享/删除） | S10 | done |
-| 83 | APP_GUIDE_003 | 02_manual/app/APP_GUIDE_003.md | 比特APP 数据查看与导出 | S10 | done |
-| 84 | APP_GUIDE_004 | 02_manual/app/APP_GUIDE_004.md | 比特APP 账号迁移指南 | S10 | done |
-| 85 | APP_GUIDE_005 | 02_manual/app/APP_GUIDE_005.md | 比特APP 通知与隐私设置 | S10 | done |
+| 81 | APP_GUIDE_001 | 02_manual/app/APP_GUIDE_001.md | 小米商城 APP 基础使用指南（订单/地址/收藏） | S10 | done |
+| 82 | APP_GUIDE_002 | 02_manual/app/APP_GUIDE_002.md | 米家 APP 设备管理（添加/共享/删除） | S10 | done |
+| 83 | APP_GUIDE_003 | 02_manual/app/APP_GUIDE_003.md | 米家 APP 设备数据查看 | S10 | done |
+| 84 | APP_GUIDE_004 | 02_manual/app/APP_GUIDE_004.md | 米家 APP 换机与设备迁移指南 | S10 | done |
+| 85 | APP_GUIDE_005 | 02_manual/app/APP_GUIDE_005.md | 米家 APP 通知与隐私设置 | S10 | done |
 
 ---
 
@@ -153,7 +153,7 @@
 
 | # | Doc ID | 文件路径 | 文档标题 | 关联意图 | 状态 |
 |---|---|---|---|---|---|
-| 91 | POLICY_WAR_001 | 03_policy/warranty/POLICY_WAR_001.md | 比特严选保修政策总则 | S14 | done |
+| 91 | POLICY_WAR_001 | 03_policy/warranty/POLICY_WAR_001.md | 小米商城模拟保修政策总则 | S14 | done |
 | 92 | POLICY_WAR_002 | 03_policy/warranty/POLICY_WAR_002.md | 各品类保修期与保修范围 | S14 | done |
 | 93 | POLICY_WAR_003 | 03_policy/warranty/POLICY_WAR_003.md | 维修服务报价表（屏幕/电池/主板） | S14 | done |
 | 94 | POLICY_WAR_004 | 03_policy/warranty/POLICY_WAR_004.md | 过保维修政策与流程 | S14 | done |
@@ -187,7 +187,7 @@
 | # | Doc ID | 文件路径 | 文档标题 | 关联意图 | 状态 |
 |---|---|---|---|---|---|
 | 103 | POLICY_INV_001 | 03_policy/invoice_vip/POLICY_INV_001.md | 发票开具规则（个人/企业/抬头修改） | S17 | done |
-| 104 | POLICY_VIP_001 | 03_policy/invoice_vip/POLICY_VIP_001.md | 比特严选会员权益体系 | S17 | done |
+| 104 | POLICY_VIP_001 | 03_policy/invoice_vip/POLICY_VIP_001.md | 小米商城会员模拟权益体系 | S17 | done |
 | 105 | POLICY_VIP_002 | 03_policy/invoice_vip/POLICY_VIP_002.md | 会员积分规则与到期提醒 | S17 | done |
 
 ---
